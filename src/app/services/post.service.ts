@@ -77,6 +77,12 @@ export class PostService {
               }));
   }
 
+  getPost(id: number): Observable<Post> {
+    return this.getPosts().pipe(map(posts => {
+      return posts.filter(post => post.id === id)[0];
+    }));
+  }
+
   getTags(): Observable<Tag[]> {
     return of(this.tags);
   }

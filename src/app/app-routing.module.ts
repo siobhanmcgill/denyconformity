@@ -9,6 +9,10 @@ const routes: Routes = [
     component: PostsComponent,
   },
   {
+    path: 'p/:id',
+    component: PostsComponent,
+  },
+  {
     path: '',
     redirectTo: '/p',
     pathMatch: 'full',

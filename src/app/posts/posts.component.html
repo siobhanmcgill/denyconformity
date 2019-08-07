@@ -1,20 +1,10 @@
-<div class="post-list-wrapper"
-     *ngIf="posts$ | async as posts">
-  <div class="post {{post.tags[0] || ''}}"
-       *ngFor="let post of posts"
-       #postSummary
-       (click)="selectPost(post, postSummary)"
-       [class.active]="post.id === selectedPost?.id">
-    <h2 [innerHTML]="decodeString(post.title)"></h2>
-    <div class="timestamp">{{post.time | date}}</div>
-    <div [innerHTML]="decodeString(post.summary)"></div>
-    <!-- <div class="tags">
-            <span *ngFor="let tag of post.tags">{{tag}}</span>
-        </div> -->
-  </div>
+<div class="post-list-wrapper" *ngIf="posts$ | async as posts">
+  <app-post-summary *ngFor="let post of posts" #postSummary (click)="selectPost(post, postSummary)"
+    [class.active]="post.id === selectedPost?.id"
+    [class.quiet]="selectedPost && post.id !== selectedPost.id"
+    [post]="post">
+  </app-post-summary>
 </div>
 
-<app-read-post *ngIf="selectedPost"
-               #read
-               [style.margin-top]="readPosition + 'px'"
-               [post]="selectedPost"></app-read-post>
+<app-read-post *ngIf="selectedPost" #read [style.margin-top]="readPosition + 'px'" [post]="selectedPost">
+</app-read-post>

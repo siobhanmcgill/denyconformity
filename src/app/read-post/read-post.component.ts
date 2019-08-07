@@ -51,27 +51,10 @@ const IN = {
               'void => *',
               [
                 style({
-                  transform: 'translateX(calc(100% + 3.5rem))',
-                  'font-size': '1.5rem',
-                  width: '19rem',
+                  width: '0',
                 }),
-                animate('2000ms ease-in-out', style({
-                          transform: 'translateX(0)',
-                          'font-size': '2rem',
+                animate('1s 1s ease-in-out', style({
                           width: '*',
-                        }))
-              ]),
-          transition(
-              '* => void',
-              [
-                style({
-                  transform: 'translateX(0)',
-                  'font-size': '2rem',
-                  width: '19rem',
-                }),
-                animate('2000ms ease-in-out', style({
-                          transform: 'translateX(calc(100% + 3.5rem))',
-                          'font-size': '1.5rem',
                         }))
               ]),
         ]),

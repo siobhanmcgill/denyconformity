@@ -1,0 +1,6 @@
+<h2 [innerHTML]="decodeString(post.title)"></h2>
+<div class="timestamp">{{post.time | date}}</div>
+<div [innerHTML]="decodeString(post.summary)"></div>
+<!-- <div class="tags">
+            <span *ngFor="let tag of post.tags">{{tag}}</span>
+        </div> -->

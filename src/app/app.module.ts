@@ -5,10 +5,11 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {PostsComponent} from './posts/posts.component';
 import {ReadPostComponent} from './read-post/read-post.component';
+import { PostSummaryComponent } from './post-summary/post-summary.component';
 
 
 @NgModule({
-  declarations: [AppComponent, PostsComponent, ReadPostComponent],
+  declarations: [AppComponent, PostsComponent, ReadPostComponent, PostSummaryComponent],
   imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
