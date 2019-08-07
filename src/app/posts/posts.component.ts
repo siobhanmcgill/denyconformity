@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PostService, Post } from '../services/post.service';
-import { Observable } from 'rxjs';
+import {Component, HostBinding, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {Post, PostService} from '../services/post.service';
 
 @Component({
   selector: 'app-posts',
@@ -8,22 +9,39 @@ import { Observable } from 'rxjs';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
+  @HostBinding('class.screen') screenClass = true;
 
   posts$: Observable<Post[]>;
+  postsShowing = 10;
 
-  constructor(
-    private readonly postService: PostService
-  ) {
-    this.posts$ = this.postService.getPosts();
+  selectedPost?: Post;
+  readPosition = 0;
+
+  constructor(private readonly postService: PostService) {
+    this.posts$ = this.postService.getPosts().pipe(map(posts => {
+      return posts.slice(0, this.postsShowing);
+    }));
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   decodeString(string: string): string {
-    const textArea = document.createElement('textarea');
-    textArea.innerHTML = string;
-    return textArea.value;
+    return this.postService.decodeString(string);
   }
 
+  selectPost(post: Post, summary: HTMLDivElement) {
+    if (this.selectedPost) {
+      const existingId = this.selectedPost.id;
+      this.selectedPost = null;
+      if (post.id === existingId) {
+        return;
+      }
+      setTimeout(() => {
+        this.selectPost(post, summary);
+      }, 300);
+    } else {
+      this.readPosition = summary.offsetTop;
+      this.selectedPost = post;
+    }
+  }
 }

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {combineLatest, map} from 'rxjs/operators';
 import data from '../data/denyconf_2012.json';
-import { Observable, of } from 'rxjs';
-import {map, combineLatest} from 'rxjs/operators';
 
 export interface JsonTable {
   type: string;
@@ -32,11 +32,8 @@ export interface PostTag {
   postId: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class PostService {
-
   posts: Post[];
   tags: Tag[];
   postTags: PostTag[];
@@ -57,26 +54,27 @@ export class PostService {
   }
 
   getPosts(): Observable<Post[]> {
-    return of(this.posts).pipe(
-      combineLatest(this.getTags(), this.getPostTags()),
-      map(data => {
-        const tags = new Map<number, string>();
-        for (const tag of data[1]) {
-          tags.set(tag.id, tag.tag);
-        }
-        const postTags = new Map<number, number[]>();
-        for (const posttag of data[2]) {
-          const pt = postTags.get(posttag.postId) || [];
-          pt.push(posttag.tagId);
-          postTags.set(posttag.postId, pt);
-        }
+    return of(this.posts)
+        .pipe(combineLatest(this.getTags(), this.getPostTags()), map(data => {
+                const tags = new Map<number, string>();
+                for (const tag of data[1]) {
+                  tags.set(tag.id, tag.tag);
+                }
+                const postTags = new Map<number, number[]>();
+                for (const posttag of data[2]) {
+                  const pt = postTags.get(posttag.postId) || [];
+                  pt.push(posttag.tagId);
+                  postTags.set(posttag.postId, pt);
+                }
 
-      const posts = data[0].sort((a, b) => b.time.localeCompare(a.time));
-      for (const post of posts) {
-        post.tags = (postTags.get(post.id) || []).map(tagId => tags.get(tagId));
-      }
-      return posts;
-    }));
+                const posts =
+                    data[0].sort((a, b) => b.time.localeCompare(a.time));
+                for (const post of posts) {
+                  post.tags = (postTags.get(post.id) ||
+                               []).map(tagId => tags.get(tagId));
+                }
+                return posts;
+              }));
   }
 
   getTags(): Observable<Tag[]> {
@@ -84,6 +82,15 @@ export class PostService {
   }
 
   getPostTags(): Observable<PostTag[]> {
-    return of (this.postTags);
+    return of(this.postTags);
+  }
+
+  decodeString(string: string): string {
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = string;
+    let clean = textArea.value;
+    clean = clean.replace(
+        /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
+    return clean;
   }
 }

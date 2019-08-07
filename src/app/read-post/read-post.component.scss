@@ -1,0 +1,67 @@
+@import '../../styles/vars';
+
+:host {
+  padding: 1rem;
+  margin: 1rem -1.5rem 0 0;
+  border-width: 1px 1.5rem 1px 1px;
+  border-style: solid;
+  border-radius: 1rem 0 1rem 1rem;
+  background-color: #FFF;
+  flex-grow: 1;
+  box-shadow: $card-shadow;
+  max-width: 700px;
+  transform-origin: 100% 0;
+  position: relative;
+  z-index: 4;
+
+  &.comedy {
+    border-color: $dc-blue;
+  }
+  &.fiction {
+    border-color: $dc-purple;
+  }
+  &.technology {
+    border-color: $dc-green;
+  }
+  &.photo {
+    border-color: $dc-yellow;
+  }
+  &.idea {
+    border-color: $dc-red;
+  }
+
+  .timestamp {
+    font-size: 1rem;
+    position: absolute;
+    top: 5px;
+    left: calc(100% + 20px);
+    color: #fff;
+    transform-origin: 0% 0%;
+    transform: rotateZ(90deg);
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 200;
+    margin-bottom: 1rem;
+  }
+
+  ::ng-deep {
+    p {
+      line-height: 1.25;
+    }
+    h5 {
+      font-weight: bold;
+    }
+    ul {
+      li {
+        margin: .5rem;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
