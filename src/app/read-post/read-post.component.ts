@@ -1,23 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import {Component, HostBinding, Input} from '@angular/core';
 import {Post, PostService} from '../services/post.service';
-
-/*
- trigger('height', [
-  transition(
-      'void => *',
-      [
-        style(HEIGHT_OUT),
-        animate('250ms ease-in-out', style(HEIGHT_IN)),
-      ]),
-  transition(
-      '* => void',
-      [
-        style(HEIGHT_IN),
-        animate('250ms ease-in-out', style(HEIGHT_OUT)),
-      ]),
-]
- */
 
 const OUT = {
   transform: 'scaleX(.65) scaleY(.75)',
@@ -60,23 +43,35 @@ const IN = {
         ]),
   ],
 })
-export class ReadPostComponent implements OnInit {
+export class ReadPostComponent {
   @Input() post: Post;
+
+  @Input() top: number = 0;
 
   @HostBinding('className') get class
   (): string {
+    const classes = [];
     if (this.post && this.post.tags) {
-      return this.post.tags[0] || '';
+      classes.push(this.post.tags[0]);
+    }
+    if (this.top === 0) {
+      classes.push('unlinked');
+    }
+    return classes.join(' ');
+  }
+
+  @HostBinding('@read') transition = true;
+
+  @HostBinding('style.margin-top')
+  get marginTop(): string {
+    if (this.top) {
+      return this.top + 'px';
     } else {
       return '';
     }
   }
 
-  @HostBinding('@read') transition = true;
-
   constructor(private readonly postService: PostService) {}
-
-  ngOnInit() {}
 
   decodeString(string: string): string {
     return this.postService.decodeString(string);

@@ -1,7 +1,7 @@
 @import '../../styles/vars';
 
 :host {
-  padding: 1rem;
+  // padding: 1rem;
   margin: 1rem -1.5rem 2rem 0;
   border-width: 1px 1.5rem 1px 1px;
   border-style: solid;
@@ -14,20 +14,45 @@
   position: relative;
   z-index: 4;
 
+  &.unlinked {
+    margin-right: 1.5rem;
+    border-top-right-radius: 1rem;
+  }
+
   &.comedy {
     border-color: $dc-blue;
+
+    .toolbar {
+      background-color: $dc-blue;
+    }
   }
   &.fiction {
     border-color: $dc-purple;
+
+    .toolbar {
+      background-color: $dc-purple;
+    }
   }
   &.technology {
     border-color: $dc-green;
+
+    .toolbar {
+      background-color: $dc-green;
+    }
   }
   &.photo {
     border-color: $dc-yellow;
+
+    .toolbar {
+      background-color: $dc-yellow;
+    }
   }
   &.idea {
     border-color: $dc-red;
+
+    .toolbar {
+      background-color: $dc-red;
+    }
   }
 
   .timestamp {
@@ -42,15 +67,53 @@
     backface-visibility: hidden;
   }
 
+  .toolbar {
+    width: calc(100% + 1px);
+    min-height: 3rem;
+    margin: -1px;
+    border-top-left-radius: 1rem;
+    background-color: $dc-grey;
+    box-sizing: border-box;
+    color: #fff;
+    display: flex;
+
+    h2 {
+      margin: 1rem;
+      flex-grow: 1;
+    }
+
+    .tools {
+      display: flex;
+      a {
+        font-size: 1.5rem;
+        display: block;
+        text-align: center;
+        padding: 1rem;
+        width: 3.5rem;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
   h2 {
     font-size: 2rem;
     font-weight: 200;
-    margin-bottom: 1rem;
   }
 
   ::ng-deep {
     p {
       line-height: 1.25;
+
+      &.end {
+        text-align: right;
+        font-weight: 200;
+      }
     }
     h5 {
       font-weight: bold;

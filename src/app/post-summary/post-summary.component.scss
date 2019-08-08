@@ -11,7 +11,7 @@
     position: relative;
     cursor: pointer;
     box-shadow: $card-shadow;
-    transition: padding 300ms, margin 300ms, border-radius 300ms, opacity 300ms;
+    transition: all 300ms;
 
     &.comedy {
       border-color: $dc-blue;
@@ -37,6 +37,7 @@
 
     &.quiet {
       opacity: 0.5;
+      box-shadow: $card-quiet-shadow;
     }
 
     h2 {
@@ -59,5 +60,45 @@
     img {
       width: 100%;
       height: auto;
+    }
+
+    .tools {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      a {
+        padding: 1rem;
+        font-size: 2rem;
+        text-decoration: none;
+        color: $dc-grey;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        flex-grow: 1;
+        cursor: pointer;
+      }
+
+      .vert {
+        width: 1px;
+        height: 80%;
+        opacity: .75;
+        border-left: 1px solid #fff;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, $dc-grey 50%,rgba(0,0,0,0.15) 100%);
+      }
+
+      .updown {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
     }
 }

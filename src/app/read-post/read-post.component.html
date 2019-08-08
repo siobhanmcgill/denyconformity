@@ -1,5 +1,16 @@
 <div class="timestamp">{{post.time | date: 'MMM dd, yyyy h:mm a'}}</div>
 
-<h2 [@title]>{{post.title}}</h2>
+<div class="toolbar">
+  <h2 [@title]>{{post.title}}</h2>
 
-<div [innerHTML]="decodeString(post.text)"></div>
+  <!-- <div class="tools">
+    <a href="#"><i class="fas fa-book-reader"></i></a>
+    <a (click)="closePost()"><i class="fas fa-times"></i></a>
+  </div> -->
+</div>
+
+<div class="content">
+  <div [innerHTML]="decodeString(post.text)"></div>
+
+  <p class="end">end of line</p>
+</div>

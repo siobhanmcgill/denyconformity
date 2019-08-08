@@ -1,6 +1,25 @@
-<h2 [innerHTML]="decodeString(post.title)"></h2>
-<div class="timestamp">{{post.time | date}}</div>
-<div [innerHTML]="decodeString(post.summary)"></div>
-<!-- <div class="tags">
+<div class="content">
+  <h2 [innerHTML]="decodeString(post.title)"></h2>
+  <div class="timestamp">{{post.time | date}}</div>
+  <div [innerHTML]="decodeString(post.summary)"></div>
+  <!-- <div class="tags">
             <span *ngFor="let tag of post.tags">{{tag}}</span>
         </div> -->
+</div>
+
+<div class="tools"
+     *ngIf="active"
+     [@fade]>
+  <a (click)="readPost($event)"><i class="fas fa-book-reader"></i></a>
+
+  <div class="vert"></div>
+
+  <div class="updown">
+    <a (click)="previousPost($event)"><i class="fas fa-chevron-up"></i></a>
+    <a (click)="nextPost($event)"><i class="fas fa-chevron-down"></i></a>
+  </div>
+
+  <div class="vert"></div>
+
+  <a (click)="closePost($event)"><i class="fas fa-times"></i></a>
+</div>

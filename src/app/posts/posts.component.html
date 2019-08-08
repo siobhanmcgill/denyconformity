@@ -1,10 +1,20 @@
-<div class="post-list-wrapper" *ngIf="posts$ | async as posts">
-  <app-post-summary *ngFor="let post of posts" #postSummary (click)="selectPost(post, postSummary)"
-    [class.active]="post.id === selectedPost?.id"
-    [class.quiet]="selectedPost && post.id !== selectedPost.id"
-    [post]="post">
+<div class="post-list-wrapper"
+     #wrapper
+     *ngIf="posts$ | async">
+  <app-post-summary *ngFor="let post of posts; index as i"
+                    #postSummary
+                    (click)="selectPost(post, postSummary)"
+                    (close)="selectPost(post)"
+                    (next)="nextPost(i)"
+                    [active]="post.id === selectedPost?.id"
+                    [quiet]="selectedPost && post.id !== selectedPost.id"
+                    [post]="post">
   </app-post-summary>
 </div>
 
-<app-read-post *ngIf="selectedPost" #read [style.margin-top]="readPosition + 'px'" [post]="selectedPost">
+<app-read-post *ngIf="selectedPost"
+               #read
+               [top]="readPosition"
+               [post]="selectedPost"
+               (close)="selectPost($event)">
 </app-read-post>
