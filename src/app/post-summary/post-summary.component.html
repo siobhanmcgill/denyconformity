@@ -5,21 +5,31 @@
   <!-- <div class="tags">
             <span *ngFor="let tag of post.tags">{{tag}}</span>
         </div> -->
+
+  <div class="comments">
+    <i class="far fa-comment"></i>
+    <span [class.lots]="post.comments.length > 9">
+      {{post.comments.length > 9 ? '...' : post.comments.length}}
+    </span>
+  </div>
 </div>
 
 <div class="tools"
      *ngIf="active"
      [@fade]>
-  <a (click)="readPost($event)"><i class="fas fa-book-reader"></i></a>
+  <div class="tool-wrapper"
+       [@tools]>
+    <a (click)="readPost($event)"><i class="fas fa-book-reader"></i></a>
 
-  <div class="vert"></div>
+    <div class="vert"></div>
 
-  <div class="updown">
-    <a (click)="previousPost($event)"><i class="fas fa-chevron-up"></i></a>
-    <a (click)="nextPost($event)"><i class="fas fa-chevron-down"></i></a>
+    <div class="updown">
+      <a (click)="previousPost($event)"><i class="fas fa-chevron-up"></i></a>
+      <a (click)="nextPost($event)"><i class="fas fa-chevron-down"></i></a>
+    </div>
+
+    <div class="vert"></div>
+
+    <a (click)="closePost($event)"><i class="fas fa-times"></i></a>
   </div>
-
-  <div class="vert"></div>
-
-  <a (click)="closePost($event)"><i class="fas fa-times"></i></a>
 </div>

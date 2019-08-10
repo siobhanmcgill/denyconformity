@@ -1,11 +1,14 @@
 import {Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {fromEvent, Subject} from 'rxjs';
 import {throttleTime} from 'rxjs/operators';
+import {createToggle} from './shared/anim';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [createToggle(
+      'toTop', {opacity: 0, bottom: '-4rem'}, {opacity: 1, bottom: '.5rem'})]
 })
 export class AppComponent {
   title = 'denyconformity';
@@ -16,6 +19,7 @@ export class AppComponent {
 
   private readonly positionSubject = new Subject<number>();
   position$ = this.positionSubject.asObservable();
+  position = 0;
 
   constructor() {
     fromEvent(window, 'scroll').pipe(throttleTime(33)).subscribe(event => {
@@ -34,6 +38,10 @@ export class AppComponent {
     });
   }
 
+  scrollToTop() {
+    this.scrollTo(0);
+  }
+
   scrollTo(to: number, duration?: number) {
     const maxScroll = document.body.scrollHeight - window.innerHeight;
     if (maxScroll < to) {
@@ -45,29 +53,20 @@ export class AppComponent {
 
     duration = duration || Math.abs(difference);
 
-    const easeInOutQuad =
-        (time: number, start: number, end: number, duration: number) => {
-          let reverse = false, s, e, val;
-          if (start > end) {
-            reverse = true;
-            s = end;
-            e = start;
-          } else {
-            s = start;
-            e = end;
-          }
+    const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
+      let reverse = c < 0, s, e;
 
-          time /= duration / 2;
-          if (time < 1) val = e / 2 * time * time + s;
-          time--;
-          val = -e / 2 * (time * (time - 2) - 1) + s;
+      t /= d / 2;
+      if (t < 1) return c / 2 * t * t + b;
+      t--;
+      const val = -c / 2 * (t * (t - 2) - 1) + b;
 
-          if (reverse) {
-            return end - val;
-          } else {
-            return val;
-          }
-        };
+      if (reverse) {
+        return -val;
+      } else {
+        return val;
+      }
+    };
 
     let startTime = 0;
 
@@ -76,14 +75,12 @@ export class AppComponent {
         startTime = time;
       }
       if (window.scrollY === to || (time - startTime) >= duration) {
+        window.scroll(0, to);
         return;
       }
 
-      console.log(
-          from, to, duration, time - startTime,
-          easeInOutQuad((time - startTime), from, to, duration));
-
-      window.scroll(0, easeInOutQuad((time - startTime), from, to, duration));
+      window.scroll(
+          0, easeInOutQuad((time - startTime), from, difference, duration));
       requestAnimationFrame(scrollFunc);
     };
 

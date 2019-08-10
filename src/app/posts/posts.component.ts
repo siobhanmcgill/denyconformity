@@ -56,21 +56,23 @@ export class PostsComponent {
                       }));
 
     this.appComponent.position$.subscribe(pos => {
-      if (this.selectedPost) {
-        const p = (pos - this.parallaxPos) * .1;
-        this.summaries.forEach(summary => {
-          if (summary.id !== this.selectedPost.id) {
-            summary.parallax = p;
-          }
-        });
-      } else {
-        this.parallaxPos = pos;
-      }
+      // Adds parallax to posts when one is open.
+      // if (this.selectedPost) {
+      //   const p = (pos - this.parallaxPos) * .1;
+      //   this.summaries.forEach(summary => {
+      //     if (summary.id !== this.selectedPost.id) {
+      //       summary.parallax = p;
+      //     }
+      //   });
+      // } else {
+      //   this.parallaxPos = pos;
+      // }
+      // Shows more posts when scrolling to the bottom.
       if (this.summaries &&
           pos + window.innerHeight >= this.summaries.last.top &&
           this.postsShowing < this.allPosts.length) {
-        // this.postsShowing += 10;
-        // this.slicePosts();
+        this.postsShowing += 10;
+        this.slicePosts();
       }
     });
   }
@@ -111,23 +113,25 @@ export class PostsComponent {
           if (s.id === post.id) {
             summary = s;
             this.parallaxPos = summary.top;
-
-            console.log('scroll to', summary.top);
             this.appComponent.scrollTo(summary.top);
           }
         });
       }
 
       if (summary) {
-        console.log('position', summary.top);
         this.readPosition = summary.top;
       }
       this.selectedPost = post;
     }
   }
 
+  previousPost(index: number) {
+    if (index > 0) {
+      this.selectPost(this.allPosts[index - 1]);
+    }
+  }
+
   nextPost(index: number) {
-    console.log('next', index);
     this.selectPost(this.allPosts[index + 1]);
   }
 }

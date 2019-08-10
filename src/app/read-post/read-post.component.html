@@ -1,16 +1,41 @@
-<div class="timestamp">{{post.time | date: 'MMM dd, yyyy h:mm a'}}</div>
+<div class="post {{post.tags[0] || ''}}"
+     [class.unlinked]="top === 0">
+  <div class="timestamp">{{post.time | date: 'MMM dd, yyyy h:mm a'}}</div>
 
-<div class="toolbar">
-  <h2 [@title]>{{post.title}}</h2>
+  <div class="toolbar">
+    <h2 [@title]>{{post.title}}</h2>
 
-  <!-- <div class="tools">
+    <!-- <div class="tools">
     <a href="#"><i class="fas fa-book-reader"></i></a>
     <a (click)="closePost()"><i class="fas fa-times"></i></a>
   </div> -->
+  </div>
+
+  <div class="content">
+    <div [innerHTML]="decodeString(post.text)"></div>
+
+    <p class="end">end of line</p>
+  </div>
 </div>
 
-<div class="content">
-  <div [innerHTML]="decodeString(post.text)"></div>
+<div class="comment"
+     *ngFor="let comment of post.comments">
+  <div class="icon"><i class="far fa-comment"></i></div>
+  <div class="content">
+    <h3>{{comment.name}}</h3>
+    <div class="comment-timestamp">{{comment.time | date: 'MMM dd, yyyy h:mm a'}}</div>
+    <div [innerHTML]="decodeString(comment.text)"></div>
+  </div>
+</div>
 
-  <p class="end">end of line</p>
+<div class="comment">
+  <div class="icon"><i class="far fa-comment"></i></div>
+  <div class="content">
+    <h4>Post a comment</h4>
+    <input placeholder="Your name" />
+    <textarea placeholder="Your thoughts"></textarea>
+    <div class="buttons">
+      <button disabled="true">Save</button>
+    </div>
+  </div>
 </div>

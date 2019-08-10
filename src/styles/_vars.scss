@@ -19,6 +19,7 @@ $dc-yellow: #FFCC00;
 $dc-green: #006600;
 $dc-purple: #663399;
 $dc-grey: #404040;
+$dc-orange: #f60;
 
 $shadow-color: rgba(0,0,0,0.12);
 
@@ -29,3 +30,6 @@ $card-shadow: 0px 5px 5px -3px $shadow-color,
 $card-quiet-shadow: 0px 2px 1px -1px $shadow-color,
                     0px 1px 1px 0px $shadow-color,
                     0px 1px 3px 0px $shadow-color;
+
+// media query names
+$media-mobile: "only screen and (max-width: 500px)";

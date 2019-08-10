@@ -1,6 +1,34 @@
-import {animate, style, transition, trigger} from '@angular/animations';
+import {animate, animateChild, AnimationTriggerMetadata, group, query, style, transition, trigger} from '@angular/animations';
 import {Component, ElementRef, EventEmitter, HostBinding, Input, Output} from '@angular/core';
 import {Post, PostService} from '../services/post.service';
+import {createToggle} from '../shared/anim';
+
+const getToolsTrigger = (): AnimationTriggerMetadata => {
+  let inStyle, outStyle;
+  if (window.innerWidth > 500) {
+    inStyle = {
+      height: '*',
+      overflow: 'hidden',
+    };
+    outStyle = {
+      height: 0,
+      overflow: 'hidden',
+    };
+  } else {
+    inStyle = {
+      width: '*',
+      overflow: 'hidden',
+    };
+    outStyle = {
+      width: 0,
+      overflow: 'hidden',
+    };
+  }
+
+  return createToggle(
+      'tools', outStyle, inStyle, '250ms 400ms ease-in-out',
+      '250ms ease-in-out');
+};
 
 @Component({
   selector: 'app-post-summary',
@@ -14,15 +42,22 @@ import {Post, PostService} from '../services/post.service';
               'void => *',
               [
                 style({opacity: 0}),
-                animate('250ms ease-in-out', style({opacity: 1}))
+                group([
+                  animate('250ms ease-in-out', style({opacity: 1})),
+                  query('@tools', [animateChild()]),
+                ]),
               ]),
           transition(
               '* => void',
               [
                 style({opacity: 1}),
-                animate('250ms ease-in-out', style({opacity: 0}))
+                group([
+                  query('@tools', [animateChild()]),
+                  animate('250ms 250ms ease-in-out', style({opacity: 0}))
+                ]),
               ]),
         ]),
+    getToolsTrigger(),
   ]
 })
 export class PostSummaryComponent {

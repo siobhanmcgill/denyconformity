@@ -48,17 +48,17 @@ export class ReadPostComponent {
 
   @Input() top: number = 0;
 
-  @HostBinding('className') get class
-  (): string {
-    const classes = [];
-    if (this.post && this.post.tags) {
-      classes.push(this.post.tags[0]);
-    }
-    if (this.top === 0) {
-      classes.push('unlinked');
-    }
-    return classes.join(' ');
-  }
+  // @HostBinding('className') get class
+  // (): string {
+  //   const classes = [];
+  //   if (this.post && this.post.tags) {
+  //     classes.push(this.post.tags[0]);
+  //   }
+  //   if (this.top === 0) {
+  //     classes.push('unlinked');
+  //   }
+  //   return classes.join(' ');
+  // }
 
   @HostBinding('@read') transition = true;
 

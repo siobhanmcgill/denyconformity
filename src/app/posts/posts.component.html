@@ -5,6 +5,7 @@
                     #postSummary
                     (click)="selectPost(post, postSummary)"
                     (close)="selectPost(post)"
+                    (previous)="previousPost(i)"
                     (next)="nextPost(i)"
                     [active]="post.id === selectedPost?.id"
                     [quiet]="selectedPost && post.id !== selectedPost.id"

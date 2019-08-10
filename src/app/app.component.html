@@ -22,6 +22,15 @@
   </div>
 </div>
 
+<ng-container *ngIf="position$ | async as position">
+  <button class="scroll-to-top"
+          (click)="scrollToTop()"
+          *ngIf="position > 100"
+          [@toTop]>
+    <i class="fas fa-arrow-circle-up"></i>
+  </button>
+</ng-container>
+
 <div class="top">
   <h1>DenyConformity.com</h1>
 </div>
