@@ -71,15 +71,13 @@ export class PostBookComponent implements AfterViewInit {
   }
 
   loopThroughChildNodes(source: HTMLElement) {
-    console.log('source', source, this.currentIterationTarget);
     source.childNodes.forEach(child => {
       if (child.nodeValue && !child.nodeValue.trim()) {
         return;
       }
-      console.log('child', child, child.nodeType === Node.TEXT_NODE ? 'TEXT' : 'TAG');
       if (child.nodeType === Node.TEXT_NODE) {
         const words = child.textContent.split(' ');
-        const wordsToUse = []
+        const wordsToUse = [];
         while (!this.isCurrentTargetOut() && words.length) {
           wordsToUse.push(words.shift());
           this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
@@ -87,35 +85,35 @@ export class PostBookComponent implements AfterViewInit {
         if (this.isCurrentTargetOut()) {
           words.unshift(wordsToUse.pop());
           this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
+          console.log('text overflowed', wordsToUse.join(' '), this.currentIterationTarget.outerHTML);
         }
 
-        let nextParent;
         if (words.length) {
-          nextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+          // The text overflows the page.
+          let nextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
           nextParent.innerHTML = words.join(' ');
+
+          let count = 0;
+
+          while (!nextParent.classList.contains('book-layout-top') &&
+            !nextParent.classList.contains('viewable-area') && count < 20) {
+            this.currentIterationTarget = this.currentIterationTarget.parentElement;
+            const newNextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+            newNextParent.appendChild(nextParent);
+            nextParent = newNextParent;
+            count++;
+          }
+
+          this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
+
+          this.viewableArea.innerHTML = '';
+          this.currentIterationTarget = this.viewableArea;
+
+          if (nextParent) {
+            this.loopThroughChildNodes(nextParent);
+          }
         } else {
-          nextParent = this.currentIterationTarget.parentElement.cloneNode(false);
           this.currentIterationTarget = this.currentIterationTarget.parentElement;
-        }
-
-        let count = 0;
-
-        while (!nextParent.classList.contains('book-layout-top') &&
-          !nextParent.classList.contains('viewable-area') && count < 20) {
-          this.currentIterationTarget = this.currentIterationTarget.parentElement;
-          const newNextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
-          newNextParent.appendChild(nextParent);
-          nextParent = newNextParent;
-          count++;
-        }
-
-        this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
-
-        this.viewableArea.innerHTML = '';
-        this.currentIterationTarget = this.viewableArea;
-        
-        if (nextParent) {
-          this.loopThroughChildNodes(nextParent);
         }
 
       } else {
