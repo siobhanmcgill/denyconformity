@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {Post, PostService} from '../services/post.service';
 
 @Component({
@@ -14,8 +14,14 @@ export class PostBookComponent implements AfterViewInit {
   @ViewChild('content', {static: false}) content: ElementRef<HTMLDivElement>;
 
   pageContent: HTMLElement[] = [];
+  selectedPageIndex = -1;
 
-  constructor(private readonly postService: PostService) {}
+  currentIterationTarget: HTMLElement;
+
+  constructor(
+    private readonly postService: PostService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+              ) {}
 
   get viewableArea(): HTMLDivElement {
     return this.layoutPage.nativeElement.querySelector('.viewable-area');
@@ -34,74 +40,101 @@ export class PostBookComponent implements AfterViewInit {
     const postContent = document.createElement('div');
     postContent.innerHTML = `
     <h2>${this.post.title}</h2>
-    <div class="content">
+    <div class="content book-layout-top">
     ${this.postService.decodeString(this.post.text)}
     </div>`;
 
-    this.loopThroughChildNodes(postContent, this.viewableArea);
+    this.currentIterationTarget = this.viewableArea;
+    this.loopThroughChildNodes(postContent);
 
     console.log('pages', this.pageContent);
 
-    // const text = this.decodeString(this.post.text);
-    // const bits = text.split(/[<>]/);
-    // const tags = new Set(['p', 'em', 'strong']);
+    this.selectedPageIndex = 0;
 
-    // let activeTag: HTMLElement = document.createElement('div');
-    // activeTag.className = 'content';
-    // for (const bit of bits) {
-    //   console.log(bit);
-    //   if (tags.has(bit)) {
-    //     const newTag = document.createElement(bit);
-    //     activeTag.append(newTag);
-    //     activeTag = newTag;
-    //   } else if (bit.charAt(0) === '/' && tags.has(bit.substr(1))) {
-    //     activeTag = activeTag.parentElement;
-    //   } else {
-    //     activeTag.append(bit);
-    //   }
-    // }
-    // console.log(activeTag);
+    this.changeDetectorRef.detectChanges();
   }
 
-  loopThroughChildNodes(parent: HTMLElement, target: HTMLElement) {
-    parent.childNodes.forEach(child => {
+  prevPage() {
+    if (this.selectedPageIndex > 0) {
+      this.selectedPageIndex--;
+    }
+  }
+
+  nextPage() {
+    if (this.selectedPageIndex < this.pageContent.length - 1) {
+      this.selectedPageIndex++;
+    }
+  }
+
+  isCurrentTargetOut(): boolean {
+    return this.currentIterationTarget.offsetTop + this.currentIterationTarget.offsetHeight > this.viewableHeight
+  }
+
+  loopThroughChildNodes(source: HTMLElement) {
+    console.log('source', source, this.currentIterationTarget);
+    source.childNodes.forEach(child => {
       if (child.nodeValue && !child.nodeValue.trim()) {
         return;
       }
+      console.log('child', child, child.nodeType === Node.TEXT_NODE ? 'TEXT' : 'TAG');
       if (child.nodeType === Node.TEXT_NODE) {
         const words = child.textContent.split(' ');
-        let nextWord;
-        while (target.offsetTop + target.offsetHeight <= this.viewableHeight &&
-               words.length) {
-          console.log(target.offsetTop + target.offsetHeight);
-          nextWord = words.shift();
-          target.innerText += nextWord + ' ';
+        const wordsToUse = []
+        while (!this.isCurrentTargetOut() && words.length) {
+          wordsToUse.push(words.shift());
+          this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
         }
-        if (target.offsetTop + target.offsetHeight > this.viewableHeight) {
-          words.unshift(nextWord);
+        if (this.isCurrentTargetOut()) {
+          words.unshift(wordsToUse.pop());
+          this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
         }
-        this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
-        this.viewableArea.innerHTML = '';
 
-        // const next = target.cloneNode(false) as HTMLElement;
-        // const newParent = document.createElement('textNode');
-        // newParent.innerHTML = words.join(' ');
-        // this.loopThroughChildNodes(newParent, next);
+        let nextParent;
+        if (words.length) {
+          nextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+          nextParent.innerHTML = words.join(' ');
+        } else {
+          nextParent = this.currentIterationTarget.parentElement.cloneNode(false);
+          this.currentIterationTarget = this.currentIterationTarget.parentElement;
+        }
+
+        let count = 0;
+
+        while (!nextParent.classList.contains('book-layout-top') &&
+          !nextParent.classList.contains('viewable-area') && count < 20) {
+          this.currentIterationTarget = this.currentIterationTarget.parentElement;
+          const newNextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+          newNextParent.appendChild(nextParent);
+          nextParent = newNextParent;
+          count++;
+        }
+
+        this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
+
+        this.viewableArea.innerHTML = '';
+        this.currentIterationTarget = this.viewableArea;
+        
+        if (nextParent) {
+          this.loopThroughChildNodes(nextParent);
+        }
 
       } else {
         const newChild = child.cloneNode(true) as HTMLElement;
-        target.append(newChild);
+        this.currentIterationTarget.append(newChild)
 
-        if (newChild.offsetTop + newChild.offsetHeight > this.viewableHeight) {
+        if (this.isCurrentTargetOut()) {
           if (newChild.hasChildNodes) {
             const clone = newChild.cloneNode(true);
             newChild.innerHTML = '';
-            this.loopThroughChildNodes(clone as HTMLElement, newChild);
+            this.currentIterationTarget = newChild;
+            this.loopThroughChildNodes(clone as HTMLElement);
+            // this.currentIterationTarget = this.currentIterationTarget.parentElement;
           } else {
             newChild.remove();
             this.pageContent.push(
                 this.viewableArea.cloneNode(true) as HTMLElement);
             this.viewableArea.innerHTML = '';
+            this.currentIterationTarget = this.viewableArea;
             this.viewableArea.appendChild(newChild);
           }
         }

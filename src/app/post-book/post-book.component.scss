@@ -65,6 +65,10 @@
     .content {
       line-height: 1.5rem;
       text-align: justify;
+
+      p:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

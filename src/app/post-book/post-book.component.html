@@ -1,16 +1,18 @@
-<div class="page layout-page"
-     *ngIf="post"
-     #layoutPage>
+<div class="page layout-page" *ngIf="post && selectedPageIndex === -1" #layoutPage>
   <div class="viewable-area">
-
   </div>
 </div>
 
+<ng-container *ngFor="let page of pageContent; index as i">
+  <div class="page" *ngIf="i === selectedPageIndex" [innerHTML]="page.outerHTML">
+  </div>
+</ng-container>
+
 <div class="controls left">
-  <button class="prev">
+  <button class="prev" (click)="prevPage()">
     <i class="fas fa-chevron-left"></i>
   </button>
-  <button class="next">
+  <button class="next" (click)="nextPage()">
     <i class="fas fa-chevron-right"></i>
   </button>
 </div>
