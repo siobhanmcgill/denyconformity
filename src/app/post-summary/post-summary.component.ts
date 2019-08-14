@@ -116,7 +116,10 @@ export class PostSummaryComponent {
     event.stopPropagation();
   }
 
+  @Output() read = new EventEmitter<Post>();
+
   readPost(event: MouseEvent) {
+    this.read.next(this.post);
     event.stopPropagation();
   }
 }

@@ -7,6 +7,7 @@
                     (close)="selectPost(post)"
                     (previous)="previousPost(i)"
                     (next)="nextPost(i)"
+                    (read)="readPost($event)"
                     [active]="post.id === selectedPost?.id"
                     [quiet]="selectedPost && post.id !== selectedPost.id"
                     [post]="post">
@@ -19,3 +20,6 @@
                [post]="selectedPost"
                (close)="selectPost($event)">
 </app-read-post>
+
+<app-post-book *ngIf="selectedPost && bookMode"
+               [post]="selectedPost"></app-post-book>

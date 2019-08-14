@@ -1,0 +1,70 @@
+@import "../../styles/vars";
+
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+
+  button {
+    padding: 1rem;
+    font-size: 1.5rem;
+    height: 10vh;
+    box-sizing: border-box;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(255,255,255, 0.35);
+    border-right: 1px solid rgba(255,255,255, 0.35);
+    border-bottom: 1px solid rgba($dc-grey, 0.35);
+
+    &.next {
+      height: 30vh;
+    }
+    &.prev {
+      border-top-right-radius: 2px;
+    }
+  }
+}
+
+.page {
+  box-shadow: $card-shadow;
+  width: 95vw;
+  max-width: 800px;
+  height: 100vh;
+  background: white;
+  padding: 3rem;
+  box-sizing: border-box;
+  color: $dc-grey;
+
+  ::ng-deep{
+    .viewable-area {
+      width: 100%;
+      height: 100%;
+    }
+
+    h2 {
+      font-size: 3rem;
+      text-align: center;
+      font-weight: 100;
+      margin: 3rem 0;
+    }
+
+    .content {
+      line-height: 1.5rem;
+      text-align: justify;
+    }
+  }
+}

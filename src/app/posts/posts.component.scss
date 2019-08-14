@@ -5,6 +5,10 @@
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-items: flex-start;
+
+  &.modal {
+    z-index: 6;
+  }
 }
 
 .post-list-wrapper {

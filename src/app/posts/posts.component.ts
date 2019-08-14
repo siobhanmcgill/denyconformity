@@ -30,6 +30,8 @@ export class PostsComponent {
 
   parallaxPos = 0;
 
+  @HostBinding('class.modal') bookMode = false;
+
   constructor(
       private readonly appComponent: AppComponent,
       private readonly postService: PostService,
@@ -47,6 +49,10 @@ export class PostsComponent {
                           if (post) {
                             setTimeout(() => {
                               this.selectPost(post);
+
+                              if (params.action && params.action === 'book') {
+                                this.readPost(post);
+                              }
                             });
                           }
                         }
@@ -133,5 +139,11 @@ export class PostsComponent {
 
   nextPost(index: number) {
     this.selectPost(this.allPosts[index + 1]);
+  }
+
+  readPost(post: Post) {
+    console.log('READ THE THING');
+    this.location.go('/p/' + post.id + '/book');
+    this.bookMode = true;
   }
 }
