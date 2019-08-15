@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Post, PostService} from '../services/post.service';
 
 @Component({
@@ -19,17 +19,16 @@ export class PostBookComponent implements AfterViewInit {
   currentIterationTarget: HTMLElement;
 
   constructor(
-    private readonly postService: PostService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-              ) {}
+      private readonly postService: PostService,
+      private readonly changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   get viewableArea(): HTMLDivElement {
     return this.layoutPage.nativeElement.querySelector('.viewable-area');
   }
 
   get viewableHeight(): number {
-    return this.layoutPage.nativeElement.querySelector('.viewable-area')
-        .clientHeight;
+    return this.viewableArea.clientHeight;
   }
 
   ngAfterViewInit() {
@@ -46,6 +45,8 @@ export class PostBookComponent implements AfterViewInit {
 
     this.currentIterationTarget = this.viewableArea;
     this.loopThroughChildNodes(postContent);
+
+    this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
 
     console.log('pages', this.pageContent);
 
@@ -67,58 +68,105 @@ export class PostBookComponent implements AfterViewInit {
   }
 
   isCurrentTargetOut(): boolean {
-    return this.currentIterationTarget.offsetTop + this.currentIterationTarget.offsetHeight > this.viewableHeight
+    return this.viewableArea.scrollHeight > this.viewableHeight + 10;
   }
 
   loopThroughChildNodes(source: HTMLElement) {
+    console.log('source', source);
     source.childNodes.forEach(child => {
       if (child.nodeValue && !child.nodeValue.trim()) {
         return;
       }
+      console.log(
+          'child', child.nodeType, 'target',
+          this.currentIterationTarget.tagName,
+          this.currentIterationTarget.className);
       if (child.nodeType === Node.TEXT_NODE) {
         const words = child.textContent.split(' ');
         const wordsToUse = [];
+        console.log(
+            'injecting', words.length, 'words to',
+            this.currentIterationTarget.tagName,
+            this.currentIterationTarget.className);
         while (!this.isCurrentTargetOut() && words.length) {
           wordsToUse.push(words.shift());
           this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
         }
-        if (this.isCurrentTargetOut()) {
+        if (this.isCurrentTargetOut() && wordsToUse.length) {
           words.unshift(wordsToUse.pop());
           this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
-          console.log('text overflowed', wordsToUse.join(' '), this.currentIterationTarget.outerHTML);
         }
 
         if (words.length) {
           // The text overflows the page.
-          let nextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+          let nextParent =
+              this.currentIterationTarget.cloneNode(false) as HTMLElement;
           nextParent.innerHTML = words.join(' ');
+
+          console.log(
+              'did not fit to', this.currentIterationTarget.outerHTML,
+              'clone:', nextParent,
+              'parent:', this.currentIterationTarget.parentElement.className);
+
+          if (!wordsToUse.length) {
+            console.log('at all');
+            // const toRemove = this.currentIterationTarget;
+            this.currentIterationTarget =
+                this.currentIterationTarget.parentElement;
+            // toRemove.remove();
+          } else {
+            console.log('words:', wordsToUse.length, words.length);
+            this.currentIterationTarget =
+                this.currentIterationTarget.parentElement;
+          }
 
           let count = 0;
 
+          console.log(
+              'new target', this.currentIterationTarget.tagName,
+              this.currentIterationTarget.className);
+
           while (!nextParent.classList.contains('book-layout-top') &&
-            !nextParent.classList.contains('viewable-area') && count < 20) {
-            this.currentIterationTarget = this.currentIterationTarget.parentElement;
-            const newNextParent = this.currentIterationTarget.cloneNode(false) as HTMLElement;
+                 !nextParent.classList.contains('viewable-area') &&
+                 count < 20) {
+            const newNextParent =
+                this.currentIterationTarget.cloneNode(false) as HTMLElement;
             newNextParent.appendChild(nextParent);
             nextParent = newNextParent;
             count++;
+            this.currentIterationTarget =
+                this.currentIterationTarget.parentElement;
           }
 
-          this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
+          this.pageContent.push(
+              this.viewableArea.cloneNode(true) as HTMLElement);
 
           this.viewableArea.innerHTML = '';
-          this.currentIterationTarget = this.viewableArea;
+          this.currentIterationTarget = document.createElement('div');
+          this.currentIterationTarget.className = 'content book-layout-top';
+          this.viewableArea.appendChild(this.currentIterationTarget);
 
+          console.log(
+              'looping through', nextParent,
+              'target:', this.currentIterationTarget.tagName,
+              this.currentIterationTarget.className);
           if (nextParent) {
             this.loopThroughChildNodes(nextParent);
           }
         } else {
-          this.currentIterationTarget = this.currentIterationTarget.parentElement;
+          console.log('did fit!', this.currentIterationTarget.tagName);
+          this.currentIterationTarget =
+              this.currentIterationTarget.parentElement;
         }
-
       } else {
         const newChild = child.cloneNode(true) as HTMLElement;
-        this.currentIterationTarget.append(newChild)
+        this.currentIterationTarget.append(newChild);
+
+        console.log(
+            'child is tag', newChild.tagName, newChild.className, 'is out?',
+            this.isCurrentTargetOut(), 'target',
+            this.currentIterationTarget.tagName,
+            this.currentIterationTarget.className);
 
         if (this.isCurrentTargetOut()) {
           if (newChild.hasChildNodes) {
@@ -126,7 +174,8 @@ export class PostBookComponent implements AfterViewInit {
             newChild.innerHTML = '';
             this.currentIterationTarget = newChild;
             this.loopThroughChildNodes(clone as HTMLElement);
-            // this.currentIterationTarget = this.currentIterationTarget.parentElement;
+            // this.currentIterationTarget =
+            // this.currentIterationTarget.parentElement;
           } else {
             newChild.remove();
             this.pageContent.push(
