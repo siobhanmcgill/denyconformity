@@ -21,9 +21,11 @@ export class PostsComponent {
   @ViewChildren('postSummary') summaries: QueryList<PostSummaryComponent>;
 
   posts$: Observable<boolean>;
-  allPosts: Post[];
-  posts: Post[];
-  postsShowing = 10;
+  // allPosts: Post[];
+  posts: Post[] = [];
+  // postsShowing = 0;
+
+  loading = false;
 
   selectedPost?: Post;
   readPosition = 0;
@@ -33,58 +35,45 @@ export class PostsComponent {
   @HostBinding('class.modal') bookMode = false;
 
   constructor(
-      private readonly appComponent: AppComponent,
-      private readonly postService: PostService,
-      private readonly route: ActivatedRoute,
-      private readonly location: Location,
-      private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly appComponent: AppComponent,
+    private readonly postService: PostService,
+    private readonly route: ActivatedRoute,
+    private readonly location: Location,
+    private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
     this.posts$ = combineLatest(this.postService.getPosts(), this.route.params)
-                      .pipe(map(data => {
-                        const params = data[1];
-                        const posts = data[0];
-                        if (params.id) {
-                          const post =
-                              posts.filter(post => post.id === +params.id)[0];
-                          if (post) {
-                            setTimeout(() => {
-                              this.selectPost(post);
+      .pipe(map(data => {
+        const params = data[1];
+        const posts = data[0];
+        if (params && posts) {
+          if (params.id) {
+            const post =
+              posts.filter(post => post.id === +params.id)[0];
+            if (post) {
+              setTimeout(() => {
+                this.selectPost(post);
 
-                              if (params.action && params.action === 'book') {
-                                this.readPost(post);
-                              }
-                            });
-                          }
-                        }
-                        this.allPosts = posts;
-                        this.slicePosts();
-                        return true;
-                      }));
+                if (params.action && params.action === 'book') {
+                  this.readPost(post);
+                }
+              });
+            }
+          }
+          this.posts = this.posts.concat(posts);
+          this.loading = false;
+        } else {
+          this.loading = true;
+        }
+        return !!this.posts.length;
+      }));
 
     this.appComponent.position$.subscribe(pos => {
-      // Adds parallax to posts when one is open.
-      // if (this.selectedPost) {
-      //   const p = (pos - this.parallaxPos) * .1;
-      //   this.summaries.forEach(summary => {
-      //     if (summary.id !== this.selectedPost.id) {
-      //       summary.parallax = p;
-      //     }
-      //   });
-      // } else {
-      //   this.parallaxPos = pos;
-      // }
-      // Shows more posts when scrolling to the bottom.
       if (this.summaries &&
-          pos + window.innerHeight >= this.summaries.last.top &&
-          this.postsShowing < this.allPosts.length) {
-        this.postsShowing += 10;
-        this.slicePosts();
+        pos + window.innerHeight >= (this.summaries.last.top - (window.innerHeight / 2)) &&
+        this.posts.length < this.postService.totalPosts) {
+        this.postService.loadNextPage()
       }
     });
-  }
-
-  slicePosts() {
-    this.posts = this.allPosts.slice(0, this.postsShowing);
   }
 
   decodeString(string: string): string {
@@ -92,12 +81,12 @@ export class PostsComponent {
   }
 
   selectPost(post: Post, summary?: PostSummaryComponent) {
-    const index = this.allPosts.findIndex(p => p.id === post.id);
-    if (index && index > this.postsShowing) {
-      this.postsShowing = index + 5;
-      this.slicePosts();
-      this.changeDetectorRef.detectChanges();
-    }
+    const index = this.posts.findIndex(p => p.id === post.id);
+    // if (index && index > this.postsShowing) {
+    //   this.postsShowing = index + 5;
+    //   this.slicePosts();
+    //   this.changeDetectorRef.detectChanges();
+    // }
 
     if (this.selectedPost) {
       const existingId = this.selectedPost.id;
@@ -133,12 +122,12 @@ export class PostsComponent {
 
   previousPost(index: number) {
     if (index > 0) {
-      this.selectPost(this.allPosts[index - 1]);
+      this.selectPost(this.posts[index - 1]);
     }
   }
 
   nextPost(index: number) {
-    this.selectPost(this.allPosts[index + 1]);
+    this.selectPost(this.posts[index + 1]);
   }
 
   readPost(post: Post) {

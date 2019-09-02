@@ -1,17 +1,21 @@
 <div class="content">
-  <h2 [innerHTML]="decodeString(post.title)"></h2>
-  <div class="timestamp">{{post.time | date}}</div>
-  <div [innerHTML]="decodeString(post.summary)"></div>
-  <!-- <div class="tags">
-            <span *ngFor="let tag of post.tags">{{tag}}</span>
-        </div> -->
+  <ng-container *ngIf="post">
+    <h2 [innerHTML]="decodeString(post.title)"></h2>
+    <div class="timestamp">{{post.time | date}}</div>
+    <div [innerHTML]="decodeString(post.summary)"></div>
+    <!-- <div class="tags">
+              <span *ngFor="let tag of post.tags">{{tag}}</span>
+          </div> -->
 
-  <div class="comments">
-    <i class="far fa-comment"></i>
-    <span [class.lots]="post.comments.length > 9">
-      {{post.comments.length > 9 ? '...' : post.comments.length}}
-    </span>
-  </div>
+    <div class="comments">
+      <i class="far fa-comment"></i>
+      <span [class.lots]="post.comments.length > 9">
+        {{post.comments.length > 9 ? '...' : post.comments.length}}
+      </span>
+    </div>
+  </ng-container>
+
+  <h2 *ngIf="loading">Loading . . .</h2>
 </div>
 
 <div class="tools"

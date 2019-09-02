@@ -20,12 +20,16 @@ Start the Django server:
 
 ```
 > py server/manage.py runserver
+OR
+> npm run server
 ```
 
-Start the angular server:
+Start the angular server in another shell:
 
 ```
 > ng serve
+OR
+> npm start
 ```
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

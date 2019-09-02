@@ -26,8 +26,8 @@ const getToolsTrigger = (): AnimationTriggerMetadata => {
   }
 
   return createToggle(
-      'tools', outStyle, inStyle, '250ms 400ms ease-in-out',
-      '250ms ease-in-out');
+    'tools', outStyle, inStyle, '250ms 400ms ease-in-out',
+    '250ms ease-in-out');
 };
 
 @Component({
@@ -36,27 +36,27 @@ const getToolsTrigger = (): AnimationTriggerMetadata => {
   styleUrls: ['./post-summary.component.scss'],
   animations: [
     trigger(
-        'fade',
-        [
-          transition(
-              'void => *',
-              [
-                style({opacity: 0}),
-                group([
-                  animate('250ms ease-in-out', style({opacity: 1})),
-                  query('@tools', [animateChild()]),
-                ]),
-              ]),
-          transition(
-              '* => void',
-              [
-                style({opacity: 1}),
-                group([
-                  query('@tools', [animateChild()]),
-                  animate('250ms 250ms ease-in-out', style({opacity: 0}))
-                ]),
-              ]),
-        ]),
+      'fade',
+      [
+        transition(
+          'void => *',
+          [
+            style({opacity: 0}),
+            group([
+              animate('250ms ease-in-out', style({opacity: 1})),
+              query('@tools', [animateChild()]),
+            ]),
+          ]),
+        transition(
+          '* => void',
+          [
+            style({opacity: 1}),
+            group([
+              query('@tools', [animateChild()]),
+              animate('250ms 250ms ease-in-out', style({opacity: 0}))
+            ]),
+          ]),
+      ]),
     getToolsTrigger(),
   ]
 })
@@ -66,18 +66,23 @@ export class PostSummaryComponent {
   @Input() @HostBinding('class.active') active = false;
   @Input() @HostBinding('class.quiet') quiet = false;
 
+  @Input() loading = false;
+
   @HostBinding('className')
   get className(): string {
     let className = `post `;
     if (this.post && this.post.tags) {
       className += this.post.tags[0];
     }
+    if (this.loading) {
+      className += 'loading';
+    }
     return className;
   }
 
   constructor(
-      private readonly elementRef: ElementRef,
-      private readonly postService: PostService) {}
+    private readonly elementRef: ElementRef,
+    private readonly postService: PostService) {}
 
   get top(): number {
     return this.elementRef.nativeElement.offsetTop;

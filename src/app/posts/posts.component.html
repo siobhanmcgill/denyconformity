@@ -12,6 +12,10 @@
                     [quiet]="selectedPost && post.id !== selectedPost.id"
                     [post]="post">
   </app-post-summary>
+
+  <app-post-summary *ngIf="loading"
+       [loading]="loading">
+  </app-post-summary>
 </div>
 
 <app-read-post *ngIf="selectedPost"

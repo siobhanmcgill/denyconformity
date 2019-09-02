@@ -90,7 +90,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'posts': {
             'handlers': ['console'],
@@ -103,7 +103,7 @@ LOGGING = {
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# Remember to start the cloud sql proxy ~ 
+# Remember to start the cloud sql proxy ~
 # cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306 -credential_file=<PATH_TO_KEY_FILE>.json
 
 DATABASES = {
