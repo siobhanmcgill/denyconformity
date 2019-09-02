@@ -48,4 +48,5 @@
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "java.errors.incompleteClasspath.severity": "ignore",
   "python.jediEnabled": false,
+  "git.ignoreLimitWarning": true,
 }
