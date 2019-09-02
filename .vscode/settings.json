@@ -1,5 +1,52 @@
 {
-    "python.pythonPath": "e:\\git\\denyconformity\\activate\\Scripts\\python.exe",
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+  "[bazel]": {
+      "editor.formatOnSave": true
+  },
+  "[typescript]": {
+      "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+      },
+      "editor.formatOnSave": true
+  },
+  "clang-format.fallbackStyle": "google",
+  "editor.detectIndentation": false,
+  "editor.rulers": [
+      80
+  ],
+  "editor.tabSize": 2,
+  "files.associations": {
+      "*.gss": "css",
+      "BUILD": "bazel",
+      "METADATA": "bazel",
+      "WORKSPACE": "bazel"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "tslint.configFile": "/google/data/ro/teams/typescript/tslint/node_modules/google.tslint.json",
+  "tslint.nodePath": "/google/data/ro/teams/typescript/tslint/node_modules",
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "typescript.tsdk": "/google/src/head/depot/google3/third_party/javascript/node_modules/typescript/stable/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "update.channel": "none",
+  "window.zoomLevel": 0,
+  "explorer.confirmDelete": false,
+  "extensions.ignoreRecommendations": false,
+  "python.linting.pylintPath": "/usr/bin/gpylint",
+  "python.linting.pep8Enabled": false,
+  "python.linting.pylintArgs": ["--mode=style"],
+  "python.formatting.provider": "yapf",
+  "editor.formatOnType": true,
+  "editor.formatOnPaste": false,
+
+  "[html]": {
+    "editor.rulers": [100]
+  },
+  "html.format.wrapLineLength": 100,
+  "html.format.wrapAttributes": "force-aligned",
+  "html.format.enable": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "python.jediEnabled": false,
+  "git.ignoreLimitWarning": true,
 }

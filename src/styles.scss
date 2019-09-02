@@ -4,6 +4,10 @@
 body {
     font-family: 'Lato', sans-serif;
     font-size: 16px;
+
+    &.disable-scroll {
+      overflow: hidden;
+    }
 }
 
 strong {
@@ -19,6 +23,7 @@ em {
   z-index: 2;
 }
 
-p {
+p, .content {
   margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
 }
