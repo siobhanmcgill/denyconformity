@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "startserver": "py ./server/manage.py runserver",
+    "manage": "py ./server/manage.py"
   },
   "private": true,
   "dependencies": {

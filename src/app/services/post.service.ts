@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {combineLatest, map} from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import data from '../data/denyconf_2012.json';
+import { HttpClient } from '@angular/common/http';
 
 export interface JsonTable {
   type: string;
@@ -17,7 +19,6 @@ export interface Post {
   text: string;
   pub: number;
   summary: string;
-  href: string;
   tags: string[];
   comments: Comment[];
 }
@@ -46,12 +47,16 @@ export interface Comment {
 
 @Injectable({providedIn: 'root'})
 export class PostService {
+  POST_URL = `${environment.server}/api/posts`;
+
   posts: Post[];
   tags: Tag[];
   postTags: PostTag[];
   comments: Comment[];
 
-  constructor() {
+  constructor(
+    private readonly http: HttpClient
+  ) {
     console.log(data);
     for (const table of (data as JsonTable[])) {
       if (table.name === 'post') {
@@ -70,39 +75,43 @@ export class PostService {
   }
 
   getPosts(): Observable<Post[]> {
-    return of(this.posts)
-        .pipe(
-            combineLatest(
-                this.getTags(), this.getPostTags(), this.getComments()),
-            map(data => {
-              const tags = new Map<number, string>();
-              for (const tag of data[1]) {
-                tags.set(tag.id, tag.tag);
-              }
-              const postTags = new Map<number, number[]>();
-              for (const posttag of data[2]) {
-                const pt = postTags.get(posttag.postId) || [];
-                pt.push(posttag.tagId);
-                postTags.set(posttag.postId, pt);
-              }
-              const commentMap = new Map<number, Comment[]>();
-              const comments = data[3];
-              for (const comment of comments) {
-                const postComments = commentMap.get(comment.postId) || [];
-                postComments.push(comment);
-                commentMap.set(comment.postId, postComments);
-              }
-
-              const posts =
-                  data[0].sort((a, b) => b.time.localeCompare(a.time));
-              for (const post of posts) {
-                post.tags =
-                    (postTags.get(post.id) || []).map(tagId => tags.get(tagId));
-                post.comments = commentMap.get(post.id) || [];
-              }
-              return posts;
-            }));
+    return this.http.get<Post[]>(this.POST_URL);
   }
+
+  // getPosts(): Observable<Post[]> {
+  //   return of(this.posts)
+  //       .pipe(
+  //           combineLatest(
+  //               this.getTags(), this.getPostTags(), this.getComments()),
+  //           map(data => {
+  //             const tags = new Map<number, string>();
+  //             for (const tag of data[1]) {
+  //               tags.set(tag.id, tag.tag);
+  //             }
+  //             const postTags = new Map<number, number[]>();
+  //             for (const posttag of data[2]) {
+  //               const pt = postTags.get(posttag.postId) || [];
+  //               pt.push(posttag.tagId);
+  //               postTags.set(posttag.postId, pt);
+  //             }
+  //             const commentMap = new Map<number, Comment[]>();
+  //             const comments = data[3];
+  //             for (const comment of comments) {
+  //               const postComments = commentMap.get(comment.postId) || [];
+  //               postComments.push(comment);
+  //               commentMap.set(comment.postId, postComments);
+  //             }
+
+  //             const posts =
+  //                 data[0].sort((a, b) => b.time.localeCompare(a.time));
+  //             for (const post of posts) {
+  //               post.tags =
+  //                   (postTags.get(post.id) || []).map(tagId => tags.get(tagId));
+  //               post.comments = commentMap.get(post.id) || [];
+  //             }
+  //             return posts;
+  //           }));
+  // }
 
   getPost(id: number): Observable<Post> {
     return this.getPosts().pipe(map(posts => {
