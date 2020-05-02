@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # The main admin username is shauvon
 
@@ -23,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # TODO: These security warnings.
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'o==m=^=n(an=x^=c=fc(%2)etd6e=t8%62^(snez4r$%c*$y-z'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -110,9 +113,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'denyconformity_staging',
-        'USER': 'staging_root',
-        'PASSWORD': 'temporary',
-        'HOST': '127.0.0.1',
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
     }
 }
 
