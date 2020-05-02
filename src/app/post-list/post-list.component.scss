@@ -1,0 +1,119 @@
+@import "../../styles/vars";
+
+:host {
+  display: block;
+}
+
+.spacer {
+  height: calc(50vh - 10rem);
+}
+
+.title {
+  padding: 2rem 0 5rem 0;
+  text-align: center;
+  overflow: hidden;
+
+  h1 {
+    font-size: 6rem;
+    text-shadow: -1px -1px 0px $color-shadow, 1px 1px 0px $color-highlight;
+    margin-bottom: -19px;
+    color: $color-text;
+  }
+  .subtitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: $color-text;
+  }
+  .hr {
+    width: 200px;
+    margin-top: 8px;
+    border-color: $color-shadow $color-highlight $color-highlight $color-shadow;
+    border-width: 1px;
+    border-style: solid;
+
+    &:nth-child(2) {
+      margin-left: 61px;
+      width: 180px;
+      margin-right: 66px;
+    }
+  }
+
+  @media #{$media-mobile} {
+    h1 {
+      font-size: 4.5rem;
+      margin-bottom: 0;
+    }
+    .hr {
+      order: 1;
+      margin: 0;
+      width: auto;
+      flex-grow: 1;
+
+      &:nth-child(2) {
+        order: 3;
+        width: auto;
+        margin: 0;
+        flex-grow: 1;
+      }
+    }
+    h3 {
+      order: 2;
+      margin: 0 1rem;
+    }
+  }
+}
+
+.post-page-title {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  padding: 0.5rem 2rem;
+
+  h1 {
+    font-size: 3rem;
+    text-shadow: -1px -1px 0px $color-shadow, 1px 1px 0px $color-highlight;
+    cursor: pointer;
+  }
+
+  @media #{$media-mobile} {
+    left: 0;
+    text-align: center;
+  }
+}
+
+app-post-series {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 2;
+
+  @media #{$media-mobile} {
+    top: 4rem;
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    width: auto;
+
+    display: none;
+  }
+}
+
+.post-list {
+  padding: 1rem 3rem;
+  max-width: 700px;
+  margin: 0 auto;
+
+  @media #{$media-mobile} {
+    padding: 1rem 2rem;
+  }
+}

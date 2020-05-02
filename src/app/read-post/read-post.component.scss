@@ -1,195 +1,88 @@
-@import '../../styles/vars';
+@import "../../styles/vars";
 
 :host {
-  margin-top: 1rem;
-  transform-origin: 100% 0;
-  position: relative;
-  z-index: 4;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.post, .comment {
-  // padding: 1rem;
-  margin: 0 -1.5rem 1rem 0;
-  border-width: 1px 1.5rem 1px 1px;
-  border-style: solid;
-  border-radius: 1rem 0 1rem 1rem;
-  background-color: #FFF;
-  flex-grow: 1;
-  box-shadow: $card-shadow;
-  max-width: 700px;
-  transform-origin: 100% 0;
+.controls {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+  max-height: 1288px;
 
-  @media #{$media-mobile} {
-    margin-left: .5rem;
-  }
-
-  &:last-child {
-    margin-bottom: 2rem;
-  }
-
-  &.unlinked {
-    margin-right: 1.5rem;
-    border-top-right-radius: 1rem;
-  }
-
-  &.comedy {
-    border-color: $dc-blue;
-
-    .toolbar {
-      background-color: $dc-blue;
-    }
-  }
-  &.fiction {
-    border-color: $dc-purple;
-
-    .toolbar {
-      background-color: $dc-purple;
-    }
-  }
-  &.technology {
-    border-color: $dc-green;
-
-    .toolbar {
-      background-color: $dc-green;
-    }
-  }
-  &.photo {
-    border-color: $dc-yellow;
-
-    .toolbar {
-      background-color: $dc-yellow;
-    }
-  }
-  &.idea {
-    border-color: $dc-red;
-
-    .toolbar {
-      background-color: $dc-red;
-    }
-  }
-
-  .timestamp {
-    font-size: 1rem;
-    position: absolute;
-    top: 5px;
-    left: calc(100% + 20px);
-    color: #fff;
-    transform-origin: 0% 0%;
-    transform: rotateZ(90deg);
-    white-space: nowrap;
-    backface-visibility: hidden;
-  }
-
-  .toolbar {
-    width: calc(100% + 1px);
-    min-height: 3rem;
-    margin: -1px;
-    border-top-left-radius: 1rem;
-    background-color: $dc-grey;
-    box-sizing: border-box;
-    color: #fff;
-    display: flex;
-
-    h2 {
-      margin: 1rem;
-      flex-grow: 1;
-    }
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 200;
-  }
-
-  ::ng-deep {
-    p {
-      line-height: 1.25;
-
-      &.end {
-        text-align: right;
-        font-weight: 200;
-      }
-    }
-    h5 {
-      font-weight: bold;
-    }
-    ul {
-      li {
-        margin: .5rem;
-        &:first-child {
-          margin-top: 0;
-        }
-      }
-    }
-  }
-}
-
-.comment {
-  border-color: $dc-orange;
-  border-left-width: 1.5rem;
-  border-right-width: 1px;
-  min-height: 2rem;
-  border-top-right-radius: 1rem;
-  position: relative;
-  width: 75%;
-
-  .icon {
-    position: absolute;
-    top: .25rem;
-    left: -1.5rem;
-    padding: .25rem;
-    color: white;
-  }
-
-  .comment-timestamp {
-    font-style: italic;
-    margin-bottom: 1rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 200;
-  }
-
-  h4 {
-    font-style: italic;
-    margin-bottom: .5rem;
-  }
-
-  input, textarea {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: .5rem;
-    color: $dc-grey;
-    border: 0px;
-    border-bottom: 1px solid rgba(0,0,0,0.25);
-    padding: .5rem;
-    font-family: 'Lato', sans-serif;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1rem;
+  .close {
+    flex-grow: 1;
   }
 
   button {
-    border: 0px;
-    background: $dc-orange;
-    color: white;
+    @include font-subtitle;
+    font-weight: bold;
+    padding: 1rem;
     font-size: 1.5rem;
-    font-weight: 200;
-    font-family: 'Lato', sans-serif;
-    padding: .5rem 1rem;
-    text-shadow: 1px -1px 1px $dc-grey;
+    height: 10vh;
+    box-sizing: border-box;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(255,255,255, 0.35);
+    border-right: 1px solid rgba(255,255,255, 0.35);
+    border-bottom: 1px solid rgba($dc-grey, 0.35);
 
-    &:disabled {
-      opacity: .5;
+    &.next {
+      height: 30vh;
+    }
+    &.prev {
+      border-top-right-radius: 2px;
+    }
+  }
+}
+
+.page {
+  box-shadow: $card-shadow;
+  width: 95vw;
+  max-width: 800px;
+  height: 100vh;
+  max-height: 1288px;
+  background: white;
+  padding: 3rem;
+  box-sizing: border-box;
+  color: $dc-grey;
+
+  ::ng-deep{
+    .viewable-area {
+      width: 100%;
+      height: 100%;
+    }
+
+    h2 {
+      @include font-subtitle;
+      font-size: 3rem;
+      text-align: center;
+      font-weight: 100;
+      padding: 3rem 0;
+      font-style: italic;
+    }
+
+    .content {
+      line-height: 1.5rem;
+      text-align: justify;
+
+      p {
+        font-size: 22px;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

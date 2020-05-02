@@ -10,11 +10,8 @@
 # dependencies
 /node_modules
 
-# python env
+# Python virtual environment
 /venv
-
-# Temporary, because I broke something
-/activate
 
 # profiling files
 chrome-profiler-events*.json

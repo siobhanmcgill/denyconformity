@@ -1,172 +1,154 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
-// import data from '../data/denyconf_2012.json';
+import {BehaviorSubject, combineLatest, Observable, Subject, timer} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {Comment, CreateComment, Post, PostResponse, Series} from './types';
 
-export interface JsonTable {
-  type: string;
-  name: string;
-  database: string;
-  data: any[];
-}
 
-export interface PostResponse {
-  count: number;
-  next_page?: number;
-  posts: Post[];
-}
-
-export interface Post {
-  id: number;
-  time: string;
-  title: string;
-  text: string;
-  pub: number;
-  summary: string;
-  tags: string[];
-  comments: Comment[];
-}
-
-export interface Tag {
-  id: number;
-  tag: string;
-}
-
-export interface PostTag {
-  id: number;
-  tagId: number;
-  postId: number;
-}
-
-export interface Comment {
-  id: number;
-  ip: string;
-  name: string;
-  postId: number;
-  pub: number;
-  summary: string;
-  text: string;
-  time: string;
-}
 
 @Injectable({providedIn: 'root'})
 export class PostService {
   POST_URL = `${environment.server}/api/posts`;
 
   totalPosts = 0;
-  currentPage = 1;
-  nextPage?= 1;
+  currentPage = '';
+  nextPage? = `${this.POST_URL}/?page=1`;
 
-  // posts: Post[];
-  // tags: Tag[];
-  // postTags: PostTag[];
-  // comments: Comment[];
+  loadedPosts = new Map<number, Post>();
 
-  private loading = false;
-  private postSubject = new Subject<Post[] | null>();
+  private selectedPostId?: number;
 
-  constructor(
-    private readonly http: HttpClient
-  ) {
-    // console.log(data);
-    // for (const table of (data as JsonTable[])) {
-    //   if (table.name === 'post') {
-    //     this.posts = table.data as Post[];
-    //   }
-    //   if (table.name === 'tag') {
-    //     this.tags = table.data as Tag[];
-    //   }
-    //   if (table.name === 'posttag') {
-    //     this.postTags = table.data as PostTag[];
-    //   }
-    //   if (table.name === 'comment') {
-    //     this.comments = table.data as Comment[];
-    //   }
-    // }
+  private postSubject = new Subject<Post[]|null>();
+  private postSelectionSubject = new BehaviorSubject<Post|null>(null);
+  private seriesSubject = new BehaviorSubject<Series>(null);
+
+  get posts$() {
+    return this.postSubject.asObservable();
   }
 
-  getPosts(): Observable<Post[]> {
+  get postSelection$() {
+    return this.postSelectionSubject.asObservable();
+  }
+
+  get series$() {
+    return this.seriesSubject.asObservable();
+  }
+
+  constructor(private readonly http: HttpClient) {}
+
+  broadcastPosts(posts?: Array<Post>) {
+    if (posts) {
+      this.postSubject.next(posts);
+      return;
+    }
+
+    if (this.loadedPosts.size) {
+      posts = [...this.loadedPosts.values()].sort((a, b) => {
+        return b.time.localeCompare(a.time);
+      });
+    }
+    this.postSubject.next(posts);
+  }
+
+  fetchPage(): Observable<Array<Post>> {
     if (this.nextPage) {
-      this.postSubject.next(null);
-      this.loading = true;
-      this.http.get<PostResponse>(this.POST_URL + '/page/' + this.nextPage).subscribe(response => {
+      this.broadcastPosts();
+      this.http.get<PostResponse>(this.nextPage).subscribe(response => {
         this.currentPage = this.nextPage;
         this.totalPosts = response.count;
-        this.nextPage = response.next_page || null;
-        this.postSubject.next(response.posts);
-        this.loading = false;
+        this.nextPage = response.next || null;
+        response.results.forEach(post => {
+          this.loadedPosts.set(post.id, post);
+        });
+        this.broadcastPosts();
       });
     }
     return this.postSubject.asObservable();
   }
 
-  loadNextPage() {
-    if (!this.loading) {
-      this.getPosts();
+  getPost(id: number): Observable<Array<Post>> {
+    this.postSubject.next(null);
+    combineLatest(timer(2000), this.http.get<Post>(`${this.POST_URL}/${id}/`))
+        .subscribe(([x, post]) => {
+          this.loadedPosts.set(post.id, post);
+          this.broadcastPosts();
+          setTimeout(() => {
+            this.selectPost(post);
+          });
+        });
+    return this.postSubject.asObservable();
+  }
+
+  postClassName(post: Post): string {
+    if (!post) {
+      return '';
     }
+    let className = 'post ';
+    if (post && post.tags) {
+      if (post.tags.includes('fiction')) {
+        className += 'fiction';
+      } else if (post.tags.includes('technology')) {
+        className += 'technology';
+      } else {
+        className += post.tags[0];
+      }
+    }
+    return className;
   }
-
-  // getPosts(): Observable<Post[]> {
-  //   return of(this.posts)
-  //       .pipe(
-  //           combineLatest(
-  //               this.getTags(), this.getPostTags(), this.getComments()),
-  //           map(data => {
-  //             const tags = new Map<number, string>();
-  //             for (const tag of data[1]) {
-  //               tags.set(tag.id, tag.tag);
-  //             }
-  //             const postTags = new Map<number, number[]>();
-  //             for (const posttag of data[2]) {
-  //               const pt = postTags.get(posttag.postId) || [];
-  //               pt.push(posttag.tagId);
-  //               postTags.set(posttag.postId, pt);
-  //             }
-  //             const commentMap = new Map<number, Comment[]>();
-  //             const comments = data[3];
-  //             for (const comment of comments) {
-  //               const postComments = commentMap.get(comment.postId) || [];
-  //               postComments.push(comment);
-  //               commentMap.set(comment.postId, postComments);
-  //             }
-
-  //             const posts =
-  //                 data[0].sort((a, b) => b.time.localeCompare(a.time));
-  //             for (const post of posts) {
-  //               post.tags =
-  //                   (postTags.get(post.id) || []).map(tagId => tags.get(tagId));
-  //               post.comments = commentMap.get(post.id) || [];
-  //             }
-  //             return posts;
-  //           }));
-  // }
-
-  getPost(id: number): Observable<Post> {
-    return this.getPosts().pipe(map(posts => {
-      return posts.filter(post => post.id === +id)[0];
-    }));
-  }
-
-  // getTags(): Observable<Tag[]> {
-  //   return of(this.tags);
-  // }
-
-  // getPostTags(): Observable<PostTag[]> {
-  //   return of(this.postTags);
-  // }
-
-  // getComments(): Observable<Comment[]> {
-  //   return of(this.comments);
-  // }
 
   decodeString(string: string): string {
     const textArea = document.createElement('textarea');
     textArea.innerHTML = string;
     let clean = textArea.value;
     clean = clean.replace(
-      /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
+        /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
     return clean;
+  }
+
+  selectPost(post?: Post) {
+    if ((!post && this.selectedPostId) ||
+        (post && (post.id !== this.selectedPostId))) {
+      this.selectedPostId = post ? post.id : undefined;
+      this.postSelectionSubject.next(post);
+      this.getSeries(post);
+    }
+  }
+
+  private seriesCache = new Map<number, Series>();
+
+  getSeries(post: Post): Observable<Series> {
+    if (post) {
+      if (!this.seriesCache.has(post.id)) {
+        this.http.get<Series>(`${this.POST_URL}/${post.id}/series/`)
+            .pipe(tap(series => {
+              if (series && series.posts) {
+                series.posts.forEach(p => {
+                  this.seriesCache.set(p.post.id, series);
+                  if (!this.loadedPosts.has(p.post.id)) {
+                    this.loadedPosts.set(p.post.id, p.post);
+                  }
+                });
+              }
+            }))
+            .subscribe(
+                series => {
+                  this.seriesSubject.next(series);
+                },
+                error => {
+                    // Ignore errors.
+                });
+      } else {
+        this.seriesSubject.next(this.seriesCache.get(post.id));
+      }
+    } else {
+      this.seriesSubject.next(null);
+    }
+    return this.series$;
+  }
+
+  createComment(comment: CreateComment): Observable<Comment> {
+    return this.http.post<Comment>(
+        `${this.POST_URL}/${comment.post}/comment/`, comment);
   }
 }

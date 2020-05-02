@@ -1,19 +1,45 @@
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {PostsComponent} from './posts/posts.component';
-import {ReadPostComponent} from './read-post/read-post.component';
-import { PostSummaryComponent } from './post-summary/post-summary.component';
-import { HttpClientModule } from '@angular/common/http';
-import { PostBookComponent } from './post-book/post-book.component';
+import {PostListComponent} from './post-list/post-list.component';
+import {PostSeriesComponent} from './post-series/post-series.component';
+import {PostComponent} from './post/post.component';
+import {CsrfInterceptor} from './services/csrf.interceptor';
+import {SharedModule} from './shared/shared.module';
+import { ReadPostComponent } from './read-post/read-post.component';
+
 
 
 @NgModule({
-  declarations: [AppComponent, PostsComponent, ReadPostComponent, PostSummaryComponent, PostBookComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule,],
-  providers: [],
+  declarations: [
+    AppComponent,
+    PostComponent,
+    PostListComponent,
+    PostSeriesComponent,
+    ReadPostComponent,
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions(
+        {cookieName: 'csrftoken', headerName: 'X-CSRFToken'}),
+    ReactiveFormsModule,
+    SharedModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CsrfInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

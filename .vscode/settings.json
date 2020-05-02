@@ -23,9 +23,9 @@
   "explorer.confirmDelete": false,
   "extensions.ignoreRecommendations": false,
   "python.linting.pylintPath": "/usr/bin/gpylint",
-  "python.linting.pep8Enabled": false,
+  "python.linting.pycodestyleEnabled": false,
   "python.linting.pylintArgs": ["--mode=style"],
-  "python.formatting.provider": "yapf",
+  "python.formatting.provider": "autopep8",
   "editor.formatOnType": true,
   "editor.formatOnPaste": false,
 
@@ -38,5 +38,8 @@
   "editor.suggestSelection": "first",
   "python.jediEnabled": false,
   "git.ignoreLimitWarning": true,
-  "python.pythonPath": "venv\\Scripts\\python.exe",
+  "python.pythonPath": "./venv",
+  "python.autoComplete.extraPaths": [
+
+  ],
 }
