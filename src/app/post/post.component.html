@@ -1,0 +1,106 @@
+<div class="wrapper"
+     [class.selected]="selected"
+     *ngIf="!anotherPostSelected"
+     [@wrapper]>
+  <div class="post-title">
+    <h2 class="corner-box">{{post.title}}</h2>
+    <h3 class="date">
+      <div class="hr"></div>
+      {{post.time | date}}
+    </h3>
+
+  </div>
+
+  <div class="tools"
+       *ngIf="selected"
+       [@wrapper]>
+    <span class="btn corner-box"
+          (click)="close($event)">Back</span>
+    <span class="btn corner-box"
+          (click)="readPost($event)">Read</span>
+  </div>
+
+  <div class="summary"
+       [@summary]
+       [innerHTML]="decodeString(post.summary)"
+       *ngIf="!selected">
+  </div>
+
+  <div class="post"
+       *ngIf="selected"
+       [@wrapper]>
+    <div [unsafeInnerHTML]="decodeString(post.text)">
+    </div>
+    <!-- <h3 [scrollTracker]
+        (appear)="commentsAppear()">end of line.</h3> -->
+  </div>
+
+  <app-post-series extended="true"></app-post-series>
+
+  <div class="comments"
+       *ngIf="showComments"
+       [@wrapper]>
+    <div class="summary"
+         *ngIf="!selected"
+         [@wrapper]>
+      <i class="far fa-comment"></i>
+      <span [class.lots]="post.comments.length > 9">
+        {{post.comments.length > 9 ? '...' : post.comments.length}}
+      </span>
+    </div>
+
+    <div class="list"
+         *ngIf="selected"
+         [@wrapper]>
+      <h3>Comments</h3>
+
+      <div class="comment"
+           *ngIf="!post.comments.length">
+        <div class="text">
+          <p><em>Nothing yet. Add your thoughts below.</em></p>
+        </div>
+      </div>
+
+      <div class="comment"
+           [@wrapper]
+           *ngFor="let comment of post.comments">
+        <div class="post-title">
+          <h2>{{comment.name}}</h2>
+          <h3>
+            <div class="hr"></div>
+            {{comment.time | date}}
+          </h3>
+        </div>
+        <div class="text"
+             [innerHTML]="renderMarkdown(comment.text)"></div>
+      </div>
+
+      <div class="comment">
+        <form [formGroup]="commentFormGroup">
+          <div class="post-title">
+            <h2>
+              <input formControlName="name"
+                     placeholder="Your name" />
+            </h2>
+            <h3>
+              <div class="hr"></div>
+              &nbsp;
+            </h3>
+          </div>
+          <div class="text">
+            <textarea formControlName="text"
+                      #commentText
+                      placeholder="Your thoughts"></textarea>
+            <div class="disclaimer">
+              No HTML is allowed, but you can use <a
+                 href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                 target="_blank">Markdown</a>!
+            </div>
+            <button [disabled]="!commentFormGroup.valid"
+                    (click)="submitComment()">save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

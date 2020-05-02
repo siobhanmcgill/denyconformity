@@ -1,0 +1,214 @@
+@import "../../styles/vars";
+
+.wrapper {
+  margin-bottom: 4rem;
+}
+
+.hr {
+  border-color: $color-shadow $color-shadow $color-highlight $color-highlight;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.post-title {
+  margin-bottom: 0.5rem;
+  position: relative;
+  cursor: pointer;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: -0.9rem;
+    line-height: 3rem;
+    transition: all 500ms;
+    flex-grow: 1;
+    display: inline-block;
+    vertical-align: baseline;
+    font-style: italic;
+    position: relative;
+
+    &::before {
+      bottom: 3px;
+      left: -1rem;
+    }
+  }
+
+  h3 {
+    transition: font-size 500ms, margin 500ms;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .hr {
+    position: absolute;
+    transition: width 500ms 500ms, opacity 500ms;
+    opacity: 0;
+    width: 0;
+    right: 100%;
+    margin-right: 2rem;
+    top: 0.7rem;
+  }
+}
+
+@media #{$media-mobile} {
+  .wrapper {
+    position: relative;
+
+    .post-title {
+      position: static;
+    }
+  }
+
+  .summary {
+    padding-bottom: 1rem;
+  }
+}
+
+.tools {
+  color: $color-text;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  // overflow: hidden;
+  justify-content: space-between;
+
+  .btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+    @include font-subtitle;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+}
+
+.summary {
+  overflow: visible;
+  opacity: 1;
+  transition: opacity 300ms;
+  cursor: pointer;
+
+  ::ng-deep p {
+    margin: 0;
+  }
+}
+
+.selected {
+  .post-title {
+    h2 {
+      font-size: 4rem;
+      margin: 0 4rem 1rem;
+      line-height: 4rem;
+      border: 0;
+      padding: 0;
+
+      &::before {
+        width: 0;
+        height: 0;
+      }
+    }
+
+    h3 {
+      margin-top: 3rem;
+      font-size: 1.25rem;
+      white-space: nowrap;
+    }
+
+    .hr {
+      width: 450px;
+      opacity: 1;
+    }
+
+    @media #{$media-mobile} {
+      position: relative;
+
+      h2 {
+        margin: 0 0 2rem;
+      }
+    }
+  }
+}
+
+.post {
+  margin-top: 2rem;
+  overflow: hidden;
+
+  & > h3 {
+    text-align: right;
+    font-style: italic;
+  }
+}
+
+.comments {
+  margin-bottom: 4rem;
+
+  .summary {
+    text-align: right;
+    @include font-subtitle;
+  }
+
+  .list {
+    margin-top: 2rem;
+
+    & > h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .comment {
+      margin: 0 0 4rem;
+
+      h2,
+      input {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+
+      .text {
+        margin-left: 2rem;
+
+        .disclaimer,
+        .disclaimer a {
+          text-align: right;
+          font-size: 14px;
+        }
+
+        textarea {
+          border: 0;
+          background: transparent;
+          width: 100%;
+          font-size: 20px;
+          position: relative;
+          @include font;
+
+          &:focus {
+            outline: 0;
+          }
+        }
+
+        button {
+          border: 0;
+          background: transparent;
+          float: right;
+          font-size: 1.5rem;
+          margin-top: 1rem;
+          @include font-subtitle;
+          font-style: italic;
+        }
+      }
+
+      .post-title {
+        input {
+          @include font-subtitle;
+          font-style: italic;
+          border: 0;
+          background: transparent;
+
+          &:focus {
+            outline: 0;
+          }
+        }
+      }
+    }
+  }
+}

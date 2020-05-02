@@ -33,3 +33,19 @@ $card-quiet-shadow: 0px 2px 1px -1px $shadow-color,
 
 // media query names
 $media-mobile: "only screen and (max-width: 500px)";
+
+$color-highlight: rgba(255, 243, 230, 0.5);
+$color-shadow: rgba(77, 38, 0, 0.4);
+$color-text: #111;
+
+@mixin font {
+  font-family: "Cormorant Garamond", serif;
+}
+
+@mixin font-title {
+  font-family: "Lovers Quarrel", cursive;
+}
+
+@mixin font-subtitle {
+  font-family: "Playfair Display", serif;
+}

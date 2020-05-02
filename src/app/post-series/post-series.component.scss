@@ -1,0 +1,55 @@
+@import "../../styles/vars";
+
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  flex-grow: 1;
+  margin: 1rem 0;
+  max-width: 700px;
+}
+
+.series-intro {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+p {
+  margin: 0;
+}
+
+h2 {
+  font-style: italic;
+  font-size: 1.5rem;
+}
+
+.post-links {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  position: relative;
+  flex-wrap: wrap;
+
+  a, span {
+    font-size: 1.5rem;
+    font-style: italic;
+    cursor: pointer;
+    text-shadow: -1px 0 0 $color-shadow;
+    position: relative;
+    display: inline-block;
+    font-weight: bold;
+
+    &.active {
+      border: 0;
+      color: $color-text;
+    }
+  }
+}

@@ -1,38 +1,11 @@
-<div class="background-wrapper"
-     #background>
-  <div class="bg-image">
-    <img class="background"
-         src="/assets/bg.jpg" />
-    <div class="shade"></div>
-  </div>
-
-  <div class="logo">
-    <img #logo
-         src="/assets/logo/logo.main.0.png" />
-    <img #logo
-         src="/assets/logo/logo.main.1.png" />
-    <img #logo
-         src="/assets/logo/logo.main.2.png" />
-    <img #logo
-         src="/assets/logo/logo.main.3.png" />
-    <img #logo
-         src="/assets/logo/logo.main.4.png" />
-    <img #logo
-         src="/assets/logo/logo.main.5.png" />
-  </div>
+<div class="bg-image">
+  <img src="/assets/bg.jpg"
+       #bgImage />
 </div>
 
-<ng-container *ngIf="position$ | async as position">
-  <button class="scroll-to-top"
-          (click)="scrollToTop()"
-          *ngIf="position > 100"
-          [@toTop]>
-    <i class="fas fa-arrow-circle-up"></i>
-  </button>
-</ng-container>
-
-<div class="top">
-  <h1>DenyConformity.com</h1>
+<div class="logo">
+  <img src="/assets/logo.png"
+       #logo />
 </div>
 
 <router-outlet></router-outlet>

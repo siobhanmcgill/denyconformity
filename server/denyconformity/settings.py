@@ -12,12 +12,16 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+# The main admin username is shauvon
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+
+# TODO: These security warnings.
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'o==m=^=n(an=x^=c=fc(%2)etd6e=t8%62^(snez4r$%c*$y-z'
@@ -46,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -105,6 +109,9 @@ LOGGING = {
 
 # Remember to start the cloud sql proxy ~
 # cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306 -credential_file=<PATH_TO_KEY_FILE>.json
+
+# Connect locally with:
+# mysql -u staging_root -p --host 127.0.0.1
 
 DATABASES = {
     'default': {

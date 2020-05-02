@@ -1,20 +1,17 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {PostsComponent} from './posts/posts.component';
+import {PostListComponent} from './post-list/post-list.component';
+
 
 
 const routes: Routes = [
   {
     path: 'p',
-    component: PostsComponent,
-  },
-  {
-    path: 'p/:id/:action',
-    component: PostsComponent,
+    component: PostListComponent,
   },
   {
     path: 'p/:id',
-    component: PostsComponent,
+    component: PostListComponent,
   },
   {
     path: '',
@@ -23,6 +20,9 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({imports: [RouterModule.forRoot(routes)], exports: [RouterModule]})
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
 export class AppRoutingModule {
 }

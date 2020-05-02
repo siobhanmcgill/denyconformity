@@ -1,0 +1,26 @@
+<div class="wrapper"
+     *ngIf="series"
+     [@series]>
+  <div class="series"
+       *ngIf="series">
+    <div class="series-intro"
+         *ngIf="extended">
+      <p><em>This is part {{thisPart}} of a series.</em></p>
+      <p *ngIf="thisPart < partList.length"><em>Next: <a
+             (click)="nextPost($event, series)">{{nextPostTitle}}</a></em></p>
+    </div>
+    <h2>{{series.name}}</h2>
+    <p *ngIf="extended && series.description">{{series.description}}</p>
+    <div class="post-links corner-box">
+      <ng-container *ngFor="let seriesPostIndex of partList">
+        <a *ngIf="seriesPostIndex > 0"
+           (click)="gotoPost($event, series, seriesPostIndex)"
+           [class.active]="getPostIdForIndex(seriesPostIndex) == post.id">
+          {{seriesPostIndex === 1 || partList.length < 5 ? 'Part' : ''}}
+          {{seriesPostIndex}}
+        </a>
+        <span *ngIf="seriesPostIndex === -1">. . .</span>
+      </ng-container>
+    </div>
+  </div>
+</div>

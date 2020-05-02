@@ -1,5 +1,5 @@
 [
-    
+
          {
          "model": "posts.series",
          "pk": 1,
@@ -8,7 +8,7 @@
         "style":"background-image: url('\/assets\/images\/costume\/series_bg.jpg')"
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 2,
@@ -16,7 +16,7 @@
              "name":"The DenyConformity.com Web Server","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 3,
@@ -24,7 +24,7 @@
              "name":"DenyConformity.com Redesign Journal","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 4,
@@ -32,7 +32,7 @@
              "name":"The Organ Trail","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 5,
@@ -40,7 +40,7 @@
              "name":"Mixed Mithai: a Review","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 6,
@@ -48,7 +48,7 @@
              "name":"Everybody Tang Chung Tonight","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 7,
@@ -56,7 +56,7 @@
              "name":"What's in a Name?","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 8,
@@ -64,7 +64,7 @@
              "name":"District Alpha: Government Mandate Zone","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 9,
@@ -72,7 +72,7 @@
              "name":"C2E2 2012","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 10,
@@ -80,7 +80,7 @@
              "name":"How to Make a Website","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 11,
@@ -88,7 +88,7 @@
              "name":"The Color Run Chicago 2012","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 12,
@@ -96,7 +96,7 @@
              "name":"An FTL Adventure","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 13,
@@ -104,7 +104,7 @@
              "name":"Arcade Game Reviews","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 14,
@@ -112,7 +112,7 @@
              "name":"The Lego Project","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 15,
@@ -120,7 +120,7 @@
              "name":"Improv Lessons","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 16,
@@ -128,7 +128,7 @@
              "name":"What Headphones Should You Buy Today?","style":""
         }
     },
-    
+
          {
          "model": "posts.series",
          "pk": 17,
@@ -136,7 +136,7 @@
              "name":"Advent Calendar 2016: Holiday TV Episodes","style":""
         }
     },
-    
+
     {
          "model": "posts.series",
          "pk": 18,
@@ -145,7 +145,7 @@
         }
     },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 4,
@@ -154,7 +154,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 6,
@@ -163,7 +163,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 7,
@@ -172,7 +172,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 8,
@@ -181,7 +181,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 9,
@@ -190,7 +190,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 10,
@@ -199,7 +199,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 13,
@@ -208,7 +208,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 15,
@@ -217,7 +217,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 16,
@@ -226,7 +226,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 17,
@@ -235,7 +235,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 18,
@@ -244,7 +244,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 19,
@@ -253,7 +253,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 26,
@@ -262,7 +262,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 30,
@@ -271,7 +271,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 31,
@@ -280,7 +280,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 32,
@@ -289,7 +289,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 33,
@@ -298,7 +298,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 34,
@@ -307,7 +307,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 52,
@@ -316,7 +316,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 55,
@@ -325,7 +325,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 61,
@@ -334,7 +334,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 67,
@@ -343,7 +343,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 78,
@@ -352,7 +352,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 79,
@@ -361,7 +361,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 95,
@@ -370,7 +370,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 104,
@@ -379,7 +379,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 105,
@@ -388,7 +388,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 107,
@@ -397,7 +397,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 112,
@@ -406,7 +406,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 113,
@@ -415,7 +415,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 123,
@@ -424,7 +424,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 124,
@@ -433,7 +433,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 133,
@@ -442,7 +442,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 147,
@@ -451,7 +451,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 152,
@@ -460,7 +460,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 168,
@@ -469,7 +469,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 169,
@@ -478,7 +478,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 171,
@@ -487,7 +487,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 173,
@@ -496,7 +496,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 176,
@@ -505,7 +505,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 178,
@@ -514,7 +514,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 179,
@@ -523,7 +523,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 180,
@@ -532,7 +532,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 183,
@@ -541,7 +541,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 184,
@@ -550,7 +550,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 196,
@@ -559,7 +559,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 201,
@@ -568,7 +568,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 205,
@@ -577,7 +577,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 212,
@@ -586,7 +586,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 213,
@@ -595,7 +595,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 214,
@@ -604,7 +604,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 222,
@@ -613,7 +613,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 224,
@@ -622,7 +622,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 228,
@@ -631,7 +631,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 233,
@@ -640,7 +640,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 237,
@@ -649,7 +649,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 239,
@@ -658,7 +658,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 240,
@@ -667,7 +667,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 241,
@@ -676,7 +676,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 246,
@@ -685,7 +685,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 251,
@@ -694,7 +694,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 259,
@@ -703,7 +703,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 262,
@@ -712,7 +712,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 266,
@@ -721,7 +721,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 269,
@@ -730,7 +730,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 271,
@@ -739,7 +739,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 275,
@@ -748,7 +748,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 279,
@@ -757,7 +757,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 282,
@@ -766,7 +766,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 285,
@@ -775,7 +775,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 288,
@@ -784,7 +784,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 291,
@@ -793,7 +793,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 293,
@@ -802,7 +802,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 297,
@@ -811,7 +811,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 303,
@@ -820,7 +820,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 307,
@@ -829,7 +829,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 313,
@@ -838,7 +838,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 314,
@@ -847,7 +847,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 316,
@@ -856,7 +856,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 319,
@@ -865,7 +865,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 322,
@@ -874,7 +874,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 324,
@@ -883,7 +883,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 328,
@@ -892,7 +892,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 330,
@@ -901,7 +901,7 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 333,
@@ -910,12 +910,35 @@
          }
      },
 
-    
+
          {
           "model": "posts.seriespost",
           "pk": 335,
           "fields": {
               "post":493,"series":17,"srt":26
+         }
+     },
+
+     {
+         "model": "posts.seriespost",
+         "pk": 340,
+         "fields": {
+             "post":"495","series":"18","srt": 1
+         }
+     },
+
+     {
+         "model": "posts.seriespost",
+         "pk": 340,
+         "fields": {
+             "post":"496","series":"18","srt": 2
+         }
+     },
+     {
+         "model": "posts.seriespost",
+         "pk": 344,
+         "fields": {
+             "post":"497","series":"18","srt": 3
          }
      }
 ]
