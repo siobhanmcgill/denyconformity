@@ -122,13 +122,8 @@ export class PostComponent implements OnInit, OnDestroy {
       text: this.commentFormGroup.controls.text.value,
       post: this.post.id,
     };
-    const index = this.post.comments.push({
-      ...comment,
-      time: (new Date()).toISOString(),
-      pub: true,
-      summary: comment.text,
-      id: -1
-    });
+    const index = this.post.comments.push(
+        {...comment, time: (new Date()).toISOString(), id: -1});
 
     this.commentFormGroup.reset();
 

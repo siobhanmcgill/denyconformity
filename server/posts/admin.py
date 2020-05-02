@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import Post, Comment, Tag, Series
+from .models import Post, Comment, Tag, Series, SeriesPost
 
 class PostSeriesInline(admin.TabularInline):
-  model = Series.posts.through
+  model = SeriesPost
   max_num = 1
 
 class TagInline(admin.TabularInline):
@@ -28,13 +28,13 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(Tag)
 
 class SeriesPostInline(admin.TabularInline):
-  model = Series.posts.through
+  model = SeriesPost
   # fields = ['title', 'time']
   ordering = ('srt',)
 
 class SeriesAdmin(admin.ModelAdmin):
   fieldsets = [
-    (None, {'fields': ['name', 'description', 'style']})
+    (None, {'fields': ['name', 'description', 'icon']})
   ]
   inlines = [SeriesPostInline]
 

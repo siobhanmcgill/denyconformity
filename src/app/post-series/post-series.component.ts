@@ -1,5 +1,6 @@
 import {Location} from '@angular/common';
 import {ChangeDetectorRef, Component, HostBinding, Input} from '@angular/core';
+import {skip} from 'rxjs/operators';
 import {PostService} from '../services/post.service';
 import {Post, Series} from '../services/types';
 import {createToggle} from '../shared/anim';
@@ -19,52 +20,53 @@ export class PostSeriesComponent {
   post?: Post;
   series?: Series;
 
-  private skipNextNullPost = false;
-
   @HostBinding('className')
   get className(): string {
     return this.extended ? '' : 'content';
   }
-  get partList(): number[] {
-    if (!this.series) {
-      return [];
-    }
-    if (window.innerWidth > MOBILE_WIDTH || this.extended ||
-        this.series.posts.length < 7) {
-      return this.series.posts.map((p, i) => i + 1);
-    }
-    const currentIndex =
-        this.series.posts.findIndex(p => p.id === this.post.id);
-    const parts = [];
-    const maxIndex = this.series.posts.length - 1;
-    const spacePastCurrent = Math.min(maxIndex - currentIndex, 3);
-    const spaceBeforeCurrent = Math.min(currentIndex, 5 - spacePastCurrent);
-    let skipping = false;
-    this.series.posts.forEach((p, i) => {
-      if (i === 0 || i === currentIndex + 1 || i === currentIndex - 1 ||
-          i === currentIndex || i === maxIndex ||
-          (i > currentIndex - spaceBeforeCurrent &&
-           i < currentIndex + spacePastCurrent)) {
-        parts.push(i + 1);
-        skipping = false;
-      } else if (!skipping) {
-        parts.push(-1);
-        skipping = true;
-      }
-    });
-    return parts;
+
+  get postClassName(): string {
+    return this.postService.postClassName(this.post);
   }
 
+  partList: Array<{label: string, index: number, post: Post}>;
+
+  // get partList(): number[] {
+  //   if (!this.series) {
+  //     return [];
+  //   }
+  // if (window.innerWidth > MOBILE_WIDTH || this.extended ||
+  //     this.series.posts.length < 7) {
+  //   return this.series.posts.map((p, i) => i + 1);
+  // }
+  //   const currentIndex =
+  //       this.series.posts.findIndex(p => p.post.id === this.post.id);
+  //   const parts = [];
+  //   const maxIndex = this.series.posts.length - 1;
+  //   const spacePastCurrent = Math.min(maxIndex - currentIndex, 3);
+  //   const spaceBeforeCurrent = Math.min(currentIndex, 5 - spacePastCurrent);
+  //   let skipping = false;
+  //   this.series.posts.forEach((p, i) => {
+  //     if (i === 0 || i === currentIndex + 1 || i === currentIndex - 1 ||
+  //         i === currentIndex || i === maxIndex ||
+  //         (i > currentIndex - spaceBeforeCurrent &&
+  //          i < currentIndex + spacePastCurrent)) {
+  //       parts.push(i + 1);
+  //       skipping = false;
+  //     } else if (!skipping) {
+  //       parts.push(-1);
+  //       skipping = true;
+  //     }
+  //   });
+  //   return parts;
+  // }
+
   get thisPart(): number {
-    return this.series.posts.findIndex(p => p.id === this.post.id) + 1;
+    return this.series.posts.findIndex(p => p.post.id === this.post.id) + 1;
   }
 
   get nextPostTitle(): string {
-    return this.series.posts[this.thisPart].title;
-  }
-
-  getPostIdForIndex(index: number): number {
-    return this.series.posts[index - 1].id;
+    return this.series.posts[this.thisPart].post.title;
   }
 
   constructor(
@@ -73,48 +75,51 @@ export class PostSeriesComponent {
       private readonly location: Location,
   ) {
     this.postService.postSelection$.subscribe(post => {
-      if (!post && this.skipNextNullPost) {
-        this.skipNextNullPost = false;
-        return;
+      this.post = post;
+    });
+
+    this.postService.series$.pipe(skip(1)).subscribe(series => {
+      this.series = series;
+
+      if (this.series) {
+        if (window.innerWidth > MOBILE_WIDTH || this.extended ||
+            this.series.posts.length < 7) {
+          this.partList = this.series.posts.map((p, i) => {
+            const index = i + 1;
+            return {
+              label: p.label || 'Part ' + index,
+              index: i + 1,
+              post: p.post
+            };
+          });
+        }
+      } else {
+        this.partList = [];
       }
 
-      this.post = post;
-      if (post && this.series &&
-          this.series.posts.find(p => p.id === post.id)) {
-        // If the new post is part of the same series, we don't need to re-fetch
-        // the series.
-        return;
-      }
-      this.series = null;
-      if (post) {
-        this.postService.getSeries(this.post).subscribe(series => {
-          this.series = series;
-          this.changeDetectorRef.detectChanges();
-        });
-      }
+      this.changeDetectorRef.detectChanges();
     });
   }
 
-  gotoPost(e: MouseEvent, series: Series, index: number) {
+  gotoPost(e: MouseEvent, series: Series, post: Post) {
     e.stopPropagation();
-    const id = this.getPostIdForIndex(index);
-    if (id !== this.post.id) {
-      this.skipNextNullPost = true;
-      this.post = this.series.posts[index - 1];
+    if (post.id !== this.post.id) {
+      const gotoPost = post;
       // Show just the posts for this series.
-      this.postService.broadcastPosts(series.posts);
+      this.postService.broadcastPosts(
+          series.posts.map(seriesPost => seriesPost.post));
       // Deselect the post.
       this.postService.selectPost();
 
       setTimeout(() => {
         // Open the selected post after the animation finishes.
-        this.location.go('/p/' + this.post.id);
-        this.postService.selectPost(this.post);
+        this.location.go('/p/' + gotoPost.id);
+        this.postService.selectPost(gotoPost);
       }, 1000);
     }
   }
 
   nextPost(e: MouseEvent, series: Series) {
-    this.gotoPost(e, series, this.thisPart + 1);
+    this.gotoPost(e, series, series.posts[this.thisPart].post);
   }
 }

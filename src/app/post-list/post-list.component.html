@@ -29,7 +29,7 @@
                 (read)="openPostToRead($event)"></app-post>
 
       <span *ngIf="!isLoading"
-            scrollTracker
+            [scrollTracker]
             (appear)="fetchNextPage()"></span>
 
     </ng-container>
@@ -41,4 +41,5 @@
 </ng-template>
 
 <app-read-post *ngIf="postToRead"
-               [post]="postToRead"></app-read-post>
+               [post]="postToRead"
+               (close)="closePostToRead()"></app-read-post>

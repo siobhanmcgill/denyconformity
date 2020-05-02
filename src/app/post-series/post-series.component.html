@@ -1,4 +1,4 @@
-<div class="wrapper"
+<div class="wrapper {{postClassName}}"
      *ngIf="series"
      [@series]>
   <div class="series"
@@ -12,14 +12,13 @@
     <h2>{{series.name}}</h2>
     <p *ngIf="extended && series.description">{{series.description}}</p>
     <div class="post-links corner-box">
-      <ng-container *ngFor="let seriesPostIndex of partList">
-        <a *ngIf="seriesPostIndex > 0"
-           (click)="gotoPost($event, series, seriesPostIndex)"
-           [class.active]="getPostIdForIndex(seriesPostIndex) == post.id">
-          {{seriesPostIndex === 1 || partList.length < 5 ? 'Part' : ''}}
-          {{seriesPostIndex}}
+      <ng-container *ngFor="let part of partList">
+        <a *ngIf="part.index > 0"
+           (click)="gotoPost($event, series, part.post)"
+           [class.active]="part.post.id == post.id">
+          {{part.label}}
         </a>
-        <span *ngIf="seriesPostIndex === -1">. . .</span>
+        <span *ngIf="part.index === -1">. . .</span>
       </ng-container>
     </div>
   </div>

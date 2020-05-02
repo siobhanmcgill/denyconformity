@@ -1,9 +1,12 @@
-import {Directive, ElementRef, EventEmitter, OnDestroy, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {fromEvent, Subscription} from 'rxjs';
 import {filter, map, throttleTime} from 'rxjs/operators';
 
 @Directive({selector: '[scrollTracker]'})
 export class ScrollTrackerDirective implements OnDestroy {
+  /** This is necessary for the [scrollTracker] syntax to work. */
+  @Input() scrollTracker = '';
+
   scrollSubscription: Subscription;
 
   @Output() appear = new EventEmitter<boolean>();
@@ -22,7 +25,7 @@ export class ScrollTrackerDirective implements OnDestroy {
                 this.appear.next(true);
                 this.appeared = true;
               }
-            })
+            });
   }
 
   ngOnDestroy() {

@@ -2,7 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
 
-## Development server
+## Setting up the database
+
+Remember to start the cloud sql proxy ~
+
+```
+gcloud init
+gcloud auth login
+./cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306
+```
+
+Connect locally with:
+`mysql -u staging_root -p --host 127.0.0.1`
+
+
+## Setup
 
 Install Django, Python 3, and the Angular CLI.
 
@@ -19,13 +33,12 @@ source venv/bin/activate
 
 ```
 pip3 install django-cors-headers
+pip3 install django-rest
 ```
 
-Start the cloudsql proxy:
+## Startup
 
-```
-cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306 -credential_file=<PATH_TO_KEY_FILE>.json
-```
+Enter the virtual environment with `source venv/bin/activate`.
 
 Start the server with `python3 server/manage.py runserver`
 
@@ -37,4 +50,5 @@ Start the angular front-end server with `ng serve`
 * Mobile layout.
 * Unit tests (which may or may not be possible through Bash on Windows).
 * Test that posts that aren't published won't be fetched.
-* Fix formatting on recent posts.
+* Fix some bugs around switching series posts and returning home.
+* Fix some issues with formatting on the reading view.

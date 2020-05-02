@@ -37,7 +37,7 @@ class Comment(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=200)
     text = models.TextField()
-    pub = models.BooleanField()
+    pub = models.BooleanField(default=True)
     ip = models.GenericIPAddressField()
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
@@ -61,11 +61,8 @@ class Tag(models.Model):
 
 class Series(models.Model):
     name = models.CharField(max_length=200)
-    style = models.TextField(blank=True)
+    icon = models.TextField(blank=True)
     description = models.TextField(blank=True)
-    posts = models.ManyToManyField(Post,
-                                   related_name='series',
-                                   through='SeriesPost')
 
     def __str__(self):
         return self.name
@@ -74,16 +71,14 @@ class Series(models.Model):
         verbose_name = 'Series'
         verbose_name_plural = 'Serieseses'
 
-    def post_list(self):
-        return filter(lambda post: post.pub == True, [
-            p.full_post() for p in SeriesPost.objects.filter(
-                series=self).order_by('srt')
-        ])
-
 
 class SeriesPost(models.Model):
-    series = models.ForeignKey(Series, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    series = models.ForeignKey(Series,
+                               on_delete=models.CASCADE,
+                               related_name='posts')
+    post = models.ForeignKey(Post,
+                             on_delete=models.CASCADE,
+                             related_name='series')
     label = models.CharField(max_length=140, blank=True)
     srt = models.IntegerField()
 

@@ -138,9 +138,22 @@ a {
   Special styles for posts.
 **/
 
-.post, .page {
+.post,
+.page {
   p {
     font-size: 20px;
+  }
+
+  ul {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    list-style: upper-roman outside;
+    padding-left: 4rem;
+
+    li {
+      padding-left: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
   }
 
   h5 {
@@ -151,7 +164,7 @@ a {
   .quote {
     font-family: Arial, Helvetica, sans-serif;
     width: 85%;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
     color: #555;
   }
 

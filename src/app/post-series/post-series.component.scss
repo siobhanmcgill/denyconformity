@@ -38,7 +38,8 @@ h2 {
   position: relative;
   flex-wrap: wrap;
 
-  a, span {
+  a,
+  span {
     font-size: 1.5rem;
     font-style: italic;
     cursor: pointer;
@@ -46,6 +47,7 @@ h2 {
     position: relative;
     display: inline-block;
     font-weight: bold;
+    margin: 0 0.5rem 0.5rem;
 
     &.active {
       border: 0;

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {Post} from '../services/types';
 
@@ -20,6 +20,8 @@ export class ReadPostComponent {
 
   currentIterationTarget: HTMLElement;
 
+  @Output('close') closeEvent = new EventEmitter();
+
   constructor(
       private readonly postService: PostService,
       private readonly changeDetectorRef: ChangeDetectorRef,
@@ -35,8 +37,6 @@ export class ReadPostComponent {
 
   ngAfterViewInit() {
     document.body.classList.add('disable-scroll');
-
-    console.log('post', this.post);
 
     const postContent = document.createElement('div');
     postContent.innerHTML = `
@@ -55,6 +55,11 @@ export class ReadPostComponent {
     this.selectedPageIndex = 0;
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  close() {
+    document.body.classList.remove('disable-scroll');
+    this.closeEvent.next();
   }
 
   prevPage() {

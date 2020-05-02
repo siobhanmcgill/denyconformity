@@ -1,944 +1,978 @@
 [
-
-         {
-         "model": "posts.series",
-         "pk": 1,
-         "fields": {
-             "name":"Halloween Costume, 2011: The Tree",
-        "style":"background-image: url('\/assets\/images\/costume\/series_bg.jpg')"
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 2,
-         "fields": {
-             "name":"The DenyConformity.com Web Server","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 3,
-         "fields": {
-             "name":"DenyConformity.com Redesign Journal","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 4,
-         "fields": {
-             "name":"The Organ Trail","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 5,
-         "fields": {
-             "name":"Mixed Mithai: a Review","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 6,
-         "fields": {
-             "name":"Everybody Tang Chung Tonight","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 7,
-         "fields": {
-             "name":"What's in a Name?","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 8,
-         "fields": {
-             "name":"District Alpha: Government Mandate Zone","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 9,
-         "fields": {
-             "name":"C2E2 2012","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 10,
-         "fields": {
-             "name":"How to Make a Website","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 11,
-         "fields": {
-             "name":"The Color Run Chicago 2012","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 12,
-         "fields": {
-             "name":"An FTL Adventure","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 13,
-         "fields": {
-             "name":"Arcade Game Reviews","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 14,
-         "fields": {
-             "name":"The Lego Project","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 15,
-         "fields": {
-             "name":"Improv Lessons","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 16,
-         "fields": {
-             "name":"What Headphones Should You Buy Today?","style":""
-        }
-    },
-
-         {
-         "model": "posts.series",
-         "pk": 17,
-         "fields": {
-             "name":"Advent Calendar 2016: Holiday TV Episodes","style":""
-        }
-    },
-
-    {
-         "model": "posts.series",
-         "pk": 18,
-         "fields": {
-             "name":"Triple Moon","style":""
-        }
-    },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 4,
-          "fields": {
-              "post":247,"series":2,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 6,
-          "fields": {
-              "post":266,"series":3,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 7,
-          "fields": {
-              "post":267,"series":3,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 8,
-          "fields": {
-              "post":152,"series":4,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 9,
-          "fields": {
-              "post":153,"series":4,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 10,
-          "fields": {
-              "post":154,"series":4,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 13,
-          "fields": {
-              "post":164,"series":6,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 15,
-          "fields": {
-              "post":174,"series":6,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 16,
-          "fields": {
-              "post":192,"series":6,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 17,
-          "fields": {
-              "post":146,"series":7,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 18,
-          "fields": {
-              "post":147,"series":7,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 19,
-          "fields": {
-              "post":155,"series":7,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 26,
-          "fields": {
-              "post":193,"series":7,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 30,
-          "fields": {
-              "post":188,"series":5,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 31,
-          "fields": {
-              "post":189,"series":5,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 32,
-          "fields": {
-              "post":270,"series":1,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 33,
-          "fields": {
-              "post":271,"series":1,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 34,
-          "fields": {
-              "post":272,"series":1,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 52,
-          "fields": {
-              "post":368,"series":1,"srt":6
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 55,
-          "fields": {
-              "post":362,"series":1,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 61,
-          "fields": {
-              "post":372,"series":1,"srt":7
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 67,
-          "fields": {
-              "post":375,"series":8,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 78,
-          "fields": {
-              "post":376,"series":3,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 79,
-          "fields": {
-              "post":365,"series":8,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 95,
-          "fields": {
-              "post":252,"series":2,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 104,
-          "fields": {
-              "post":385,"series":2,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 105,
-          "fields": {
-              "post":382,"series":9,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 107,
-          "fields": {
-              "post":384,"series":9,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 112,
-          "fields": {
-              "post":389,"series":3,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 113,
-          "fields": {
-              "post":363,"series":1,"srt":5
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 123,
-          "fields": {
-              "post":403,"series":10,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 124,
-          "fields": {
-              "post":402,"series":10,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 133,
-          "fields": {
-              "post":404,"series":10,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 147,
-          "fields": {
-              "post":405,"series":10,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 152,
-          "fields": {
-              "post":406,"series":10,"srt":5
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 168,
-          "fields": {
-              "post":409,"series":10,"srt":7
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 169,
-          "fields": {
-              "post":408,"series":10,"srt":6
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 171,
-          "fields": {
-              "post":410,"series":10,"srt":8
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 173,
-          "fields": {
-              "post":173,"series":6,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 176,
-          "fields": {
-              "post":417,"series":8,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 178,
-          "fields": {
-              "post":383,"series":9,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 179,
-          "fields": {
-              "post":429,"series":11,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 180,
-          "fields": {
-              "post":433,"series":11,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 183,
-          "fields": {
-              "post":447,"series":12,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 184,
-          "fields": {
-              "post":448,"series":12,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 196,
-          "fields": {
-              "post":450,"series":13,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 201,
-          "fields": {
-              "post":451,"series":13,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 205,
-          "fields": {
-              "post":452,"series":13,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 212,
-          "fields": {
-              "post":456,"series":14,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 213,
-          "fields": {
-              "post":454,"series":14,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 214,
-          "fields": {
-              "post":455,"series":14,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 222,
-          "fields": {
-              "post":457,"series":14,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 224,
-          "fields": {
-              "post":458,"series":14,"srt":5
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 228,
-          "fields": {
-              "post":459,"series":14,"srt":6
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 233,
-          "fields": {
-              "post":460,"series":15,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 237,
-          "fields": {
-              "post":461,"series":15,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 239,
-          "fields": {
-              "post":463,"series":15,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 240,
-          "fields": {
-              "post":464,"series":16,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 241,
-          "fields": {
-              "post":465,"series":16,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 246,
-          "fields": {
-              "post":466,"series":15,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 251,
-          "fields": {
-              "post":468,"series":17,"srt":1
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 259,
-          "fields": {
-              "post":470,"series":17,"srt":3
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 262,
-          "fields": {
-              "post":471,"series":17,"srt":4
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 266,
-          "fields": {
-              "post":472,"series":17,"srt":5
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 269,
-          "fields": {
-              "post":473,"series":17,"srt":6
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 271,
-          "fields": {
-              "post":474,"series":17,"srt":7
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 275,
-          "fields": {
-              "post":475,"series":17,"srt":8
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 279,
-          "fields": {
-              "post":476,"series":17,"srt":9
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 282,
-          "fields": {
-              "post":477,"series":17,"srt":10
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 285,
-          "fields": {
-              "post":478,"series":17,"srt":11
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 288,
-          "fields": {
-              "post":479,"series":17,"srt":12
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 291,
-          "fields": {
-              "post":480,"series":17,"srt":12
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 293,
-          "fields": {
-              "post":469,"series":17,"srt":2
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 297,
-          "fields": {
-              "post":481,"series":17,"srt":14
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 303,
-          "fields": {
-              "post":482,"series":17,"srt":15
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 307,
-          "fields": {
-              "post":483,"series":17,"srt":16
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 313,
-          "fields": {
-              "post":486,"series":17,"srt":18
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 314,
-          "fields": {
-              "post":484,"series":17,"srt":17
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 316,
-          "fields": {
-              "post":485,"series":17,"srt":17
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 319,
-          "fields": {
-              "post":487,"series":17,"srt":19
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 322,
-          "fields": {
-              "post":488,"series":17,"srt":20
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 324,
-          "fields": {
-              "post":489,"series":17,"srt":22
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 328,
-          "fields": {
-              "post":490,"series":17,"srt":23
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 330,
-          "fields": {
-              "post":491,"series":17,"srt":24
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 333,
-          "fields": {
-              "post":492,"series":17,"srt":25
-         }
-     },
-
-
-         {
-          "model": "posts.seriespost",
-          "pk": 335,
-          "fields": {
-              "post":493,"series":17,"srt":26
-         }
-     },
-
-     {
-         "model": "posts.seriespost",
-         "pk": 340,
-         "fields": {
-             "post":"495","series":"18","srt": 1
-         }
-     },
-
-     {
-         "model": "posts.seriespost",
-         "pk": 340,
-         "fields": {
-             "post":"496","series":"18","srt": 2
-         }
-     },
-     {
-         "model": "posts.seriespost",
-         "pk": 344,
-         "fields": {
-             "post":"497","series":"18","srt": 3
-         }
-     }
+  {
+    "model": "posts.series",
+    "pk": 1,
+    "fields": {
+      "name": "Halloween Costume, 2011: The Tree",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 2,
+    "fields": {
+      "name": "The DenyConformity.com Web Server",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 3,
+    "fields": {
+      "name": "DenyConformity.com Redesign Journal",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 4,
+    "fields": {
+      "name": "The Organ Trail",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 5,
+    "fields": {
+      "name": "Mixed Mithai: a Review",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 6,
+    "fields": {
+      "name": "Everybody Tang Chung Tonight",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 7,
+    "fields": {
+      "name": "What's in a Name?",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 8,
+    "fields": {
+      "name": "District Alpha: Government Mandate Zone",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 9,
+    "fields": {
+      "name": "C2E2 2012",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 10,
+    "fields": {
+      "name": "How to Make a Website",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 11,
+    "fields": {
+      "name": "The Color Run Chicago 2012",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 12,
+    "fields": {
+      "name": "An FTL Adventure",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 13,
+    "fields": {
+      "name": "Arcade Game Reviews",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 14,
+    "fields": {
+      "name": "The Lego Project",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 15,
+    "fields": {
+      "name": "Improv Lessons",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 16,
+    "fields": {
+      "name": "What Headphones Should You Buy Today?",
+      "icon": ""
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 17,
+    "fields": {
+      "name": "Advent Calendar 2016: Holiday TV Episodes",
+      "icon": "",
+      "description": "A journey through 24 different holday-themed episodes of a variety of TV serieses."
+    }
+  },
+  {
+    "model": "posts.series",
+    "pk": 18,
+    "fields": {
+      "name": "Triple Moon",
+      "icon": "",
+      "description": "An ongoing story about how to get on in modern society if you're a Witch."
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 4,
+    "fields": {
+      "post": 247,
+      "series": 2,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 6,
+    "fields": {
+      "post": 266,
+      "series": 3,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 7,
+    "fields": {
+      "post": 267,
+      "series": 3,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 8,
+    "fields": {
+      "post": 152,
+      "series": 4,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 9,
+    "fields": {
+      "post": 153,
+      "series": 4,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 10,
+    "fields": {
+      "post": 154,
+      "series": 4,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 13,
+    "fields": {
+      "post": 164,
+      "series": 6,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 15,
+    "fields": {
+      "post": 174,
+      "series": 6,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 16,
+    "fields": {
+      "post": 192,
+      "series": 6,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 17,
+    "fields": {
+      "post": 146,
+      "series": 7,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 18,
+    "fields": {
+      "post": 147,
+      "series": 7,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 19,
+    "fields": {
+      "post": 155,
+      "series": 7,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 26,
+    "fields": {
+      "post": 193,
+      "series": 7,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 30,
+    "fields": {
+      "post": 188,
+      "series": 5,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 31,
+    "fields": {
+      "post": 189,
+      "series": 5,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 32,
+    "fields": {
+      "post": 270,
+      "series": 1,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 33,
+    "fields": {
+      "post": 271,
+      "series": 1,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 34,
+    "fields": {
+      "post": 272,
+      "series": 1,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 52,
+    "fields": {
+      "post": 368,
+      "series": 1,
+      "srt": 6
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 55,
+    "fields": {
+      "post": 362,
+      "series": 1,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 61,
+    "fields": {
+      "post": 372,
+      "series": 1,
+      "srt": 7
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 67,
+    "fields": {
+      "post": 375,
+      "series": 8,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 78,
+    "fields": {
+      "post": 376,
+      "series": 3,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 79,
+    "fields": {
+      "post": 365,
+      "series": 8,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 95,
+    "fields": {
+      "post": 252,
+      "series": 2,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 104,
+    "fields": {
+      "post": 385,
+      "series": 2,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 105,
+    "fields": {
+      "post": 382,
+      "series": 9,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 107,
+    "fields": {
+      "post": 384,
+      "series": 9,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 112,
+    "fields": {
+      "post": 389,
+      "series": 3,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 113,
+    "fields": {
+      "post": 363,
+      "series": 1,
+      "srt": 5
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 123,
+    "fields": {
+      "post": 403,
+      "series": 10,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 124,
+    "fields": {
+      "post": 402,
+      "series": 10,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 133,
+    "fields": {
+      "post": 404,
+      "series": 10,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 147,
+    "fields": {
+      "post": 405,
+      "series": 10,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 152,
+    "fields": {
+      "post": 406,
+      "series": 10,
+      "srt": 5
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 168,
+    "fields": {
+      "post": 409,
+      "series": 10,
+      "srt": 7
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 169,
+    "fields": {
+      "post": 408,
+      "series": 10,
+      "srt": 6
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 171,
+    "fields": {
+      "post": 410,
+      "series": 10,
+      "srt": 8
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 173,
+    "fields": {
+      "post": 173,
+      "series": 6,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 176,
+    "fields": {
+      "post": 417,
+      "series": 8,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 178,
+    "fields": {
+      "post": 383,
+      "series": 9,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 179,
+    "fields": {
+      "post": 429,
+      "series": 11,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 180,
+    "fields": {
+      "post": 433,
+      "series": 11,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 183,
+    "fields": {
+      "post": 447,
+      "series": 12,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 184,
+    "fields": {
+      "post": 448,
+      "series": 12,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 196,
+    "fields": {
+      "post": 450,
+      "series": 13,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 201,
+    "fields": {
+      "post": 451,
+      "series": 13,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 205,
+    "fields": {
+      "post": 452,
+      "series": 13,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 212,
+    "fields": {
+      "post": 456,
+      "series": 14,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 213,
+    "fields": {
+      "post": 454,
+      "series": 14,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 214,
+    "fields": {
+      "post": 455,
+      "series": 14,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 222,
+    "fields": {
+      "post": 457,
+      "series": 14,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 224,
+    "fields": {
+      "post": 458,
+      "series": 14,
+      "srt": 5
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 228,
+    "fields": {
+      "post": 459,
+      "series": 14,
+      "srt": 6
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 233,
+    "fields": {
+      "post": 460,
+      "series": 15,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 237,
+    "fields": {
+      "post": 461,
+      "series": 15,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 239,
+    "fields": {
+      "post": 463,
+      "series": 15,
+      "srt": 3
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 240,
+    "fields": {
+      "post": 464,
+      "series": 16,
+      "srt": 1
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 241,
+    "fields": {
+      "post": 465,
+      "series": 16,
+      "srt": 2
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 246,
+    "fields": {
+      "post": 466,
+      "series": 15,
+      "srt": 4
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 251,
+    "fields": {
+      "post": 468,
+      "series": 17,
+      "srt": 1,
+      "label": "Intro"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 259,
+    "fields": {
+      "post": 470,
+      "series": 17,
+      "srt": 3,
+      "label": "Day 2"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 262,
+    "fields": {
+      "post": 471,
+      "series": 17,
+      "srt": 4,
+      "label": "Day 3"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 266,
+    "fields": {
+      "post": 472,
+      "series": 17,
+      "srt": 5,
+      "label": "Day 4"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 269,
+    "fields": {
+      "post": 473,
+      "series": 17,
+      "srt": 6,
+      "label": "Day 5"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 271,
+    "fields": {
+      "post": 474,
+      "series": 17,
+      "srt": 7,
+      "label": "Day 6"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 275,
+    "fields": {
+      "post": 475,
+      "series": 17,
+      "srt": 8,
+      "label": "Day 7"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 279,
+    "fields": {
+      "post": 476,
+      "series": 17,
+      "srt": 9,
+      "label": "Day 8"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 282,
+    "fields": {
+      "post": 477,
+      "series": 17,
+      "srt": 10,
+      "label": "Day 9"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 285,
+    "fields": {
+      "post": 478,
+      "series": 17,
+      "srt": 11,
+      "label": "Day 10"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 288,
+    "fields": {
+      "post": 479,
+      "series": 17,
+      "srt": 12,
+      "label": "Day 11"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 291,
+    "fields": {
+      "post": 480,
+      "series": 17,
+      "srt": 13,
+      "label": "Day 12"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 293,
+    "fields": {
+      "post": 469,
+      "series": 17,
+      "srt": 2,
+      "label": "Day 1"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 297,
+    "fields": {
+      "post": 481,
+      "series": 17,
+      "srt": 14,
+      "label": "Day 12"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 303,
+    "fields": {
+      "post": 482,
+      "series": 17,
+      "srt": 15,
+      "label": "Day 13"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 307,
+    "fields": {
+      "post": 483,
+      "series": 17,
+      "srt": 16,
+      "label": "Day 14"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 313,
+    "fields": {
+      "post": 486,
+      "series": 17,
+      "srt": 18,
+      "label": "Day 15"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 314,
+    "fields": {
+      "post": 484,
+      "series": 17,
+      "srt": 17,
+      "label": "Day 16"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 316,
+    "fields": {
+      "post": 485,
+      "series": 17,
+      "srt": 17,
+      "label": "Day 17"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 319,
+    "fields": {
+      "post": 487,
+      "series": 17,
+      "srt": 19,
+      "label": "Day 18"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 322,
+    "fields": {
+      "post": 488,
+      "series": 17,
+      "srt": 20,
+      "label": "Day 19"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 324,
+    "fields": {
+      "post": 489,
+      "series": 17,
+      "srt": 22,
+      "label": "Day 20"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 328,
+    "fields": {
+      "post": 490,
+      "series": 17,
+      "srt": 23,
+      "label": "Day 21"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 330,
+    "fields": {
+      "post": 491,
+      "series": 17,
+      "srt": 24,
+      "label": "Day 22"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 333,
+    "fields": {
+      "post": 492,
+      "series": 17,
+      "srt": 25,
+      "label": "Day 23"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 335,
+    "fields": {
+      "post": 493,
+      "series": 17,
+      "srt": 26,
+      "label": "Day 24"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 340,
+    "fields": {
+      "post": 495,
+      "series": 18,
+      "srt": 1,
+      "label": "Chapter 1"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 341,
+    "fields": {
+      "post": 496,
+      "series": 18,
+      "srt": 2,
+      "label": "Chapter 2"
+    }
+  },
+  {
+    "model": "posts.seriespost",
+    "pk": 342,
+    "fields": {
+      "post": 497,
+      "series": 18,
+      "srt": 3,
+      "label": "Chapter 3"
+    }
+  }
 ]

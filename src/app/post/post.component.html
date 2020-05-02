@@ -15,14 +15,14 @@
        *ngIf="selected"
        [@wrapper]>
     <span class="btn corner-box"
-          (click)="close($event)">Back</span>
+          (click)="close($event)">Home</span>
     <span class="btn corner-box"
           (click)="readPost($event)">Read</span>
   </div>
 
   <div class="summary"
        [@summary]
-       [innerHTML]="decodeString(post.summary)"
+       [unsafeInnerHTML]="decodeString(post.summary)"
        *ngIf="!selected">
   </div>
 
@@ -31,8 +31,8 @@
        [@wrapper]>
     <div [unsafeInnerHTML]="decodeString(post.text)">
     </div>
-    <!-- <h3 [scrollTracker]
-        (appear)="commentsAppear()">end of line.</h3> -->
+    <h3 [scrollTracker]
+        (appear)="commentsAppear()">end of line.</h3>
   </div>
 
   <app-post-series extended="true"></app-post-series>

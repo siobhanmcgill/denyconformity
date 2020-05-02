@@ -99,4 +99,8 @@ export class PostListComponent implements OnDestroy {
   openPostToRead(post: Post) {
     this.postToRead = post;
   }
+
+  closePostToRead() {
+    this.postToRead = null;
+  }
 }

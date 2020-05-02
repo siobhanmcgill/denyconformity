@@ -13,12 +13,15 @@
 </ng-container>
 
 <div class="controls left">
+  <div class="close">
+    <button (click)="close()">x</button>
+  </div>
   <button class="prev"
           (click)="prevPage()">
-    <i class="fas fa-chevron-left"></i>
+          &lt;
   </button>
   <button class="next"
           (click)="nextPage()">
-    <i class="fas fa-chevron-right"></i>
+          &gt;
   </button>
 </div>

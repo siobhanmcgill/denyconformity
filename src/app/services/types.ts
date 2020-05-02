@@ -1,13 +1,13 @@
 
 export interface PostResponse {
   count: number;
-  next_page: number;
-  posts: Array<Post>;
+  next: string;
+  previous: string;
+  results: Array<Post>;
 }
 
 export interface Post {
   id: number;
-  pub: boolean;
   summary: string;
   tags: string[];
   text: string;
@@ -19,9 +19,6 @@ export interface Post {
 export interface Comment {
   id: number;
   name: string;
-  post: number;
-  pub: boolean;
-  summary: string;
   text: string;
   time: string;
 }
@@ -37,5 +34,11 @@ export interface Series {
   name: string;
   style: string;
   description: string;
-  posts: Array<Post>;
+  posts: Array<SeriesPost>;
+}
+
+export interface SeriesPost {
+  label: string;
+  srt: number;
+  post: Post;
 }
