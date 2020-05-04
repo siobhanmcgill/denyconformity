@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
+from google.cloud import secretmanager
 
-load_dotenv()
+
+# GCP Project containing the DELICIOUS SECRETS.
+project_id = 'denyconformity'
+
+# Secret Manager client.
+secret_client = secretmanager.SecretManagerServiceClient()
 
 # The main admin username is shauvon
 
@@ -23,15 +28,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# TODO: These security warnings.
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+key_name = secret_client.secret_version_path(
+    project_id, 'django_secret_key_prod', 1)
+key_response = secret_client.access_secret_version(key_name)
+
+# TODO: Set the secret key for staging.
+# SECRET_KEY='o==m=^=n(an=x^=c=fc(%2)etd6e=t8%62^(snez4r$%c*$y-z'
+
+SECRET_KEY = key_response.payload.data.decode('UTF-8')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.denyconformity.com',
+    'denyconformity.uc.r.appspot.com'
+]
 
 # Application definition
 
@@ -85,6 +100,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'denyconformity.wsgi.application'
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -108,14 +124,23 @@ LOGGING = {
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+db_password_name = secret_client.secret_version_path(
+    project_id, 'db_password_prod', 1)
+db_password_response = secret_client.access_secret_version(db_password_name)
+
+# TODO: DB Password for staging is 'temporary'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'denyconformity_staging',
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': db_password_response.payload.data.decode('UTF-8'),
+        'HOST': os.environ['DB_HOST']
+        # 'NAME': os.getenv('DB_NAME'),
+        # 'USER': os.getenv('DB_USER'),
+        # 'PASSWORD': os.getenv('DB_PASSWORD'),
+        # 'HOST': os.getenv('DB_HOST'),
     }
 }
 
@@ -158,6 +183,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

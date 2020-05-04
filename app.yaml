@@ -1,0 +1,12 @@
+runtime: python37
+
+# instance_class: F2
+service: default
+
+handlers:
+- url: /*
+  static_files: dist/denyconformity/index.html
+  upload: dist/denyconformity/index.html
+
+- url: /*
+  static_dir: dist/denyconformity

@@ -31,10 +31,9 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-```
-pip3 install django-cors-headers
-pip3 install django-rest
-```
+Install the pip packages in requirements.txt.
+
+Make sure to set up a service account credential file as documented [here](https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-python)
 
 ## Startup
 
