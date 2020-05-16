@@ -22,14 +22,14 @@
 
   <div class="summary"
        [@summary]
-       [unsafeInnerHTML]="decodeString(post.summary)"
+       [unsafeInnerHTML]="renderSummary(post)"
        *ngIf="!selected">
   </div>
 
   <div class="post"
        *ngIf="selected"
        [@wrapper]>
-    <div [unsafeInnerHTML]="decodeString(post.text)">
+    <div class="first-letter" [unsafeInnerHTML]="renderText(post)">
     </div>
     <h3 [scrollTracker]
         (appear)="commentsAppear()">end of line.</h3>

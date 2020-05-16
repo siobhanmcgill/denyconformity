@@ -14,6 +14,7 @@ export interface Post {
   time: string;
   title: string;
   comments: Array<Comment>;
+  markdown: boolean;
 }
 
 export interface Comment {

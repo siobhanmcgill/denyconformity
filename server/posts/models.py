@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.html import strip_tags
+from django.dispatch import receiver
+from django.utils import timezone
 
 # Here are the commands to bootstrap the database:
 
@@ -10,12 +12,45 @@ from django.utils.html import strip_tags
 # py manage.py loaddata [fixture name]
 
 
+def curly_quotes(str):
+    str = str.replace('’', '&rsquo;')
+    str = str.replace('‘', '&lsquo;')
+    str = str.replace('“', '&ldquo;')
+    str = str.replace('”', '&rdquo;')
+    return str
+
+def un_curly_quotes(str):
+    str = str.replace('&rsquo;', '’')
+    str = str.replace('&lsquo;', '‘')
+    str = str.replace('&ldquo;', '“')
+    str = str.replace('&rdquo;', '”')
+    return str
+
+
+class PostTextField(models.TextField):
+    def pre_save(self, model_instance, add):
+        return curly_quotes(getattr(model_instance, self.attname))
+
+
+class PostSummaryField(models.TextField):
+    def pre_save(self, model_instance, add):
+        val = getattr(model_instance, self.attname)
+        if not val or val == 'auto':
+            text = un_curly_quotes(model_instance.text)
+            if len(text) > 275:
+                val = text[0:275] + '...'
+            else:
+                val = text
+        return curly_quotes(val)
+
+
 class Post(models.Model):
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    text = PostTextField()
+    markdown = models.BooleanField(default=False)
     pub = models.BooleanField()
-    summary = models.TextField()
+    summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
 
     def __str__(self):
@@ -23,6 +58,11 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-time', )
+
+
+@receiver(models.signals.pre_save, sender=Post)
+def setup_post(sender, instance, *args, **kwargs):
+    print('save??', instance)
 
 
 class CommentManager(models.Manager):

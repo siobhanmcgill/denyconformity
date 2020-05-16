@@ -29,9 +29,8 @@ Set up the virtual environment.
 ```
 virtualenv venv
 source venv/bin/activate
+pip3 install -r server/requirements.txt
 ```
-
-Install the pip packages in requirements.txt.
 
 Make sure to set up a service account credential file as documented [here](https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-python)
 
@@ -43,6 +42,14 @@ Start the server with `python3 server/manage.py runserver`
 
 Start the angular front-end server with `ng serve`
 
+
+## Deploy
+
+` ng build --prod`
+
+` gcloud app deploy app.yaml ./server/app.yaml `
+
+May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
 
 ## TODO
 

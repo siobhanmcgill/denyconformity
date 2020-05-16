@@ -13,12 +13,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from google.cloud import secretmanager
 
-
 # GCP Project containing the DELICIOUS SECRETS.
 project_id = 'denyconformity'
 
-# Secret Manager client.
-secret_client = secretmanager.SecretManagerServiceClient()
 
 # The main admin username is shauvon
 
@@ -29,23 +26,35 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 
-key_name = secret_client.secret_version_path(
-    project_id, 'django_secret_key_prod', 1)
-key_response = secret_client.access_secret_version(key_name)
+if os.getenv('PROD', '') == 'true':
+    # Production
+    DEBUG = False
+    # Secret Manager client.
+    secret_client = secretmanager.SecretManagerServiceClient()
 
-# TODO: Set the secret key for staging.
-# SECRET_KEY='o==m=^=n(an=x^=c=fc(%2)etd6e=t8%62^(snez4r$%c*$y-z'
+    key_name = secret_client.secret_version_path(
+        project_id, 'django_secret_key_prod', 1)
+    key_response = secret_client.access_secret_version(key_name)
+    SECRET_KEY = key_response.payload.data.decode('UTF-8')
 
-SECRET_KEY = key_response.payload.data.decode('UTF-8')
+    db_password_name = secret_client.secret_version_path(
+    project_id, 'db_password_prod', 2)
+    db_password_response = secret_client.access_secret_version(db_password_name)
+    DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
+else:
+    from dotenv import load_dotenv
+    load_dotenv()
+    DEBUG = True
+    SECRET_KEY = '8*6^z)tj*^go@m#8ks0rytjvxhv2lf=ech8^_bg1uxjw1$#%vc'
+    DB_PASSWORD = os.environ['DB_PASSWORD']
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.denyconformity.com',
-    'denyconformity.uc.r.appspot.com'
+    'denyconformity.uc.r.appspot.com',
+    'server-dot-denyconformity.uc.r.appspot.com'
 ]
 
 # Application definition
@@ -85,7 +94,7 @@ CORS_ALLOW_CREDENTIALS = False
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,9 +133,7 @@ LOGGING = {
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-db_password_name = secret_client.secret_version_path(
-    project_id, 'db_password_prod', 1)
-db_password_response = secret_client.access_secret_version(db_password_name)
+
 
 # TODO: DB Password for staging is 'temporary'
 
@@ -135,12 +142,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ['DB_NAME'],
         'USER': os.environ['DB_USER'],
-        'PASSWORD': db_password_response.payload.data.decode('UTF-8'),
-        'HOST': os.environ['DB_HOST']
-        # 'NAME': os.getenv('DB_NAME'),
-        # 'USER': os.getenv('DB_USER'),
-        # 'PASSWORD': os.getenv('DB_PASSWORD'),
-        # 'HOST': os.getenv('DB_HOST'),
+        'PASSWORD': DB_PASSWORD,
+        'HOST': os.environ['DB_HOST'],
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
     }
 }
 
@@ -183,7 +187,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
+# STATIC_ROOT = 'static'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -193,5 +201,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE':
-    10
+    5
 }

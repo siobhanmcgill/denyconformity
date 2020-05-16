@@ -1,12 +1,32 @@
-runtime: python37
+runtime: nodejs10
 
-# instance_class: F2
-service: default
+env_variables:
+  environment: "--prod"
 
 handlers:
-- url: /*
-  static_files: dist/denyconformity/index.html
-  upload: dist/denyconformity/index.html
 
-- url: /*
-  static_dir: dist/denyconformity
+# - url: /
+#   # secure: always
+#   static_files: dist/denyconformity/index.html
+#   upload: dist/denyconformity/.*
+- url: /assets/(.*)
+  static_files: dist/denyconformity/assets/\1
+  upload: dist/denyconformity/assets/.*
+- url: /favicon.ico
+  static_files: dist/denyconformity/favicon.ico
+  upload: dist/denyconformity/favicon.ico
+- url: /(.*\.js)
+  # secure: always
+  redirect_http_response_code: 301
+  static_files: dist/denyconformity/\1
+  upload: dist/denyconformity/.*\.js
+- url: /(.*\.css)
+  # secure: always
+  redirect_http_response_code: 301
+  static_files: dist/denyconformity/\1
+  mime_type: text/css
+  upload: dist/denyconformity/.*\.css
+- url: /.*
+  # secure: always
+  static_files: dist/denyconformity/index.html
+  upload: dist/denyconformity/.*

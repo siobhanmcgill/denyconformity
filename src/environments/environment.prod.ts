@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  server: '/'
+  server: 'https://server-dot-denyconformity.uc.r.appspot.com'
 };

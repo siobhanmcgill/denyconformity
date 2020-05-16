@@ -1,17 +1,24 @@
+#> gcloud app deploy
+
 runtime: python37
 
 # instance_class: F2
-# service: server
+service: server
 
 env_variables:
-  DB_HOST: "/cloudsql/denyconformity:us-central1:denyconformity"
-  DB_NAME: "denyconformity"
-  DB_USER: "web"
-  # DJANGO_SETTINGS_MODULE: 'denyconformity.settings'
+  PROD: "true"
+  # The expensive AF Cloudsql settings:
+  # DB_HOST: "/cloudsql/denyconformity:us-central1:denyconformity"
+  # DB_NAME: "denyconformity"
+  # DB_USER: "web"
+  # The cheap-as Bluehost option:
+  DB_HOST: "162.241.24.146"
+  DB_NAME: "denyconf_2020"
+  DB_USER: "denyconf_webby"
 
 handlers:
+- url: /static
+  static_dir: static/
+
 - url: /.*
   script: auto
-
-- url: /static
-  static_dir: static

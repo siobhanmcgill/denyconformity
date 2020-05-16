@@ -138,6 +138,17 @@ a {
   Special styles for posts.
 **/
 
+.first-letter {
+  padding-top: 1rem;
+
+  &>p:first-child::first-letter {
+    @include font-title;
+    font-size: 6rem;
+    float: left;
+    margin: -2rem 1.5rem -2rem 0;
+  }
+}
+
 .post,
 .page {
   p {

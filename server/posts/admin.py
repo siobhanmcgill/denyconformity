@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 
 from .models import Post, Comment, Tag, Series, SeriesPost
 
@@ -9,13 +10,17 @@ class PostSeriesInline(admin.TabularInline):
 class TagInline(admin.TabularInline):
   model = Post.tags.through
 
+
 class PostAdmin(admin.ModelAdmin):
   list_display = ('title', 'time', 'pub')
   date_hierarchy = 'time'
   fieldsets = [
-    (None, {'fields': ['title', 'time', 'text', 'summary', 'pub']})
+    (None, {'fields': ['title', 'time', 'text', 'markdown', 'summary', 'pub']})
   ]
   inlines = [TagInline, PostSeriesInline]
+
+  add_form_template = 'admin/add_edit_post_form.html'
+  change_form_template = 'admin/add_edit_post_form.html'
 
 admin.site.register(Post, PostAdmin)
 

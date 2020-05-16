@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {PostService} from '../services/post.service';
 import {Post} from '../services/types';
+import {MarkdownServiceService} from '../shared/markdown-service.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ReadPostComponent {
   constructor(
       private readonly postService: PostService,
       private readonly changeDetectorRef: ChangeDetectorRef,
+      private readonly markdownService: MarkdownServiceService,
   ) {}
 
   get viewableArea(): HTMLDivElement {
@@ -42,7 +44,7 @@ export class ReadPostComponent {
     postContent.innerHTML = `
     <h2>${this.post.title}</h2>
     <div class="content book-layout-top">
-    ${this.postService.decodeString(this.post.text)}
+    ${this.renderText(this.post)}
     </div>`;
 
     this.currentIterationTarget = this.viewableArea;
@@ -55,6 +57,14 @@ export class ReadPostComponent {
     this.selectedPageIndex = 0;
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  renderText(post: Post): string {
+    if (post.markdown) {
+      return this.markdownService.convert(post.text);
+    } else {
+      return this.postService.decodeString(post.text);
+    }
   }
 
   close() {

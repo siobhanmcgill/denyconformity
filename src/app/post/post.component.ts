@@ -2,10 +2,10 @@ import {Location} from '@angular/common';
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {Converter} from 'showdown';
 import {PostService} from '../services/post.service';
 import {CreateComment, Post} from '../services/types';
 import {createToggle} from '../shared/anim';
+import {MarkdownServiceService} from '../shared/markdown-service.service';
 
 
 @Component({
@@ -35,7 +35,6 @@ export class PostComponent implements OnInit, OnDestroy {
   postSelectionSubscription: Subscription;
 
   private goBack = false;
-  private mdConverter: Converter;
 
   @HostBinding('className')
   get className(): string {
@@ -51,13 +50,8 @@ export class PostComponent implements OnInit, OnDestroy {
       private readonly postService: PostService,
       private readonly changeDetectorRef: ChangeDetectorRef,
       private readonly location: Location,
+      private readonly markdownService: MarkdownServiceService,
   ) {
-    this.mdConverter = new Converter();
-
-    this.mdConverter.setOption('openLinksInNewWindow', 'true');
-    this.mdConverter.setOption('simplifiedAutoLink', 'true');
-    this.mdConverter.setOption('excludeTrailingPunctuationFromURLs', 'true');
-
     this.commentFormGroup.controls.text.valueChanges.subscribe(text => {
       this.commentText.nativeElement.style.height = 'auto';
       this.commentText.nativeElement.style.height =
@@ -96,9 +90,21 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  decodeString(string: string): string {
-    const html = this.postService.decodeString(string);
-    return html;
+  renderSummary(post: Post): string {
+    console.log('post?', post);
+    if (post.markdown) {
+      return this.renderMarkdown(post.summary);
+    } else {
+      return this.postService.decodeString(post.summary);
+    }
+  }
+
+  renderText(post: Post): string {
+    if (post.markdown) {
+      return this.renderMarkdown(post.text);
+    } else {
+      return this.postService.decodeString(post.text);
+    }
   }
 
   close(e: MouseEvent) {
@@ -133,7 +139,7 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   renderMarkdown(str: string): string {
-    return this.mdConverter.makeHtml(str);
+    return this.markdownService.convert(str);
   }
 
   commentsAppear() {
