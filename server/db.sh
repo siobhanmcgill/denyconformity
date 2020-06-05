@@ -11,20 +11,9 @@
 # python3 manage.py makemigrations
 # python3 manage.py migrate
 
-echo "Creating the SUPERUSER"
-python3 manage.py createsuperuser
+#
 
-echo "Posts..."
-python3 manage.py loaddata posts
-
-echo "Tags..."
-python3 manage.py loaddata tags
-
-echo "Post tags . . ."
-python3 manage.py loaddata post_tags
-
-echo "Comments..."
-python3 manage.py loaddata comments
-
-echo "Series..."
-python3 manage.py loaddata series
+# Copy prod to staging...
+rm ~/dc.sql
+mysqldump -u denyconf -p -h 162.241.24.146 denyconf_2020 > ~/dc.sql
+mysql -u denyconf -p -h 162.241.24.146 denyconf_2020-staging < ~/dc.sql

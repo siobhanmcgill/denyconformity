@@ -147,6 +147,10 @@ export class PostService {
     return this.series$;
   }
 
+  getComments(post: Post): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.POST_URL}/${post.id}/comments/`);
+  }
+
   createComment(comment: CreateComment): Observable<Comment> {
     return this.http.post<Comment>(
         `${this.POST_URL}/${comment.post}/comment/`, comment);

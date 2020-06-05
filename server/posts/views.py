@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 
-from .models import Post, Tag, Comment, Series, SeriesPost
+from .models import Post, Tag, Comment, Series, SeriesPost, Question, Answer
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -35,12 +35,13 @@ class CreateCommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
-    comments = CommentSerializer(many=True)
+    # comments = CommentSerializer(many=True)
 
     class Meta:
         model = Post
         fields = ['id', 'time', 'title', 'text',
-                  'summary', 'tags', 'comments', 'markdown']
+                  'summary', 'tags', 'markdown', 'survey_description',
+                  'survey_expires']
 
 
 class SeriesPostSerializer(serializers.ModelSerializer):
@@ -100,6 +101,16 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['get'])
+    def comments(self, request, pk=None):
+        try:
+            comments = Comment.objects.filter(post=pk, pub=True).all()
+            serializer = CommentSerializer(comments, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 class SeriesViewSet(viewsets.ModelViewSet):

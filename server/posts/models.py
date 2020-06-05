@@ -19,6 +19,7 @@ def curly_quotes(str):
     str = str.replace('”', '&rdquo;')
     return str
 
+
 def un_curly_quotes(str):
     str = str.replace('&rsquo;', '’')
     str = str.replace('&lsquo;', '‘')
@@ -52,6 +53,9 @@ class Post(models.Model):
     pub = models.BooleanField()
     summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
+
+    survey_expires = models.DateTimeField(blank=True, null=True)
+    survey_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -128,3 +132,21 @@ class SeriesPost(models.Model):
     def full_post(self):
         return Post.objects.filter(pk=self.post.id).prefetch_related(
             'tags', 'comments').first()
+
+
+class Question(models.Model):
+    survey = models.ForeignKey(Post, related_name='questions',
+                               on_delete=models.CASCADE)
+    text = models.CharField(max_length=280)
+    name = models.CharField(max_length=200)
+    time = models.DateTimeField(auto_now_add=True)
+    ip = models.GenericIPAddressField()
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, related_name='answers',
+                                 on_delete=models.CASCADE)
+    time = models.DateTimeField()
+    ip = models.GenericIPAddressField()
+    why = models.TextField(blank=True)
+    name = models.TextField(blank=True)

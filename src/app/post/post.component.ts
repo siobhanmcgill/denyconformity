@@ -1,9 +1,9 @@
 import {Location} from '@angular/common';
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {PostService} from '../services/post.service';
-import {CreateComment, Post} from '../services/types';
+import {Comment, CreateComment, Post} from '../services/types';
 import {createToggle} from '../shared/anim';
 import {MarkdownServiceService} from '../shared/markdown-service.service';
 
@@ -31,6 +31,10 @@ export class PostComponent implements OnInit, OnDestroy {
   selected = false;
   anotherPostSelected = false;
   showComments = false;
+
+  comments$: Observable<Comment[]>;
+
+  createdComment?: Comment;
 
   postSelectionSubscription: Subscription;
 
@@ -91,7 +95,6 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   renderSummary(post: Post): string {
-    console.log('post?', post);
     if (post.markdown) {
       return this.renderMarkdown(post.summary);
     } else {
@@ -118,7 +121,6 @@ export class PostComponent implements OnInit, OnDestroy {
 
   readPost(e: MouseEvent) {
     e.stopPropagation();
-    console.log('read post!', this.post);
     this.read.next(this.post);
   }
 
@@ -128,13 +130,16 @@ export class PostComponent implements OnInit, OnDestroy {
       text: this.commentFormGroup.controls.text.value,
       post: this.post.id,
     };
-    const index = this.post.comments.push(
-        {...comment, time: (new Date()).toISOString(), id: -1});
+    this.createdComment = {
+      ...comment,
+      time: (new Date()).toISOString(),
+      id: -1
+    };
 
     this.commentFormGroup.reset();
 
     this.postService.createComment(comment).subscribe(createdComment => {
-      this.post.comments[index - 1].id = createdComment.id;
+      this.createdComment = createdComment;
     });
   }
 
@@ -145,5 +150,6 @@ export class PostComponent implements OnInit, OnDestroy {
   commentsAppear() {
     // A wild comments appeared!
     this.showComments = true;
+    this.comments$ = this.postService.getComments(this.post);
   }
 }

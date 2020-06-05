@@ -13,7 +13,6 @@ export interface Post {
   text: string;
   time: string;
   title: string;
-  comments: Array<Comment>;
   markdown: boolean;
 }
 

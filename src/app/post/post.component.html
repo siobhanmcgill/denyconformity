@@ -29,7 +29,8 @@
   <div class="post"
        *ngIf="selected"
        [@wrapper]>
-    <div class="first-letter" [unsafeInnerHTML]="renderText(post)">
+    <div class="first-letter"
+         [unsafeInnerHTML]="renderText(post)">
     </div>
     <h3 [scrollTracker]
         (appear)="commentsAppear()">end of line.</h3>
@@ -37,70 +38,87 @@
 
   <app-post-series extended="true"></app-post-series>
 
-  <div class="comments"
-       *ngIf="showComments"
-       [@wrapper]>
-    <div class="summary"
-         *ngIf="!selected"
+  <ng-container *ngIf="showComments">
+    <div class="comments"
+         *ngIf="comments$ | async as comments; else loadingComments"
          [@wrapper]>
-      <i class="far fa-comment"></i>
-      <span [class.lots]="post.comments.length > 9">
-        {{post.comments.length > 9 ? '...' : post.comments.length}}
-      </span>
-    </div>
-
-    <div class="list"
-         *ngIf="selected"
-         [@wrapper]>
-      <h3>Comments</h3>
-
-      <div class="comment"
-           *ngIf="!post.comments.length">
-        <div class="text">
-          <p><em>Nothing yet. Add your thoughts below.</em></p>
-        </div>
+      <div class="summary"
+           *ngIf="!selected"
+           [@wrapper]>
+        <i class="far fa-comment"></i>
+        <span [class.lots]="comments.length > 9">
+          {{comments.length > 9 ? '...' : comments.length}}
+        </span>
       </div>
 
-      <div class="comment"
-           [@wrapper]
-           *ngFor="let comment of post.comments">
-        <div class="post-title">
-          <h2>{{comment.name}}</h2>
-          <h3>
-            <div class="hr"></div>
-            {{comment.time | date}}
-          </h3>
-        </div>
-        <div class="text"
-             [innerHTML]="renderMarkdown(comment.text)"></div>
-      </div>
+      <div class="list"
+           *ngIf="selected"
+           [@wrapper]>
+        <h3>Comments</h3>
 
-      <div class="comment">
-        <form [formGroup]="commentFormGroup">
-          <div class="post-title">
-            <h2>
-              <input formControlName="name"
-                     placeholder="Your name" />
-            </h2>
-            <h3>
-              <div class="hr"></div>
-              &nbsp;
-            </h3>
-          </div>
+        <div class="comment"
+             *ngIf="!comments.length">
           <div class="text">
-            <textarea formControlName="text"
-                      #commentText
-                      placeholder="Your thoughts"></textarea>
-            <div class="disclaimer">
-              No HTML is allowed, but you can use <a
-                 href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                 target="_blank">Markdown</a>!
-            </div>
-            <button [disabled]="!commentFormGroup.valid"
-                    (click)="submitComment()">save</button>
+            <p><em>Nothing yet. Add your thoughts below.</em></p>
           </div>
-        </form>
+        </div>
+
+        <ng-container *ngFor="let comment of comments">
+          <ng-container *ngTemplateOutlet="comment; context: {comment: comment}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="createdComment">
+          <ng-container *ngTemplateOutlet="comment; context: {comment: createdComment}">
+          </ng-container>
+        </ng-container>
+
+        <div class="comment">
+          <form [formGroup]="commentFormGroup">
+            <div class="post-title">
+              <h2>
+                <input formControlName="name"
+                       placeholder="Your name" />
+              </h2>
+              <h3>
+                <div class="hr"></div>
+                &nbsp;
+              </h3>
+            </div>
+            <div class="text">
+              <textarea formControlName="text"
+                        #commentText
+                        placeholder="Your thoughts"></textarea>
+              <div class="disclaimer">
+                No HTML is allowed, but you can use <a
+                   href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                   target="_blank">Markdown</a>!
+              </div>
+              <button [disabled]="!commentFormGroup.valid"
+                      (click)="submitComment()">save</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
+
+<ng-template #loadingComments>
+  <span>Loading comments . . .</span>
+</ng-template>
+
+<ng-template #comment
+             let-comment="comment">
+  <div class="comment"
+       [@wrapper]>
+    <div class="post-title">
+      <h2>{{comment.name}}</h2>
+      <h3>
+        <div class="hr"></div>
+        {{comment.time | date}}
+      </h3>
+    </div>
+    <div class="text"
+         [innerHTML]="renderMarkdown(comment.text)"></div>
+  </div>
+</ng-template>
