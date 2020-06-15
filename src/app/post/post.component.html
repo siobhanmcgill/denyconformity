@@ -3,7 +3,7 @@
      *ngIf="!anotherPostSelected"
      [@wrapper]>
   <div class="post-title">
-    <h2 class="corner-box">{{post.title}}</h2>
+    <h2 class="corner-box" [innerHTML]="post.title"></h2>
     <h3 class="date">
       <div class="hr"></div>
       {{post.time | date}}
@@ -64,11 +64,11 @@
         </div>
 
         <ng-container *ngFor="let comment of comments">
-          <ng-container *ngTemplateOutlet="comment; context: {comment: comment}"></ng-container>
+          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment}"></ng-container>
         </ng-container>
 
         <ng-container *ngIf="createdComment">
-          <ng-container *ngTemplateOutlet="comment; context: {comment: createdComment}">
+          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: createdComment}">
           </ng-container>
         </ng-container>
 
@@ -107,7 +107,7 @@
   <span>Loading comments . . .</span>
 </ng-template>
 
-<ng-template #comment
+<ng-template #commentTemplate
              let-comment="comment">
   <div class="comment"
        [@wrapper]>

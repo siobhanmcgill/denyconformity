@@ -13,7 +13,7 @@ export function scrollTo(to: number, duration?: number) {
 
   const from = window.scrollY, difference = to - from;
 
-  duration = duration || Math.abs(difference);
+  duration = duration || Math.min(Math.abs(difference), 1000);
 
   const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
     let reverse = c < 0, s, e;

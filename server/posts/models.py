@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.html import strip_tags
 from django.dispatch import receiver
 from django.utils import timezone
+import uuid
 
 # Here are the commands to bootstrap the database:
 
@@ -53,6 +54,7 @@ class Post(models.Model):
     pub = models.BooleanField()
     summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
+    slug = models.SlugField(unique=True)
 
     survey_expires = models.DateTimeField(blank=True, null=True)
     survey_description = models.TextField(blank=True, null=True)

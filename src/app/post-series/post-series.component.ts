@@ -4,6 +4,7 @@ import {skip} from 'rxjs/operators';
 import {PostService} from '../services/post.service';
 import {Post, Series} from '../services/types';
 import {createToggle} from '../shared/anim';
+import {POST_PREFIX} from '../shared/const';
 
 const MOBILE_WIDTH = 500;
 
@@ -113,7 +114,7 @@ export class PostSeriesComponent {
 
       setTimeout(() => {
         // Open the selected post after the animation finishes.
-        this.location.go('/p/' + gotoPost.id);
+        this.location.go(POST_PREFIX + '/' + gotoPost.id);
         this.postService.selectPost(gotoPost);
       }, 1000);
     }

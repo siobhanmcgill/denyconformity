@@ -21,13 +21,13 @@ class QuestionInline(admin.TabularInline):
 
 
 class PostAdmin(admin.ModelAdmin):
-  list_display = ('title', 'time', 'pub')
+  list_display = ('title', 'id', 'time', 'pub')
   date_hierarchy = 'time'
   fieldsets = [
     (None, {'fields': ['title', 'time', 'text']}),
     ('Other', {
       'classes': ('collapse',),
-      'fields': ('markdown', 'pub', 'summary')
+      'fields': ('markdown', 'pub', 'summary', 'slug')
     }),
     ('Survey', {
       'classes': ('collapse',),

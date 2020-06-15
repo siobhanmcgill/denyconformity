@@ -6,6 +6,7 @@ import {skip, tap} from 'rxjs/operators';
 import {PostService} from '../services/post.service';
 import {Post} from '../services/types';
 import {createToggle} from '../shared/anim';
+import {POST_PREFIX} from '../shared/const';
 import {scrollToTop} from '../shared/ui.util';
 
 
@@ -49,7 +50,13 @@ export class PostListComponent implements OnDestroy {
 
     this.route.params.subscribe(params => {
       if (params && params.id) {
-        this.postService.getPost(params.id);
+        // If the ID is not a number, it's a slug.
+        const isSlug = isNaN(Number(params.id));
+        if (isSlug) {
+          this.postService.getPost(params.id);
+        } else {
+          this.postService.getPostById(params.id);
+        }
       } else {
         this.setupPostsObservable();
       }
@@ -58,12 +65,19 @@ export class PostListComponent implements OnDestroy {
     this.postSubscription =
         this.postService.postSelection$.pipe(skip(1)).subscribe(post => {
           this.selectedPost = post;
-          if (!post && this.location.isCurrentPathEqualTo('/p')) {
+          // Load the list of posts.
+          if (!post && this.location.isCurrentPathEqualTo(POST_PREFIX)) {
             setTimeout(() => {
               this.setupPostsObservable();
             }, 500);
           } else if (post) {
+            // A post has been loaded, so scroll to the top.
             scrollToTop();
+
+            if (this.location.isCurrentPathEqualTo(
+                    POST_PREFIX + '/' + post.id)) {
+              this.location.go(POST_PREFIX + '/' + post.slug);
+            }
           }
           this.changeDetectorRef.detectChanges();
         });
@@ -89,7 +103,7 @@ export class PostListComponent implements OnDestroy {
   }
 
   home() {
-    this.location.go('/p');
+    this.location.go(POST_PREFIX);
   }
 
   postTrackBy(index: number, item: Post): number {

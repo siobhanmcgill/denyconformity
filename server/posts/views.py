@@ -39,7 +39,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'time', 'title', 'text',
+        lookup_field = 'slug'
+        fields = ['id', 'slug', 'time', 'title', 'text',
                   'summary', 'tags', 'markdown', 'survey_description',
                   'survey_expires']
 
@@ -72,7 +73,15 @@ def get_client_ip(request):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.exclude(pub=0).all()
     serializer_class = PostSerializer
+    lookup_field = 'slug'
     http_method_names = ['get', 'options', 'post']
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        id = self.request.query_params.get('id', None)
+        if id is not None:
+            queryset = queryset.filter(pk=id)
+        return queryset
 
     def get_permissions(self):
         if self.action == 'comment':
@@ -82,10 +91,10 @@ class PostViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     @action(detail=True, methods=['post'])
-    def comment(self, request, pk=None):
+    def comment(self, request, slug=None):
         data = JSONParser().parse(request)
         data['ip'] = get_client_ip(request)
-        data['post'] = pk
+        data['post'] = slug
         serializer = CreateCommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -93,9 +102,9 @@ class PostViewSet(viewsets.ModelViewSet):
         return JsonResponse(serializer.errors, status=400)
 
     @action(detail=True)
-    def series(self, request, pk=None):
+    def series(self, request, slug=None):
         try:
-            seriesPost = SeriesPost.objects.get(post=pk)
+            seriesPost = SeriesPost.objects.get(post=slug)
             series = seriesPost.series
             serializer = SeriesSerializer(series)
             return Response(serializer.data)
@@ -103,9 +112,9 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     @action(detail=True, methods=['get'])
-    def comments(self, request, pk=None):
+    def comments(self, request, slug=None):
         try:
-            comments = Comment.objects.filter(post=pk, pub=True).all()
+            comments = Comment.objects.filter(post=slug, pub=True).all()
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
         except:

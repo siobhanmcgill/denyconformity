@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angula
 import {fromEvent} from 'rxjs';
 import {map, throttleTime} from 'rxjs/operators';
 import {PostService} from './services/post.service';
+import {POST_PREFIX} from './shared/const';
 
 
 const SCROLL_POS_WHEN_BG_GONE = 500;
@@ -43,7 +44,7 @@ export class AppComponent {
         });
 
     this.location.onUrlChange((url, state) => {
-      if (url === '/p') {
+      if (url === POST_PREFIX) {
         this.postService.selectPost();
       }
     });

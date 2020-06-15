@@ -51,10 +51,12 @@ Start the angular front-end server with `ng serve`
 
 May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
 
+[This](https://cloud.google.com/appengine/kb#static-ip) page discusses how to find the App Enging IP.
+
 ## TODO
 
-* Make url slugs for posts.
-* Create URLs that match legacy URLs so old links will still work.
+* ~~Make url slugs for posts.~~
+* ~~Create URLs that match legacy URLs so old links will still work.~~
 * Unit tests (which may or may not be possible through Bash on Windows).
 * Test that posts that aren't published won't be fetched.
 * Fix some bugs around switching series posts and returning home.

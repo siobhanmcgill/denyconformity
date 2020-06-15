@@ -67,10 +67,25 @@ export class PostService {
     return this.postSubject.asObservable();
   }
 
-  getPost(id: number): Observable<Array<Post>> {
+  getPost(slug: string): Observable<Array<Post>> {
     this.postSubject.next(null);
-    combineLatest(timer(2000), this.http.get<Post>(`${this.POST_URL}/${id}/`))
+    combineLatest(timer(2000), this.http.get<Post>(`${this.POST_URL}/${slug}/`))
         .subscribe(([x, post]) => {
+          this.loadedPosts.set(post.id, post);
+          this.broadcastPosts();
+          setTimeout(() => {
+            this.selectPost(post);
+          });
+        });
+    return this.postSubject.asObservable();
+  }
+
+  getPostById(id: number): Observable<Array<Post>> {
+    this.postSubject.next(null);
+    combineLatest(
+        timer(2000), this.http.get<PostResponse>(`${this.POST_URL}?id=${id}`))
+        .subscribe(([x, postResponse]) => {
+          const post = postResponse.results[0];
           this.loadedPosts.set(post.id, post);
           this.broadcastPosts();
           setTimeout(() => {

@@ -5,6 +5,7 @@ import {Observable, Subscription} from 'rxjs';
 import {PostService} from '../services/post.service';
 import {Comment, CreateComment, Post} from '../services/types';
 import {createToggle} from '../shared/anim';
+import {POST_PREFIX} from '../shared/const';
 import {MarkdownServiceService} from '../shared/markdown-service.service';
 
 
@@ -88,7 +89,7 @@ export class PostComponent implements OnInit, OnDestroy {
   @HostListener('click')
   onClick() {
     if (!this.selected) {
-      this.location.go('/p/' + this.post.id);
+      this.location.go(POST_PREFIX + '/' + this.post.slug);
       this.postService.selectPost(this.post);
       this.goBack = true;
     }
@@ -115,7 +116,7 @@ export class PostComponent implements OnInit, OnDestroy {
     if (this.goBack) {
       this.location.back();
     } else {
-      this.location.go('/p');
+      this.location.go(POST_PREFIX);
     }
   }
 
