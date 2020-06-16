@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.html import strip_tags
 from django.dispatch import receiver
 from django.utils import timezone
-import uuid
+import re
 
 # Here are the commands to bootstrap the database:
 
@@ -46,6 +46,19 @@ class PostSummaryField(models.TextField):
         return curly_quotes(val)
 
 
+class PostSlugField(models.SlugField):
+    def pre_save(self, model_instance, add):
+        slug = getattr(model_instance, self.attname)
+        if not slug or slug == 'auto':
+            title = getattr(model_instance, 'title')
+            slug = title.replace(' ', '-').lower()
+            slug_re = re.compile(r"(&[a-z0-9]+;)|(#[a-z0-9]+;)|[^a-z0-9\-]")
+            slug = slug_re.sub("", slug)
+            if not slug:
+                slug = 'post-' + str(getattr(model_instance, 'id'))
+        return slug
+
+
 class Post(models.Model):
     time = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=200)
@@ -54,7 +67,7 @@ class Post(models.Model):
     pub = models.BooleanField()
     summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
-    slug = models.SlugField(unique=True)
+    slug = PostSlugField(unique=True, default='auto')
 
     survey_expires = models.DateTimeField(blank=True, null=True)
     survey_description = models.TextField(blank=True, null=True)
