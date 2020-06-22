@@ -4,6 +4,8 @@
 /dist
 /tmp
 /out-tsc
+# Destination of the angular prod build.
+/front-end/static
 # Only exists if Bazel was run
 /bazel-out
 
