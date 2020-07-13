@@ -47,6 +47,8 @@ Start the angular front-end server with `ng serve`
 
 ## Deploy
 
+### Google Cloud
+
 ` ng build --prod`
 
 ` gcloud app deploy app.yaml ./server/app.yaml `
@@ -54,6 +56,12 @@ Start the angular front-end server with `ng serve`
 May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
 
 [This](https://cloud.google.com/appengine/kb#static-ip) page discusses how to find the App Enging IP.
+
+### Heroku
+
+Make sure that both `denyconformity` and `denyconformity-server` are set up as git upstreams.
+
+`git push denyconformity; git push denyconformity-server`
 
 ## TODO
 
