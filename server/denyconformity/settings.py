@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from google.cloud import secretmanager
+# from google.cloud import secretmanager
 
 # GCP Project containing the DELICIOUS SECRETS.
 project_id = 'denyconformity'
@@ -30,17 +30,19 @@ if os.getenv('PROD', '') == 'true':
     # Production
     DEBUG = False
     # Secret Manager client.
-    secret_client = secretmanager.SecretManagerServiceClient()
+    # secret_client = secretmanager.SecretManagerServiceClient()
 
-    key_name = secret_client.secret_version_path(
-        project_id, 'django_secret_key_prod', 1)
-    key_response = secret_client.access_secret_version(key_name)
-    SECRET_KEY = key_response.payload.data.decode('UTF-8')
+    # key_name = secret_client.secret_version_path(
+    #     project_id, 'django_secret_key_prod', 1)
+    # key_response = secret_client.access_secret_version(key_name)
+    # SECRET_KEY = key_response.payload.data.decode('UTF-8')
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-    db_password_name = secret_client.secret_version_path(
-    project_id, 'db_password_prod', 2)
-    db_password_response = secret_client.access_secret_version(db_password_name)
-    DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
+    # db_password_name = secret_client.secret_version_path(
+    # project_id, 'db_password_prod', 2)
+    # db_password_response = secret_client.access_secret_version(db_password_name)
+    # DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
+    DB_PASSWORD = os.environ['DB_PASSWORD']
 else:
     from dotenv import load_dotenv
     load_dotenv()
