@@ -5,26 +5,28 @@ import markdown
 
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from google.cloud import secretmanager
+# from google.cloud import secretmanager
 
 app = Flask(__name__, template_folder="dist", static_folder="dist")
 
 
 if os.getenv('PROD', '') == 'true':
-    # Secret Manager client.
-    secret_client = secretmanager.SecretManagerServiceClient()
-    project_id = 'denyconformity'
+    # # Secret Manager client.
+    # secret_client = secretmanager.SecretManagerServiceClient()
+    # project_id = 'denyconformity'
 
-    key_name = secret_client.secret_version_path(
-        project_id, 'django_secret_key_prod', 1)
-    key_response = secret_client.access_secret_version(key_name)
-    SECRET_KEY = key_response.payload.data.decode('UTF-8')
+    # key_name = secret_client.secret_version_path(
+    #     project_id, 'django_secret_key_prod', 1)
+    # key_response = secret_client.access_secret_version(key_name)
+    # SECRET_KEY = key_response.payload.data.decode('UTF-8')
+    SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-    db_password_name = secret_client.secret_version_path(
-        project_id, 'db_password_prod', 2)
-    db_password_response = secret_client.access_secret_version(
-        db_password_name)
-    DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
+    # db_password_name = secret_client.secret_version_path(
+    #     project_id, 'db_password_prod', 2)
+    # db_password_response = secret_client.access_secret_version(
+    #     db_password_name)
+    # DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
+    DB_PASSWORD = os.environ['DB_PASSWORD']
 else:
     from dotenv import load_dotenv
     load_dotenv()
