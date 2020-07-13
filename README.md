@@ -18,7 +18,7 @@ Connect locally with:
 
 ## Setup
 
-Install Django, Python 3, and the Angular CLI.
+Install Django (python3-django), `libmysqlclient-dev`, Python 3, and the Angular CLI.
 
 ```
 pip3 install virtualenv
@@ -29,10 +29,12 @@ Set up the virtual environment.
 ```
 virtualenv venv
 source venv/bin/activate
-pip3 install -r server/requirements.txt
+pip3 install -r ./requirements.txt
 ```
 
 Make sure to set up a service account credential file as documented [here](https://cloud.google.com/secret-manager/docs/reference/libraries#client-libraries-install-python)
+
+Create a .env file inside server/denyconformity that includes the keys `DB_PASSWORD`, `DB_NAME`, `DB_USER`, and `DB_HOST`.
 
 ## Startup
 
