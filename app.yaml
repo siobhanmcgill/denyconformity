@@ -1,32 +1,38 @@
-runtime: nodejs10
+runtime: python37
+# env: flex
+entrypoint: gunicorn -b :$PORT frontend:app
 
 env_variables:
   environment: "--prod"
+  PROD: "true"
+  DB_HOST: "162.241.24.146"
+  DB_NAME: "denyconf_2020"
+  DB_USER: "denyconf_webby"
 
 handlers:
 
-# - url: /
-#   # secure: always
+- url: /dist/(.*)
+  static_files: dist/\1
+  upload: dist/.*
+- url: /favicon.ico
+  static_files: dist/assets/favicon.ico
+  upload: dist/assets/favicon.ico
+- url: /.*
+  script: auto
+
+
+# - url: /assets/(.*)
+#   static_files: dist/denyconformity/assets/\1
+#   upload: dist/denyconformity/assets/.*
+# - url: /(.*\.js)
+#   redirect_http_response_code: 301
+#   static_files: frontend/static/\1
+#   upload: frontend/static/.*\.js
+# - url: /(.*\.css)
+#   redirect_http_response_code: 301
+#   static_files: frontend/static/\1
+#   mime_type: text/css
+#   upload: frontend/static/.*\.css
+# - url: /.*
 #   static_files: dist/denyconformity/index.html
 #   upload: dist/denyconformity/.*
-- url: /assets/(.*)
-  static_files: dist/denyconformity/assets/\1
-  upload: dist/denyconformity/assets/.*
-- url: /favicon.ico
-  static_files: dist/denyconformity/favicon.ico
-  upload: dist/denyconformity/favicon.ico
-- url: /(.*\.js)
-  # secure: always
-  redirect_http_response_code: 301
-  static_files: dist/denyconformity/\1
-  upload: dist/denyconformity/.*\.js
-- url: /(.*\.css)
-  # secure: always
-  redirect_http_response_code: 301
-  static_files: dist/denyconformity/\1
-  mime_type: text/css
-  upload: dist/denyconformity/.*\.css
-- url: /.*
-  # secure: always
-  static_files: dist/denyconformity/index.html
-  upload: dist/denyconformity/.*

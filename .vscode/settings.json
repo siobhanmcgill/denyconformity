@@ -41,5 +41,6 @@
   "python.pythonPath": "./venv",
   "python.autoComplete.extraPaths": [
 
-  ],
+],
+"python.languageServer": "Microsoft",
 }

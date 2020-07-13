@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Denyconformity</title>
+  <title>{{ title }}</title>
   <base href="/">
 
   <meta name="viewport"
@@ -11,19 +11,19 @@
 
   <link rel="apple-touch-icon"
         sizes="180x180"
-        href="/assets/favicon/apple-touch-icon.png">
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/apple-touch-icon.png">
   <link rel="icon"
         type="image/png"
         sizes="32x32"
-        href="/assets/favicon/favicon-32x32.png">
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/favicon-32x32.png">
   <link rel="icon"
         type="image/png"
         sizes="16x16"
-        href="/assets/favicon/favicon-16x16.png">
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/favicon-16x16.png">
   <link rel="manifest"
-        href="/assets/favicon/site.webmanifest">
+        href="dist/assets/site.webmanifest">
   <link rel="mask-icon"
-        href="/assets/favicon/safari-pinned-tab.svg"
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/safari-pinned-tab.svg"
         color="#ffcc00">
   <meta name="msapplication-TileColor"
         content="#ffcc00">
@@ -32,7 +32,6 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Lovers+Quarrel&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
-  <!-- <script src="https://kit.fontawesome.com/c45a0b25ad.js"></script> -->
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async
@@ -44,10 +43,125 @@
 
     gtag('config', 'UA-13020056-4');
   </script>
+
+  <style type="text/css">
+    /* Pre-loaded content. */
+    html {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("https://storage.googleapis.com/denyconformity_assets/111webassets/2020_bg-texture.jpg");
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+      width: 100%;
+      font-size: 2rem;
+
+      box-shadow: 1px 2px 5rem rgba(77, 38, 0, 0.45) inset;
+    }
+
+    .placeholder-content {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+    }
+  </style>
+
+  <meta name="Description" content="{{ description }}" />
+  <meta name="Keywords" content="{{ keywords }}" />
+  <meta property="og:image" content="https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg" />
+  <meta property="og:type" content="website" />
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div class="placeholder-content">
+      <img src="https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%202.png" />
+
+      <app-post-list>
+
+        <div class="spacer"></div>
+        <div class="content">
+          {% if list %}
+          <div class="title">
+            <h1>DenyConformity.com</h1>
+            <div class="subtitle">
+              <div class="hr"></div>
+              <div class="hr"></div>
+              <h3>a very interesting website place.</h3>
+            </div>
+          </div>
+          {% endif %}
+          <!---->
+
+          <div class="post-list">
+            {% if list %}
+            {% for post in posts %}
+            <app-post class="post fiction">
+              <div class="wrapper">
+                <div class="post-title">
+                  <h2 class="corner-box">{{ post.title }}</h2>
+                  <h3 class="date ">
+                    <div class="hr "></div>{{ post.time.strftime('%b %d, %Y') }}
+                  </h3>
+                </div>
+                <div class="summary">
+                  {% if post.markdown %}
+                  <p>{{ markdown.markdown(post.summary)|safe }}</p>
+                  {% else %}
+                  <p>{{ post.text|safe }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </app-post>
+            {% endfor %}
+            {% endif %}
+
+            {% if not list %}
+            <app-post class="post fiction">
+              <div class="wrapper">
+                <div class="post-title">
+                  <h1 class="corner-box">{{ post.title }}</h1>
+                  <h2> on DenyConformity.com, a very interesting website place.</h2>
+                  <h3 class="date ">
+                    <div class="hr "></div> posted {{ post.time.strftime('%b %d, %Y') }}
+                  </h3>
+                </div>
+                <div class="post">
+                  {% if post.markdown %}
+                  {{ markdown.markdown(post.text)|safe }}
+                  {% else %}
+                  <p>{{ post.text|safe }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </app-post>
+            {% endif %}
+
+            <span class=""></span>
+          </div>
+          <!---->
+        </div>
+
+      </app-post-list>
+    </div>
+    <div class="loader">
+      <span>Loading DenyConformity.com . . .</span>
+    </div>
+  </app-root>
 </body>
 
 </html>

@@ -4,10 +4,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "venv": "source venv/bin/activate",
+    "server": "python3 server/manage.py runserver",
+    "frontend": "python3 frontend.py",
+    "build": "ng build --prod --deploy-url 'dist/'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+
+    "deploy:frontend": "gcloud app deploy app.yaml",
+    "deploy:backend": "gcloud app deploy ./server/app.yaml",
+    "deploy": "gcloud app deploy app.yaml ./server/app.yaml",
 
     "cloud_sql_proxy": "../../cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306",
     "cloud_sql_proxy:prod": "../../cloud_sql_proxy -instances=denyconformity:us-central1:denyconformity=tcp:3306"
