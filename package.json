@@ -16,7 +16,7 @@
     "deploy:backend": "gcloud app deploy ./server/app.yaml",
     "deploy": "gcloud app deploy app.yaml ./server/app.yaml",
 
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build --prod --deploy-url 'dist/'",
 
     "cloud_sql_proxy": "../../cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306",
     "cloud_sql_proxy:prod": "../../cloud_sql_proxy -instances=denyconformity:us-central1:denyconformity=tcp:3306"
