@@ -38,7 +38,6 @@
   "editor.suggestSelection": "first",
   "python.jediEnabled": false,
   "git.ignoreLimitWarning": true,
-  "python.pythonPath": "./venv",
   "python.autoComplete.extraPaths": [
 
 ],
