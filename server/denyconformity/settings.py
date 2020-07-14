@@ -64,7 +64,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'corsheaders',
-    'posts.apps.PostsConfig',
+    'server.posts.apps.PostsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,7 +85,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'denyconformity.urls'
+ROOT_URLCONF = 'server.denyconformity.urls'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
@@ -110,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'denyconformity.wsgi.application'
+WSGI_APPLICATION = 'server.denyconformity.wsgi.application'
 
 
 LOGGING = {

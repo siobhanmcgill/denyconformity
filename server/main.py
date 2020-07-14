@@ -1,3 +1,3 @@
-from denyconformity.wsgi import application
+from .denyconformity.wsgi import application
 
 app = application

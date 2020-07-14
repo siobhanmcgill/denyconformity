@@ -1,2 +1,2 @@
 
-web: gunicorn denyconformity.wsgi
+web: gunicorn server.denyconformity.wsgi
