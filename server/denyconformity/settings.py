@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 if os.getenv('PROD', '') == 'true':
     # Production
-    DEBUG = False
+    # DEBUG = False
     # Secret Manager client.
     # secret_client = secretmanager.SecretManagerServiceClient()
 
