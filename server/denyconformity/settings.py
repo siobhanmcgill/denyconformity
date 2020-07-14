@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 # from google.cloud import secretmanager
+import django_heroku
 
 # GCP Project containing the DELICIOUS SECRETS.
 project_id = 'denyconformity'
@@ -205,3 +206,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE':
     5
 }
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
