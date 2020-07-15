@@ -1,0 +1,14 @@
+.dc-text-format-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 796px; /* Come on, django. This is awful. */
+}
+
+.dc-text-format-button {
+  background: #609ab6;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

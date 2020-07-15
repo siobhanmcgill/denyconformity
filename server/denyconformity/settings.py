@@ -26,10 +26,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 if os.getenv('PROD', '') == 'true':
     # Production
-    DEBUG = True
+    DEBUG = False
     # Secret Manager client.
     # secret_client = secretmanager.SecretManagerServiceClient()
 
@@ -191,6 +192,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = 'static'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

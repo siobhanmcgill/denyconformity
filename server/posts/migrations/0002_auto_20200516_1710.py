@@ -3,7 +3,7 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import posts.models
+import server.posts.models
 
 
 class Migration(migrations.Migration):
@@ -31,12 +31,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='summary',
-            field=posts.models.PostSummaryField(default='auto'),
+            field=server.posts.models.PostSummaryField(default='auto'),
         ),
         migrations.AlterField(
             model_name='post',
             name='text',
-            field=posts.models.PostTextField(),
+            field=server.posts.models.PostTextField(),
         ),
         migrations.AlterField(
             model_name='post',
