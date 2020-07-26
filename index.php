@@ -17,7 +17,7 @@ error_reporting(E_ALL);
 
 require_once './vendor/autoload.php';
 
-include('./dev_env.php');
+include('./env.php');
 
 
 $DB_HOST = getenv('DB_HOST');
