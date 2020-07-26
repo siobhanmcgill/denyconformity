@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-  - php composer.phar install --no-dev
+  - /usr/local/bin/php composer.phar install --no-dev
   - export DEPLOYPATH=/home/user/public_html/
   - /bin/cp -R dist $DEPLOYPATH
   - /bin/cp index.php $DEPLOYPATH
