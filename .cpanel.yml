@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+  - export environment="--prod"
+  - export PROD=true
+  - export DB_HOST=localhost
+  - export DB_NAME=denyconf_2020
+  - export DB_USER=denyconf_webby
