@@ -1,3 +1,8 @@
+# This script is a standalone python app to serve the DenyConformity front-end.
+# It loads post data from the database to inject it into the page.
+# So crawlers, facebook links, and etcetera will show the proper content without
+# having to load the Angular app.
+
 import logging
 import os
 import sqlalchemy

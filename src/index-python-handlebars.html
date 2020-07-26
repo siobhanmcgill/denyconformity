@@ -110,19 +110,19 @@
           <div class="post-list">
             {% if list %}
             {% for post in posts %}
-            <app-post class="post {{ post.firsttag }}">
+            <app-post class="post fiction">
               <div class="wrapper">
                 <div class="post-title">
                   <h2 class="corner-box">{{ post.title }}</h2>
                   <h3 class="date ">
-                    <div class="hr "></div>{{ post.time|date('M d Y') }}
+                    <div class="hr "></div>{{ post.time.strftime('%b %d, %Y') }}
                   </h3>
                 </div>
                 <div class="summary">
                   {% if post.markdown %}
-                  <p>{{ post.mdsummary }}</p>
+                  <p>{{ markdown.markdown(post.summary)|safe }}</p>
                   {% else %}
-                  <p>{{ post.text }}</p>
+                  <p>{{ post.text|safe }}</p>
                   {% endif %}
                 </div>
               </div>
@@ -137,14 +137,14 @@
                   <h1 class="corner-box">{{ post.title }}</h1>
                   <h2> on DenyConformity.com, a very interesting website place.</h2>
                   <h3 class="date ">
-                    <div class="hr "></div> posted {{ post.time|date('M d Y') }}
+                    <div class="hr "></div> posted {{ post.time.strftime('%b %d, %Y') }}
                   </h3>
                 </div>
                 <div class="post">
                   {% if post.markdown %}
-                  {{ post.mdtext }}
+                  {{ markdown.markdown(post.text)|safe }}
                   {% else %}
-                  <p>{{ post.text }}</p>
+                  <p>{{ post.text|safe }}</p>
                   {% endif %}
                 </div>
               </div>
