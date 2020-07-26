@@ -1,3 +1,6 @@
+# This will spin up a non-free AppEngine service!
+# Use this to deploy the frontend as the default AppEngine service.
+
 runtime: python37
 # env: flex
 entrypoint: gunicorn -b :$PORT frontend:app
@@ -19,20 +22,3 @@ handlers:
   upload: dist/assets/favicon.ico
 - url: /.*
   script: auto
-
-
-# - url: /assets/(.*)
-#   static_files: dist/denyconformity/assets/\1
-#   upload: dist/denyconformity/assets/.*
-# - url: /(.*\.js)
-#   redirect_http_response_code: 301
-#   static_files: frontend/static/\1
-#   upload: frontend/static/.*\.js
-# - url: /(.*\.css)
-#   redirect_http_response_code: 301
-#   static_files: frontend/static/\1
-#   mime_type: text/css
-#   upload: frontend/static/.*\.css
-# - url: /.*
-#   static_files: dist/denyconformity/index.html
-#   upload: dist/denyconformity/.*

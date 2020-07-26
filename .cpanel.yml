@@ -3,6 +3,8 @@ deployment:
   tasks:
   - /usr/local/bin/php composer.phar install --no-dev
   - export DEPLOYPATH=/home1/denyconf/public_html/
+  - /bin/rm -rf /home1/denyconf/public_html/dist
+  - /bin/rm -rf /home1/denyconf/public_html/vendor
   - /bin/cp -R dist $DEPLOYPATH
   - /bin/cp -R vendor $DEPLOYPATH
   - /bin/cp index.php $DEPLOYPATH

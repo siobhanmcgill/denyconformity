@@ -47,27 +47,11 @@ Start the angular front-end server with `ng serve`
 
 ## Deploy
 
+The Angular project should be built first:
+
 ```
 npm run build
 ```
-
-### Google Cloud
-
-```
-gcloud app deploy app.yaml ./server/app.yaml
-```
-
-May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
-
-[This](https://cloud.google.com/appengine/kb#static-ip) page discusses how to find the App Enging IP.
-
-### Heroku
-
-Make sure that both `denyconformity` and `denyconformity-server` are set up as git upstreams.
-
-This is currently not used, because Heroku is no cheaper than Google Cloud.
-
-`git push denyconformity; git push denyconformity-server`
 
 ### Bluehost
 
@@ -86,6 +70,32 @@ To deploy, push the repo to there.
 ```
 git push bluehost
 ```
+
+Then the server can be deployed to Google AppEngine:
+
+```
+gcloud app deploy ./server/app.yaml
+```
+
+### Deprecated: Google Cloud
+
+Both services can be deployed to Google Cloud as python packages. However, running two Python services on AppEngine can get expensive.
+
+```
+gcloud app deploy app.yaml server-as-default.yaml
+```
+
+May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
+
+[This](https://cloud.google.com/appengine/kb#static-ip) page discusses how to find the App Enging IP.
+
+### Alternative: Heroku
+
+Make sure that both Heroku projects (`denyconformity` and `denyconformity-server`) are set up as git upstreams.
+
+This is currently not used, because Heroku is no cheaper than Google Cloud.
+
+`git push denyconformity; git push denyconformity-server`
 
 ## TODO
 
