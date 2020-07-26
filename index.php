@@ -17,13 +17,13 @@ error_reporting(E_ALL);
 
 require_once './vendor/autoload.php';
 
-include('./env.php');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-
-$DB_HOST = getenv('DB_HOST');
-$DB_USER = getenv('DB_USER');
-$DB_NAME = getenv('DB_NAME');
-$DB_PASSWORD = getenv('DB_PASSWORD');
+$DB_HOST = $_ENV['DB_HOST'];
+$DB_USER = $_ENV['DB_USER'];
+$DB_NAME = $_ENV['DB_NAME'];
+$DB_PASSWORD = $_ENV['DB_PASSWORD'];
 
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
 

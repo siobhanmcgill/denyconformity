@@ -5,5 +5,5 @@ deployment:
   - export DEPLOYPATH=/home1/denyconf/public_html/
   - /bin/cp -R dist $DEPLOYPATH
   - /bin/cp -R vendor $DEPLOYPATH
-  - /bin/cp env_prod.php $DEPLOYPATH/env.php
   - /bin/cp index.php $DEPLOYPATH
+  - /bin/cp .htaccess $DEPLOYPATH
