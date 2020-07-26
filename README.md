@@ -47,11 +47,15 @@ Start the angular front-end server with `ng serve`
 
 ## Deploy
 
+```
+npm run build
+```
+
 ### Google Cloud
 
-` ng build --prod`
-
-` gcloud app deploy app.yaml ./server/app.yaml `
+```
+gcloud app deploy app.yaml ./server/app.yaml
+```
 
 May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
 
@@ -61,7 +65,27 @@ May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cp
 
 Make sure that both `denyconformity` and `denyconformity-server` are set up as git upstreams.
 
+This is currently not used, because Heroku is no cheaper than Google Cloud.
+
 `git push denyconformity; git push denyconformity-server`
+
+### Bluehost
+
+This is the cheapest solution, which works for both the front-end and the database. To get a VPS that can run Django, it's actually more expensive than Heroku. It seems the best strategy for now is to run the server on Google Cloud and the Frontend on Bluehost using PHP.
+
+Anyway, you have to add the Bluehost DenyConformity Git URL:
+
+```
+git remote add bluehost ssh://denyconf@denyconformity.com/home1/denyconf/public_html/denyconformity
+```
+
+You will also need to make sure that you have an SSH key set up on Bluehost.
+
+To deploy, push the repo to there.
+
+```
+git push bluehost
+```
 
 ## TODO
 

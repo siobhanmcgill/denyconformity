@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+# /dist - This folder gets deployed to Bluehost via Git.
 /tmp
 /out-tsc
 # Destination of the angular prod build.
@@ -54,6 +54,6 @@ testem.log
 Thumbs.db
 
 #PHP Composer
-composer.phar
+# composer.phar
 /vendor
 /compilation_cache

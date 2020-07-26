@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <base href="/">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon"
+        sizes="180x180"
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/apple-touch-icon.png">
+  <link rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/favicon-32x32.png">
+  <link rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/favicon-16x16.png">
+  <link rel="manifest"
+        href="dist/assets/site.webmanifest">
+  <link rel="mask-icon"
+        href="https://storage.googleapis.com/denyconformity_assets/111webassets/favicon/safari-pinned-tab.svg"
+        color="#ffcc00">
+  <meta name="msapplication-TileColor"
+        content="#ffcc00">
+  <meta name="theme-color"
+        content="#ffcc00">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Lovers+Quarrel&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async
+          src="https://www.googletagmanager.com/gtag/js?id=UA-13020056-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-13020056-4');
+  </script>
+
+  <style type="text/css">
+    /* Pre-loaded content. */
+    html {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("https://storage.googleapis.com/denyconformity_assets/111webassets/2020_bg-texture.jpg");
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100%;
+      width: 100%;
+      font-size: 2rem;
+
+      box-shadow: 1px 2px 5rem rgba(77, 38, 0, 0.45) inset;
+    }
+
+    .placeholder-content {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+    }
+  </style>
+
+  <meta name="Description" content="{{ description }}" />
+  <meta name="Keywords" content="{{ keywords }}" />
+  <meta property="og:image" content="https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg" />
+  <meta property="og:type" content="website" />
+<link rel="stylesheet" href="dist/styles.1157f72cd38c2f59da0d.css"></head>
+
+<body>
+  <app-root>
+    <div class="placeholder-content">
+      <img src="https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%202.png" />
+
+      <app-post-list>
+
+        <div class="spacer"></div>
+        <div class="content">
+          {% if list %}
+          <div class="title">
+            <h1>DenyConformity.com</h1>
+            <div class="subtitle">
+              <div class="hr"></div>
+              <div class="hr"></div>
+              <h3>a very interesting website place.</h3>
+            </div>
+          </div>
+          {% endif %}
+          <!---->
+
+          <div class="post-list">
+            {% if list %}
+            {% for post in posts %}
+            <app-post class="post {{ post.firsttag }}">
+              <div class="wrapper">
+                <div class="post-title">
+                  <h2 class="corner-box">{{ post.title }}</h2>
+                  <h3 class="date ">
+                    <div class="hr "></div>{{ post.time|date('M d Y') }}
+                  </h3>
+                </div>
+                <div class="summary">
+                  {% if post.markdown %}
+                  <p>{{ post.mdsummary }}</p>
+                  {% else %}
+                  <p>{{ post.text }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </app-post>
+            {% endfor %}
+            {% endif %}
+
+            {% if not list %}
+            <app-post class="post fiction">
+              <div class="wrapper">
+                <div class="post-title">
+                  <h1 class="corner-box">{{ post.title }}</h1>
+                  <h2> on DenyConformity.com, a very interesting website place.</h2>
+                  <h3 class="date ">
+                    <div class="hr "></div> posted {{ post.time|date('M d Y') }}
+                  </h3>
+                </div>
+                <div class="post">
+                  {% if post.markdown %}
+                  {{ post.mdtext }}
+                  {% else %}
+                  <p>{{ post.text }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            </app-post>
+            {% endif %}
+
+            <span class=""></span>
+          </div>
+          <!---->
+        </div>
+
+      </app-post-list>
+    </div>
+    <div class="loader">
+      <span>Loading DenyConformity.com . . .</span>
+    </div>
+  </app-root>
+<script src="dist/runtime-es2015.7a489aaa5e5b534467ae.js" type="module"></script><script src="dist/runtime-es5.7a489aaa5e5b534467ae.js" nomodule defer></script><script src="dist/polyfills-es5.341d48ffc88eaeae911d.js" nomodule defer></script><script src="dist/polyfills-es2015.95bb65e853d2781ac3bd.js" type="module"></script><script src="dist/main-es2015.96c12ce28379c9da5430.js" type="module"></script><script src="dist/main-es5.96c12ce28379c9da5430.js" nomodule defer></script></body>
+
+</html>
