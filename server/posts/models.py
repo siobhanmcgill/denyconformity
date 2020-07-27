@@ -68,6 +68,7 @@ class Post(models.Model):
     summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
     slug = PostSlugField(unique=True, default='auto')
+    image = models.CharField(max_length=200, null=True, blank=True)
 
     survey_expires = models.DateTimeField(blank=True, null=True)
     survey_description = models.TextField(blank=True, null=True)

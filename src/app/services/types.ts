@@ -15,6 +15,7 @@ export interface Post {
   title: string;
   markdown: boolean;
   slug: string;
+  image: string;
 }
 
 export interface Comment {

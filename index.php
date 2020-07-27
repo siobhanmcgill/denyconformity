@@ -36,6 +36,7 @@ $default_title = 'DenyConformity.com - a very interesting website place.';
 $default_description = 'DenyConformity.com is your source for cool original content that is really quite interesting. Comedy, stories, pictures, technology, and even more can all be found right here. Drop by all the time for cool new stuff, all moderated and mostly written by one tall person, Shauvon McGill.';
 $keywords_base = 'Shauvon, McGill, siobhan, interesting, unique, original, content, conformity, non-conformity, website';
 $default_keywords = $keywords_base.', comedy, fiction, stories, blog, photography, technology, Torres, funny, originality, sci-fi';
+$image = 'https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg';
 
 $url_path = $_SERVER['REQUEST_URI'];
 
@@ -61,6 +62,9 @@ if (preg_match('/\/(p|posts)\/([a-z0-9\-]+)/', $url_path, $matches)) {
     $list = false;
     $title = $post['title'].' - original content from DenyConformity.com';
     $desc = $post['summary'];
+    if ($post['image']) {
+      $image = $post['image'];
+    }
   }
 } else {
   // Get latest posts.
@@ -102,7 +106,8 @@ echo $template->render([
   'keywords' => $keywords,
   'list' => $list,
   'posts' => $posts,
-  'post' => $post
+  'post' => $post,
+  'image' => $image
 ]);
 
 // $html = file_get_contents('./dist/index.html');

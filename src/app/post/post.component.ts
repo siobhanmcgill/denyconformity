@@ -15,11 +15,11 @@ import {MarkdownServiceService} from '../shared/markdown-service.service';
   styleUrls: ['./post.component.scss'],
   animations: [
     createToggle(
-        'summary', {'height': '0', 'opacity': '0'},
-        {'height': '*', 'opacity': '1'}, 300),
+      'summary', {'height': '0', 'opacity': '0'},
+      {'height': '*', 'opacity': '1'}, 300),
     createToggle(
-        'wrapper', {'height': '0', 'margin': '0', 'opacity': '0'},
-        {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
+      'wrapper', {'height': '0', 'margin': '0', 'opacity': '0'},
+      {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
   ]
 })
 export class PostComponent implements OnInit, OnDestroy {
@@ -52,34 +52,35 @@ export class PostComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-      private readonly postService: PostService,
-      private readonly changeDetectorRef: ChangeDetectorRef,
-      private readonly location: Location,
-      private readonly markdownService: MarkdownServiceService,
+    private readonly postService: PostService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly location: Location,
+    private readonly markdownService: MarkdownServiceService,
   ) {
     this.commentFormGroup.controls.text.valueChanges.subscribe(text => {
       this.commentText.nativeElement.style.height = 'auto';
       this.commentText.nativeElement.style.height =
-          this.commentText.nativeElement.scrollHeight + 'px';
+        this.commentText.nativeElement.scrollHeight + 'px';
     });
   }
 
   ngOnInit(): void {
     this.postSelectionSubscription =
-        this.postService.postSelection$.subscribe(post => {
-          if (post && post.id === this.post.id) {
-            this.selected = true;
-            this.anotherPostSelected = false;
-          } else if (post) {
-            this.selected = false;
-            this.anotherPostSelected = true;
-          } else {
-            this.anotherPostSelected = false;
-            this.selected = false;
-          }
-          this.showComments = false;
-          this.changeDetectorRef.detectChanges();
-        });
+      this.postService.postSelection$.subscribe(post => {
+        console.log(this.post);
+        if (post && post.id === this.post.id) {
+          this.selected = true;
+          this.anotherPostSelected = false;
+        } else if (post) {
+          this.selected = false;
+          this.anotherPostSelected = true;
+        } else {
+          this.anotherPostSelected = false;
+          this.selected = false;
+        }
+        this.showComments = false;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {

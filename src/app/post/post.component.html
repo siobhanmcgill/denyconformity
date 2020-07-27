@@ -2,13 +2,19 @@
      [class.selected]="selected"
      *ngIf="!anotherPostSelected"
      [@wrapper]>
-  <div class="post-title">
-    <h2 class="corner-box" [innerHTML]="post.title"></h2>
+  <div class="post-title" [class.has-image]="post.image">
+    <h2 class="corner-box"
+        [innerHTML]="post.title"></h2>
     <h3 class="date">
       <div class="hr"></div>
       {{post.time | date}}
     </h3>
 
+    <div class="image-wrapper"
+         *ngIf="post.image">
+      <img [src]="post.image"
+           class="post-image" />
+    </div>
   </div>
 
   <div class="tools"
@@ -64,7 +70,8 @@
         </div>
 
         <ng-container *ngFor="let comment of comments">
-          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment}"></ng-container>
+          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment}">
+          </ng-container>
         </ng-container>
 
         <ng-container *ngIf="createdComment">

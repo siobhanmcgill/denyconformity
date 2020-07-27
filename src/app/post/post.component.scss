@@ -1,7 +1,7 @@
 @import "../../styles/vars";
 
 .wrapper {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
 .hr {
@@ -25,6 +25,7 @@
     vertical-align: baseline;
     font-style: italic;
     position: relative;
+    z-index: 2;
 
     &::before {
       bottom: 3px;
@@ -38,6 +39,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 2;
   }
 
   .hr {
@@ -48,6 +50,36 @@
     right: 100%;
     margin-right: 2rem;
     top: 0.7rem;
+    z-index: 2;
+  }
+
+  &.has-image {
+    h2, h3 {
+      color: white;
+      text-shadow: -1px 1px 1px $color-shadow;
+    }
+  }
+
+  .image-wrapper {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+    transition: height 500ms;
+    height: 6rem;
+
+    img {
+      border: 0;
+      box-shadow: none;
+      border-radius: 0;
+      max-width: 100%;
+      width: 100%;
+      margin-top: 3rem;
+      transform: translate(-50%, -50%);
+      transition: margin-top 500ms;
+    }
   }
 }
 
@@ -124,6 +156,14 @@
 
       h2 {
         margin: 0 0 2rem;
+      }
+    }
+
+    .image-wrapper {
+      height: 19rem;
+
+      img {
+        margin-top: 9.5rem;
       }
     }
   }

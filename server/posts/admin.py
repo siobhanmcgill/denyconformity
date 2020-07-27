@@ -24,7 +24,7 @@ class PostAdmin(admin.ModelAdmin):
   list_display = ('title', 'id', 'time', 'pub')
   date_hierarchy = 'time'
   fieldsets = [
-    (None, {'fields': ['title', 'time', 'text']}),
+    (None, {'fields': ['title', 'time', 'text', 'image']}),
     ('Other', {
       'classes': ('collapse',),
       'fields': ('markdown', 'pub', 'summary', 'slug')

@@ -42,7 +42,7 @@ class PostSerializer(serializers.ModelSerializer):
         lookup_field = 'slug'
         fields = ['id', 'slug', 'time', 'title', 'text',
                   'summary', 'tags', 'markdown', 'survey_description',
-                  'survey_expires']
+                  'survey_expires', 'image']
 
 
 class SeriesPostSerializer(serializers.ModelSerializer):

@@ -13,7 +13,15 @@
 
 #
 
+if [ -f ../.env ]
+then
+  export $(cat ../.env | sed 's/#.*//g' | xargs)
+fi
+
 # Copy prod to staging...
 rm ~/dc.sql
-mysqldump -u denyconf -p -h 162.241.24.146 denyconf_2020 > ~/dc.sql
-mysql -u denyconf -p -h 162.241.24.146 denyconf_2020-staging < ~/dc.sql
+
+mysqldump --column-statistics=0 -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020 > ~/dc.sql
+mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging < ~/dc.sql
+
+python manage.py changepassword shauvon
