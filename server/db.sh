@@ -25,3 +25,4 @@ mysqldump --column-statistics=0 -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST 
 mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging < ~/dc.sql
 
 python manage.py changepassword shauvon
+# Enter something simple here.

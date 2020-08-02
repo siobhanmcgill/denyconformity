@@ -71,13 +71,13 @@ def get_client_ip(request):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.exclude(pub=0).all()
+    queryset = Post.objects.exclude(pub=False)
     serializer_class = PostSerializer
     lookup_field = 'slug'
     http_method_names = ['get', 'options', 'post']
 
     def get_queryset(self):
-        queryset = Post.objects.all()
+        queryset = Post.objects.exclude(pub=False)
         id = self.request.query_params.get('id', None)
         if id is not None:
             queryset = queryset.filter(pk=id)

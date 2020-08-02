@@ -44,6 +44,8 @@ Start the server with `python3 server/manage.py runserver`
 
 Start the angular front-end server with `ng serve`
 
+To test the PHP front-end, you might need to start up apache. `sudo service apache2 restart`
+
 
 ## Deploy
 

@@ -107,18 +107,8 @@ echo $template->render([
   'list' => $list,
   'posts' => $posts,
   'post' => $post,
-  'image' => $image
+  'image' => $image,
+  'url' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
 ]);
-
-// $html = file_get_contents('./dist/index.html');
-// $html = str_replace('{{ title }}', $title, $html);
-// $html = str_replace('{{ description }}', $desc, $html);
-// $html = str_replace('{{ keywords }}', $keywords, $html);
-
-// if (!$list) {
-//   $html = preg_replace('/\{\% if list \%\}.*\{\% endif \%\}/', '', $html);
-// }
-
-// print_r($html);
 
 ?>
