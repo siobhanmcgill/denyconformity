@@ -33,6 +33,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Lovers+Quarrel&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
 
+  {% if prod %}
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async
           src="https://www.googletagmanager.com/gtag/js?id=UA-13020056-4"></script>
@@ -43,6 +44,7 @@
 
     gtag('config', 'UA-13020056-4');
   </script>
+  {% endif %}
 
   <style type="text/css">
     /* Pre-loaded content. */
@@ -67,7 +69,7 @@
       align-items: center;
       min-height: 100%;
       width: 100%;
-      font-size: 2rem;
+      font-size: 1.5rem;
 
       box-shadow: 1px 2px 5rem rgba(77, 38, 0, 0.45) inset;
     }
@@ -80,15 +82,23 @@
     }
   </style>
 
-  <meta name="Description" content="{{ description }}" />
-  <meta name="Keywords" content="{{ keywords }}" />
-  <meta property="og:image" content="{{ image }}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="{{ title }}" />
-  <meta property="og:description" content="{{ description }}" />
-  <mega property="og:url" content="{{ url }}" />
-  <meta property="fb:app_id" content="" /> <!-- Go away, Facebook.-->
-<link rel="stylesheet" href="dist/styles.3282502b98692225e7aa.css"></head>
+  <meta name="Description"
+        content="{{ description }}" />
+  <meta name="Keywords"
+        content="{{ keywords }}" />
+  <meta property="og:image"
+        content="{{ image }}" />
+  <meta property="og:type"
+        content="website" />
+  <meta property="og:title"
+        content="{{ title }}" />
+  <meta property="og:description"
+        content="{{ description }}" />
+  <meta property="og:url"
+        content="{{ url }}" />
+  <meta property="fb:app_id"
+        content="" /> <!-- Go away, Facebook.-->
+<link rel="stylesheet" href="dist/styles.874bb993d19018d9111a.css"></head>
 
 <body>
   <app-root>

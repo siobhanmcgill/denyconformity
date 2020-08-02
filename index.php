@@ -39,6 +39,7 @@ $default_keywords = $keywords_base.', comedy, fiction, stories, blog, photograph
 $image = 'https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg';
 
 $url_path = $_SERVER['REQUEST_URI'];
+$host = $_SERVER['HTTP_HOST'];
 
 $Parsedown = new Parsedown();
 $posts = array();
@@ -102,13 +103,14 @@ $twig = new \Twig\Environment($loader, [
 $template = $twig->load('index.html');
 echo $template->render([
   'title' => $title,
-  'description' => $desc,
+  'description' => strip_tags($desc),
   'keywords' => $keywords,
   'list' => $list,
   'posts' => $posts,
   'post' => $post,
   'image' => $image,
-  'url' => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
+  'url' => 'http://'.$host.$url_path,
+  'prod' => strpos($host, 'denyconformity.com') != false
 ]);
 
 ?>

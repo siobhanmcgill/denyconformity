@@ -103,9 +103,12 @@ This is currently not used, because Heroku is no cheaper than Google Cloud.
 
 * ~~Make url slugs for posts.~~
 * ~~Create URLs that match legacy URLs so old links will still work.~~
-* Allow setting an image to a post for sharing purposes.
+* ~~Allow setting an image to a post for sharing purposes.~~
 * Unit tests (which may or may not be possible through Bash on Windows).
-* Test that posts that aren't published won't be fetched.
+* ~~Test that posts that aren't published won't be fetched.~~
 * Fix some bugs around switching series posts and returning home.
 * Fix some issues with formatting on the reading view.
 * Paginate comments.
+* Finish survey functionality.
+* Implement better system for finding older posts.
+* Strip HTML tags from meta tags so they don't get shared.
