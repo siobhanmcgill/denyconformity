@@ -1,8 +1,13 @@
+<div class="similar-heading" *ngIf="thisPostIsSimilar && index === 1">
+  <h3>Some other content that may or may not be relevant:</h3>
+</div>
+
 <div class="wrapper"
      [class.selected]="selected"
-     *ngIf="!anotherPostSelected"
+     *ngIf="!anotherPostSelected || thisPostIsSimilar"
      [@wrapper]>
-  <div class="post-title" [class.has-image]="post.image">
+  <div class="post-title"
+       [class.has-image]="post.image">
     <h2 class="corner-box"
         [innerHTML]="post.title"></h2>
     <h3 class="date">
@@ -79,7 +84,9 @@
           </ng-container>
         </ng-container>
 
-        <div class="comment">
+        <div class="comment"
+             [scrollTracker]
+             (appear)="loadSimilarPosts()">
           <form [formGroup]="commentFormGroup">
             <div class="post-title">
               <h2>
@@ -108,10 +115,15 @@
       </div>
     </div>
   </ng-container>
+
 </div>
 
 <ng-template #loadingComments>
   <span>Loading comments . . .</span>
+</ng-template>
+
+<ng-template #loadingSimilars>
+  <span>Finding similar posts . . .</span>
 </ng-template>
 
 <ng-template #commentTemplate

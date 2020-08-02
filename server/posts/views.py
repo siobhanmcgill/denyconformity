@@ -120,6 +120,29 @@ class PostViewSet(viewsets.ModelViewSet):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=True, methods=['get'])
+    def similar(self, request, slug=None):
+        # try:
+        posts = Post.objects.raw('''
+                SELECT posts.* FROM
+                (
+                  SELECT posttags.post_id, COUNT(posttags.tag_id) AS count
+                  FROM posts_post_tags AS posttags
+                  WHERE tag_id IN (
+                    SELECT posttags.tag_id FROM posts_post_tags AS posttags
+                    LEFT JOIN posts_post AS posts ON posttags.post_id=posts.id
+                    WHERE posts.slug = '{0}'
+                  )
+                  GROUP BY posttags.post_id
+                  ORDER BY count DESC
+                  LIMIT 6
+                ) AS similars
+                LEFT JOIN posts_post AS posts
+                ON similars.post_id = posts.id
+                WHERE posts.slug <> '{0}'
+            ''' .format(slug))
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
 
 
 class SeriesViewSet(viewsets.ModelViewSet):

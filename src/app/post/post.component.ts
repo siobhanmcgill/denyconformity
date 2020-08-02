@@ -26,14 +26,17 @@ export class PostComponent implements OnInit, OnDestroy {
   @ViewChild('commentText') commentText: ElementRef<HTMLTextAreaElement>;
 
   @Input() post: Post;
+  @Input() index: number;
 
   @Output() read = new EventEmitter<Post>();
 
   selected = false;
   anotherPostSelected = false;
+  thisPostIsSimilar = false;
   showComments = false;
 
   comments$: Observable<Comment[]>;
+  similarPosts$: Observable<Post[]>;
 
   createdComment?: Comment;
 
@@ -67,7 +70,7 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.postSelectionSubscription =
       this.postService.postSelection$.subscribe(post => {
-        console.log(this.post);
+        console.log('selected post', post);
         if (post && post.id === this.post.id) {
           this.selected = true;
           this.anotherPostSelected = false;
@@ -78,6 +81,7 @@ export class PostComponent implements OnInit, OnDestroy {
           this.anotherPostSelected = false;
           this.selected = false;
         }
+        this.thisPostIsSimilar = this.postService.isThisPostSimilar(this.post);
         this.showComments = false;
         this.changeDetectorRef.detectChanges();
       });
@@ -153,5 +157,22 @@ export class PostComponent implements OnInit, OnDestroy {
     // A wild comments appeared!
     this.showComments = true;
     this.comments$ = this.postService.getComments(this.post);
+  }
+
+  loadSimilarPosts() {
+    // this.similarPosts$ = this.postService.getSimilars(this.post);
+    this.postService.loadSimilarPosts(this.post);
+  }
+
+  openSimilar(event: Event, post: Post) {
+    // Deselect the current post.
+    this.postService.selectPost();
+    // Show the new post, to make sure it renders.
+    this.postService.broadcastPosts([post]);
+    setTimeout(() => {
+      // Open the new post.
+      this.postService.selectPost(post);
+    }, 1000);
+    event.stopPropagation();
   }
 }

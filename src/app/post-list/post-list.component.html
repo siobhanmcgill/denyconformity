@@ -24,8 +24,9 @@
        *ngIf="posts$ | async as posts">
     <ng-container *ngIf="posts; else loading">
 
-      <app-post *ngFor="let post of posts; trackBy: postTrackBy"
+      <app-post *ngFor="let post of posts; index as i; trackBy: postTrackBy"
                 [post]="post"
+                [index]="i"
                 (read)="openPostToRead($event)"></app-post>
 
       <span *ngIf="!isLoading"

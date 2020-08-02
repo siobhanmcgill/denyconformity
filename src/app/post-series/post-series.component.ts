@@ -13,7 +13,7 @@ const MOBILE_WIDTH = 500;
   templateUrl: './post-series.component.html',
   styleUrls: ['./post-series.component.scss'],
   animations: [createToggle(
-      'series', {'margin-top': '-100px'}, {'margin-top': '*'}, 300)],
+    'series', {'margin-top': '-100px'}, {'margin-top': '*'}, 300)],
 })
 export class PostSeriesComponent {
   @Input() extended = false;
@@ -71,9 +71,9 @@ export class PostSeriesComponent {
   }
 
   constructor(
-      private readonly postService: PostService,
-      private readonly changeDetectorRef: ChangeDetectorRef,
-      private readonly location: Location,
+    private readonly postService: PostService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly location: Location,
   ) {
     this.postService.postSelection$.subscribe(post => {
       this.post = post;
@@ -84,7 +84,7 @@ export class PostSeriesComponent {
 
       if (this.series) {
         if (window.innerWidth > MOBILE_WIDTH || this.extended ||
-            this.series.posts.length < 7) {
+          this.series.posts.length < 7) {
           this.partList = this.series.posts.map((p, i) => {
             const index = i + 1;
             return {
@@ -99,6 +99,8 @@ export class PostSeriesComponent {
       }
 
       this.changeDetectorRef.detectChanges();
+    }, error => {
+      // Do nothing on errors - chances are there just isn't a series for this post.
     });
   }
 
@@ -108,7 +110,7 @@ export class PostSeriesComponent {
       const gotoPost = post;
       // Show just the posts for this series.
       this.postService.broadcastPosts(
-          series.posts.map(seriesPost => seriesPost.post));
+        series.posts.map(seriesPost => seriesPost.post));
       // Deselect the post.
       this.postService.selectPost();
 

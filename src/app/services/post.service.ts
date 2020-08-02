@@ -17,6 +17,8 @@ export class PostService {
 
   loadedPosts = new Map<number, Post>();
 
+  similarPostIds = new Set<number>();
+
   private selectedPostId?: number;
 
   private postSubject = new Subject<Post[] | null>();
@@ -128,6 +130,7 @@ export class PostService {
   selectPost(post?: Post) {
     if ((!post && this.selectedPostId) ||
       (post && (post.id !== this.selectedPostId))) {
+      this.similarPostIds.clear();
       this.selectedPostId = post ? post.id : undefined;
       this.postSelectionSubject.next(post);
       this.getSeries(post);
@@ -173,5 +176,39 @@ export class PostService {
   createComment(comment: CreateComment): Observable<Comment> {
     return this.http.post<Comment>(
       `${this.POST_URL}/${comment.post}/comment/`, comment);
+  }
+
+  getSimilars(post: Post): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.POST_URL}/${post.slug}/similar/`)
+      .pipe(tap(posts => {
+        posts.forEach(p => {
+          if (!this.loadedPosts.has(p.id)) {
+            this.loadedPosts.set(p.id, p);
+          }
+        });
+      }));
+  }
+
+  loadSimilarPosts(post: Post) {
+    console.log('loading similar posts', this.similarPostIds);
+    this.http.get<Post[]>(`${this.POST_URL}/${post.slug}/similar/`).subscribe(posts => {
+      posts.forEach(p => {
+        if (!this.loadedPosts.has(p.id)) {
+          this.loadedPosts.set(p.id, p);
+        }
+        this.similarPostIds.add(p.id);
+      });
+      // Make sure the selected post is shown first.
+      posts.unshift(post);
+      this.broadcastPosts(posts);
+      console.log('similar posts loaded', this.similarPostIds);
+    });
+  }
+
+  isThisPostSimilar(post: Post): boolean {
+    if (!post) {
+      return false;
+    }
+    return this.similarPostIds.has(post.id);
   }
 }
