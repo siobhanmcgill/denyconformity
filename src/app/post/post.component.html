@@ -7,17 +7,17 @@
      *ngIf="!anotherPostSelected || thisPostIsSimilar"
      [@wrapper]>
   <div class="post-title"
-       [class.has-image]="post.image">
+       [class.has-image]="post?.image">
     <h2 class="corner-box"
-        [innerHTML]="post.title"></h2>
+        [innerHTML]="post?.title"></h2>
     <h3 class="date">
       <div class="hr"></div>
-      {{post.time | date}}
+      {{post?.time | date}}
     </h3>
 
     <div class="image-wrapper"
-         *ngIf="post.image">
-      <img [src]="post.image"
+         *ngIf="post?.image">
+      <img [src]="post?.image"
            class="post-image" />
     </div>
   </div>

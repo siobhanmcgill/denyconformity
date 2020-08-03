@@ -11,13 +11,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
     "deploy:frontend": "gcloud app deploy app.yaml",
     "deploy:backend": "gcloud app deploy ./server/app.yaml",
     "deploy": "gcloud app deploy app.yaml ./server/app.yaml",
-
     "heroku-postbuild": "ng build --prod --deploy-url 'dist/'",
-
     "cloud_sql_proxy": "../../cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306",
     "cloud_sql_proxy:prod": "../../cloud_sql_proxy -instances=denyconformity:us-central1:denyconformity=tcp:3306"
   },
@@ -44,13 +41,13 @@
     "typescript": "~3.8.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.1",
+    "@angular-devkit/build-angular": "^0.901.9",
     "@angular/cli": "~9.1.1",
     "@angular/compiler-cli": "~9.1.1",
     "@angular/language-service": "~9.1.1",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",

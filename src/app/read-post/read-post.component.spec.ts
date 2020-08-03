@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {Component} from '@angular/core';
+import {POST_DATA} from '../test/posts.data.spec';
+import {beforeEach, ComponentTestingModule, describe, it} from '../test/test.module.spec';
+import {ReadPostComponent} from './read-post.component';
 
-import { ReadPostComponent } from './read-post.component';
+const POST = POST_DATA.results[0];
+
+@Component({
+  selector: 'host-component',
+  template: '<app-read-post [post]="post"></app-read-post>',
+})
+class PostHostComponent {
+  post = POST;
+}
 
 describe('ReadPostComponent', () => {
-  let component: ReadPostComponent;
-  let fixture: ComponentFixture<ReadPostComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReadPostComponent ]
-    })
-    .compileComponents();
-  }));
+  const module = new ComponentTestingModule(PostHostComponent, {
+    declarations: [ReadPostComponent, PostHostComponent]
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReadPostComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    module.setup();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(module.componentInstance).toBeTruthy();
   });
 });

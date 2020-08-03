@@ -70,7 +70,6 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.postSelectionSubscription =
       this.postService.postSelection$.subscribe(post => {
-        console.log('selected post', post);
         if (post && post.id === this.post.id) {
           this.selected = true;
           this.anotherPostSelected = false;
@@ -100,7 +99,10 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  renderSummary(post: Post): string {
+  renderSummary(post?: Post): string {
+    if (!post) {
+      return '';
+    }
     if (post.markdown) {
       return this.renderMarkdown(post.summary);
     } else {
@@ -108,7 +110,10 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  renderText(post: Post): string {
+  renderText(post?: Post): string {
+    if (!post) {
+      return '';
+    }
     if (post.markdown) {
       return this.renderMarkdown(post.text);
     } else {

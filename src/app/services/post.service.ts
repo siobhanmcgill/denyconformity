@@ -190,7 +190,6 @@ export class PostService {
   }
 
   loadSimilarPosts(post: Post) {
-    console.log('loading similar posts', this.similarPostIds);
     this.http.get<Post[]>(`${this.POST_URL}/${post.slug}/similar/`).subscribe(posts => {
       posts.forEach(p => {
         if (!this.loadedPosts.has(p.id)) {
@@ -201,7 +200,6 @@ export class PostService {
       // Make sure the selected post is shown first.
       posts.unshift(post);
       this.broadcastPosts(posts);
-      console.log('similar posts loaded', this.similarPostIds);
     });
   }
 

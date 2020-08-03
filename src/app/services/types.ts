@@ -16,6 +16,8 @@ export interface Post {
   markdown: boolean;
   slug: string;
   image: string;
+  survey_description: string;
+  survey_expires: string;
 }
 
 export interface Comment {
