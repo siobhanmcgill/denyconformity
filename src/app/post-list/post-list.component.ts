@@ -1,16 +1,23 @@
 import {Location} from '@angular/common';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
-import {skip, tap} from 'rxjs/operators';
-import {PostService} from '../services/post.service';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {PostListItem, PostListStateService} from '../services/post-list-state.service';
 import {Post} from '../services/types';
 import {createToggle} from '../shared/anim';
 import {POST_PREFIX} from '../shared/const';
-import {scrollToTop} from '../shared/ui.util';
+
+/**
+ *  We can make a custom right click menu for posts, to copy url, open
+ * in a new tab, etc. Also it should be possible to manually create a method of
+ * "ctrl + click" to open a post in a new tab.
+ *
+ * -Shauvon
+ */
 
 
-
+/** Shows a list of posts, as determined by the PostListState service. */
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -24,81 +31,68 @@ import {scrollToTop} from '../shared/ui.util';
     createToggle(
         'postTitle', {'transform': 'translateY(-100%)', 'height': '0'},
         {'transform': 'translateY(0)', 'height': '*'}, 500),
-    createToggle('post', {'height': '0'}, {'height': '*'}, 500),
+    createToggle(
+        'post',
+        {'overflow': 'hidden', 'height': '0', 'margin': '0', 'opacity': '0'},
+        {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
   ]
 })
-export class PostListComponent implements OnDestroy {
-  posts$: Observable<Array<Post>>;
+export class PostListComponent {
+  posts$: Observable<Array<PostListItem>>;
 
-  selectedPost?: Post;
   postToRead?: Post;
 
-  isLoading = false;
+  isLoading = true;
 
-  private postsSetup = false;
-  private postSubscription: Subscription;
+  get isPostSelected(): boolean {
+    return !!this.service.selectedPostId;
+  }
 
   constructor(
-      private readonly postService: PostService,
+      private readonly service: PostListStateService,
       private readonly location: Location,
       private readonly route: ActivatedRoute,
-      private readonly changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.posts$ = this.postService.posts$.pipe(tap(() => {
-      this.isLoading = false;
-    }));
-
     this.route.params.subscribe(params => {
-      if (params && params.id) {
-        // If the ID is not a number, it's a slug.
-        const isSlug = isNaN(Number(params.id));
-        if (isSlug) {
-          this.postService.getPost(params.id);
-        } else {
-          this.postService.getPostById(params.id);
-        }
-      } else {
-        this.setupPostsObservable();
+      let slug = null;
+      let seriesSlug = null;
+      if (params && (params.slug || params.post)) {
+        slug = params.slug || params.post;
+      } else if (params && params.seriesSlug) {
+        seriesSlug = params.seriesSlug;
       }
+      this.posts$ = this.service.init(slug, seriesSlug).pipe(tap((listData) => {
+        console.log('list data', listData);
+        this.isLoading = false;
+      }));
     });
-
-    this.postSubscription =
-        this.postService.postSelection$.pipe(skip(1)).subscribe(post => {
-          this.selectedPost = post;
-          // Load the list of posts.
-          if (!post && this.location.isCurrentPathEqualTo(POST_PREFIX)) {
-            setTimeout(() => {
-              this.setupPostsObservable();
-            }, 500);
-          } else if (post) {
-            // A post has been loaded, so scroll to the top.
-            scrollToTop();
-
-            if (this.location.isCurrentPathEqualTo(
-                    POST_PREFIX + '/' + post.id)) {
-              this.location.go(POST_PREFIX + '/' + post.slug);
-            }
-          }
-          this.changeDetectorRef.detectChanges();
-        });
-  }
-
-  ngOnDestroy() {
-    this.postSubscription.unsubscribe();
-  }
-
-  setupPostsObservable() {
-    if (this.postsSetup) {
-      return;
-    }
-    this.postService.fetchPage();
-    this.postsSetup = true;
   }
 
   fetchNextPage() {
-    if (this.postsSetup) {
-      this.postService.fetchPage();
-      this.isLoading = true;
+    this.isLoading = true;
+    this.service.nextPage();
+  }
+
+  selectPost(event: MouseEvent, post: Post) {
+    if (this.service.selectedPostId !== post.id) {
+      this.location.go(`${POST_PREFIX}/${post.slug}`);
+    }
+  }
+
+  postMouseDown(event: MouseEvent, post: Post) {
+    // Prevent middle clicks on posts from doing the little scroll thingie.
+    if (event.which === 2 && post.id !== this.service.selectedPostId) {
+      event.stopPropagation();
+      return false;
+    }
+  }
+
+  postMouseUp(event: MouseEvent, post: Post) {
+    // On middle click, open the post in a new tab.
+    if (event.which === 2 && post.id !== this.service.selectedPostId) {
+      event.stopPropagation();
+      window.open(`${POST_PREFIX}/${post.slug}`)
+      return false;
     }
   }
 
@@ -106,8 +100,16 @@ export class PostListComponent implements OnDestroy {
     this.location.go(POST_PREFIX);
   }
 
-  postTrackBy(index: number, item: Post): number {
-    return item.id;
+  listItemTrackBy(index: number, item: PostListItem): string {
+    if (item.post) {
+      return 'post' + item.post.id;
+    } else if (item.series) {
+      return 'series' + item.series.id;
+    } else if (item.type === 'loadmore') {
+      return 'load-page-' + item.page;
+    } else {
+      return item.type;
+    }
   }
 
   openPostToRead(post: Post) {

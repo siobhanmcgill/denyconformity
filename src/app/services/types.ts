@@ -36,9 +36,11 @@ export interface CreateComment {
 export interface Series {
   id: number;
   name: string;
-  style: string;
   description: string;
   posts: Array<SeriesPost>;
+  time: string;
+  slug: string;
+  icon: string;
 }
 
 export interface SeriesPost {

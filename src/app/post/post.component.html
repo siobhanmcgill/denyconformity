@@ -1,11 +1,9 @@
-<div class="similar-heading" *ngIf="thisPostIsSimilar && index === 1">
+<!-- <div class="similar-heading" *ngIf="thisPostIsSimilar && index === 1">
   <h3>Some other content that may or may not be relevant:</h3>
-</div>
+</div> -->
 
 <div class="wrapper"
-     [class.selected]="selected"
-     *ngIf="!anotherPostSelected || thisPostIsSimilar"
-     [@wrapper]>
+     [class.selected]="selected">
   <div class="post-title"
        [class.has-image]="post?.image">
     <h2 class="corner-box"
@@ -16,6 +14,7 @@
     </h3>
 
     <div class="image-wrapper"
+         [@wrapper]
          *ngIf="post?.image">
       <img [src]="post?.image"
            class="post-image" />
@@ -26,7 +25,7 @@
        *ngIf="selected"
        [@wrapper]>
     <span class="btn corner-box"
-          (click)="close($event)">Home</span>
+          (click)="goHome($event)">Home</span>
     <span class="btn corner-box"
           (click)="readPost($event)">Read</span>
   </div>
@@ -43,24 +42,18 @@
     <div class="first-letter"
          [unsafeInnerHTML]="renderText(post)">
     </div>
-    <h3 [scrollTracker]
+    <h3 class="end-of-line"
+        [scrollTracker]
         (appear)="commentsAppear()">end of line.</h3>
   </div>
 
-  <app-post-series extended="true"></app-post-series>
+  <app-post-series *ngIf="selected"
+                   extended="true"></app-post-series>
 
   <ng-container *ngIf="showComments">
     <div class="comments"
          *ngIf="comments$ | async as comments; else loadingComments"
          [@wrapper]>
-      <div class="summary"
-           *ngIf="!selected"
-           [@wrapper]>
-        <i class="far fa-comment"></i>
-        <span [class.lots]="comments.length > 9">
-          {{comments.length > 9 ? '...' : comments.length}}
-        </span>
-      </div>
 
       <div class="list"
            *ngIf="selected"
@@ -119,12 +112,12 @@
 </div>
 
 <ng-template #loadingComments>
-  <span>Loading comments . . .</span>
+  <span class="loading-comments">Loading comments . . .</span>
 </ng-template>
 
-<ng-template #loadingSimilars>
+<!-- <ng-template #loadingSimilars>
   <span>Finding similar posts . . .</span>
-</ng-template>
+</ng-template> -->
 
 <ng-template #commentTemplate
              let-comment="comment">

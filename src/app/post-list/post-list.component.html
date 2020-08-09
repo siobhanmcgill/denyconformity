@@ -1,6 +1,6 @@
 <div class="post-page-title"
      [@postTitle]
-     *ngIf="selectedPost">
+     *ngIf="isPostSelected">
   <h1 (click)="home()">DenyConformity.com</h1>
 </div>
 
@@ -11,7 +11,7 @@
 <div class="content">
   <div class="title"
        [@title]
-       *ngIf="!selectedPost">
+       *ngIf="!isPostSelected">
     <h1>DenyConformity.com</h1>
     <div class="subtitle">
       <div class="hr"></div>
@@ -21,24 +21,52 @@
   </div>
 
   <div class="post-list"
-       *ngIf="posts$ | async as posts">
-    <ng-container *ngIf="posts; else loading">
+       *ngIf="posts$ | async as listItems; else loading">
+    <ng-container *ngFor="let listItem of listItems; index as i; trackBy: listItemTrackBy">
 
-      <app-post *ngFor="let post of posts; index as i; trackBy: postTrackBy"
-                [post]="post"
-                [index]="i"
+      <div *ngIf="listItem.series"
+           [@title]
+           class="series-summary">
+        <h2>{{listItem.series.name}}</h2>
+        <p>{{listItem.series.description}}</p>
+        <span class="entry-count">
+          <h3>{{listItem.series.posts.length}} posts</h3>
+        </span>
+      </div>
+
+      <app-post *ngIf="listItem.post"
+                [post]="listItem.post"
+                [@post]
+                (click)="selectPost($event, listItem.post)"
+                (mousedown)="postMouseDown($event, listItem.post)"
+                (mouseup)="postMouseUp($event, listItem.post)"
                 (read)="openPostToRead($event)"></app-post>
 
-      <span *ngIf="!isLoading"
+      <span class="scroll-tracker loading"
+            *ngIf="listItem.type === 'loadmore'"
             [scrollTracker]
-            (appear)="fetchNextPage()"></span>
+            (appear)="fetchNextPage()">
+        Loading more . . .
+      </span>
+
+      <span class="loading"
+            *ngIf="listItem.type === 'similars_loading'">
+        Loading similar posts . . .
+      </span>
+
+      <div class="similar-heading"
+           *ngIf="listItem.type === 'similar_heading'">
+        <h3>Some other content that may or may not be relevant:</h3>
+      </div>
 
     </ng-container>
   </div>
 </div>
 
 <ng-template #loading>
-  Loading . . .
+  <div class="loading">
+    Loading . . .
+  </div>
 </ng-template>
 
 <app-read-post *ngIf="postToRead"

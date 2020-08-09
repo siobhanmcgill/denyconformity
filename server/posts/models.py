@@ -50,7 +50,10 @@ class PostSlugField(models.SlugField):
     def pre_save(self, model_instance, add):
         slug = getattr(model_instance, self.attname)
         if not slug or slug == 'auto':
-            title = getattr(model_instance, 'title')
+            if hasattr(model_instance, 'title'):
+              title = getattr(model_instance, 'title')
+            else:
+              title = getattr(model_instance, 'name')
             slug = title.replace(' ', '-').lower()
             slug_re = re.compile(r"(&[a-z0-9]+;)|(#[a-z0-9]+;)|[^a-z0-9\-]")
             slug = slug_re.sub("", slug)
@@ -78,11 +81,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-time', )
-
-
-@receiver(models.signals.pre_save, sender=Post)
-def setup_post(sender, instance, *args, **kwargs):
-    print('save??', instance)
 
 
 class CommentManager(models.Manager):
@@ -121,8 +119,10 @@ class Tag(models.Model):
 
 class Series(models.Model):
     name = models.CharField(max_length=200)
+    slug = PostSlugField(unique=True, default='auto')
     icon = models.TextField(blank=True)
     description = models.TextField(blank=True)
+    time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -130,6 +130,7 @@ class Series(models.Model):
     class Meta:
         verbose_name = 'Series'
         verbose_name_plural = 'Serieseses'
+        ordering = ('-time', )
 
 
 class SeriesPost(models.Model):

@@ -56,7 +56,7 @@ class SeriesPostInline(admin.TabularInline):
 
 class SeriesAdmin(admin.ModelAdmin):
   fieldsets = [
-    (None, {'fields': ['name', 'description', 'icon']})
+    (None, {'fields': ['name', 'description', 'icon', 'slug', 'time']})
   ]
   inlines = [SeriesPostInline]
 
