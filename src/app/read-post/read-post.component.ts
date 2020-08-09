@@ -24,13 +24,13 @@ export class ReadPostComponent {
   @Output('close') closeEvent = new EventEmitter();
 
   constructor(
-      private readonly postService: PostService,
-      private readonly changeDetectorRef: ChangeDetectorRef,
-      private readonly markdownService: MarkdownServiceService,
+    private readonly postService: PostService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly markdownService: MarkdownServiceService,
   ) {}
 
   get viewableArea(): HTMLDivElement {
-    return this.layoutPage.nativeElement.querySelector('.viewable-area');
+    return this.layoutPage.nativeElement.querySelector('.viewable-area') || document.createElement('div');
   }
 
   get viewableHeight(): number {
@@ -52,7 +52,7 @@ export class ReadPostComponent {
 
     this.pageContent.push(this.viewableArea.cloneNode(true) as HTMLElement);
 
-    console.log('pages', this.pageContent);
+    console.log('pages', this.pageContent, this.viewableArea);
 
     this.selectedPageIndex = 0;
 
@@ -95,16 +95,16 @@ export class ReadPostComponent {
         return;
       }
       console.log(
-          'child', child.nodeType, 'target',
-          this.currentIterationTarget.tagName,
-          this.currentIterationTarget.className);
+        'child', child.nodeType, 'target',
+        this.currentIterationTarget.tagName,
+        this.currentIterationTarget.className);
       if (child.nodeType === Node.TEXT_NODE) {
         const words = child.textContent.split(' ');
         const wordsToUse = [];
         console.log(
-            'injecting', words.length, 'words to',
-            this.currentIterationTarget.tagName,
-            this.currentIterationTarget.className);
+          'injecting', words.length, 'words to',
+          this.currentIterationTarget.tagName,
+          this.currentIterationTarget.className);
         while (!this.isCurrentTargetOut() && words.length) {
           wordsToUse.push(words.shift());
           this.currentIterationTarget.innerHTML = wordsToUse.join(' ');
@@ -117,46 +117,46 @@ export class ReadPostComponent {
         if (words.length) {
           // The text overflows the page.
           let nextParent =
-              this.currentIterationTarget.cloneNode(false) as HTMLElement;
+            this.currentIterationTarget.cloneNode(false) as HTMLElement;
           nextParent.innerHTML = words.join(' ');
 
           console.log(
-              'did not fit to', this.currentIterationTarget.outerHTML,
-              'clone:', nextParent,
-              'parent:', this.currentIterationTarget.parentElement.className);
+            'did not fit to', this.currentIterationTarget.outerHTML,
+            'clone:', nextParent,
+            'parent:', this.currentIterationTarget.parentElement.className);
 
           if (!wordsToUse.length) {
             console.log('at all');
             // const toRemove = this.currentIterationTarget;
             this.currentIterationTarget =
-                this.currentIterationTarget.parentElement;
+              this.currentIterationTarget.parentElement;
             // toRemove.remove();
           } else {
             console.log('words:', wordsToUse.length, words.length);
             this.currentIterationTarget =
-                this.currentIterationTarget.parentElement;
+              this.currentIterationTarget.parentElement;
           }
 
           let count = 0;
 
           console.log(
-              'new target', this.currentIterationTarget.tagName,
-              this.currentIterationTarget.className);
+            'new target', this.currentIterationTarget.tagName,
+            this.currentIterationTarget.className);
 
           while (!nextParent.classList.contains('book-layout-top') &&
-                 !nextParent.classList.contains('viewable-area') &&
-                 count < 20) {
+            !nextParent.classList.contains('viewable-area') &&
+            count < 20) {
             const newNextParent =
-                this.currentIterationTarget.cloneNode(false) as HTMLElement;
+              this.currentIterationTarget.cloneNode(false) as HTMLElement;
             newNextParent.appendChild(nextParent);
             nextParent = newNextParent;
             count++;
             this.currentIterationTarget =
-                this.currentIterationTarget.parentElement;
+              this.currentIterationTarget.parentElement;
           }
 
           this.pageContent.push(
-              this.viewableArea.cloneNode(true) as HTMLElement);
+            this.viewableArea.cloneNode(true) as HTMLElement);
 
           this.viewableArea.innerHTML = '';
           this.currentIterationTarget = document.createElement('div');
@@ -164,26 +164,26 @@ export class ReadPostComponent {
           this.viewableArea.appendChild(this.currentIterationTarget);
 
           console.log(
-              'looping through', nextParent,
-              'target:', this.currentIterationTarget.tagName,
-              this.currentIterationTarget.className);
+            'looping through', nextParent,
+            'target:', this.currentIterationTarget.tagName,
+            this.currentIterationTarget.className);
           if (nextParent) {
             this.loopThroughChildNodes(nextParent);
           }
         } else {
           console.log('did fit!', this.currentIterationTarget.tagName);
           this.currentIterationTarget =
-              this.currentIterationTarget.parentElement;
+            this.currentIterationTarget.parentElement;
         }
       } else {
         const newChild = child.cloneNode(true) as HTMLElement;
         this.currentIterationTarget.append(newChild);
 
         console.log(
-            'child is tag', newChild.tagName, newChild.className, 'is out?',
-            this.isCurrentTargetOut(), 'target',
-            this.currentIterationTarget.tagName,
-            this.currentIterationTarget.className);
+          'child is tag', newChild.tagName, newChild.className, 'is out?',
+          this.isCurrentTargetOut(), 'target',
+          this.currentIterationTarget.tagName,
+          this.currentIterationTarget.className);
 
         if (this.isCurrentTargetOut()) {
           if (newChild.hasChildNodes) {
@@ -196,7 +196,7 @@ export class ReadPostComponent {
           } else {
             newChild.remove();
             this.pageContent.push(
-                this.viewableArea.cloneNode(true) as HTMLElement);
+              this.viewableArea.cloneNode(true) as HTMLElement);
             this.viewableArea.innerHTML = '';
             this.currentIterationTarget = this.viewableArea;
             this.viewableArea.appendChild(newChild);

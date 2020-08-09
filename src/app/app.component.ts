@@ -3,7 +3,6 @@ import {ChangeDetectionStrategy, Component, ElementRef, ViewChild} from '@angula
 import {fromEvent} from 'rxjs';
 import {map, throttleTime} from 'rxjs/operators';
 import {PostService} from './services/post.service';
-import {POST_PREFIX} from './shared/const';
 
 
 const SCROLL_POS_WHEN_BG_GONE = 500;
@@ -20,6 +19,8 @@ export class AppComponent {
   @ViewChild('bgImage') bgImage: ElementRef<HTMLImageElement>;
   @ViewChild('logo') logoImage: ElementRef<HTMLImageElement>;
 
+  year = (new Date()).getFullYear();
+
   constructor(
       private readonly postService: PostService,
       private readonly location: Location,
@@ -29,24 +30,21 @@ export class AppComponent {
                 return window.scrollY;
               }))
         .subscribe(pos => {
-          const ratio = pos / SCROLL_POS_WHEN_BG_GONE;
-          const bgPos = -(BG_PARALLAX_POS * ratio);
-          const opacity = BG_STARTING_OPACITY - (BG_STARTING_OPACITY * ratio);
+          // This timeout should make scrolling a bit smoother.
+          setTimeout(() => {
+            const ratio = pos / SCROLL_POS_WHEN_BG_GONE;
+            const bgPos = -(BG_PARALLAX_POS * ratio);
+            const opacity = BG_STARTING_OPACITY - (BG_STARTING_OPACITY * ratio);
 
-          if (this.bgImage) {
-            this.bgImage.nativeElement.style.top = bgPos + 'px';
-            this.bgImage.nativeElement.style.opacity = String(opacity);
-          }
+            if (this.bgImage) {
+              this.bgImage.nativeElement.style.top = bgPos + 'px';
+              this.bgImage.nativeElement.style.opacity = String(opacity);
+            }
 
-          if (this.logoImage) {
-            this.logoImage.nativeElement.style.top = bgPos + 'px';
-          }
+            if (this.logoImage) {
+              this.logoImage.nativeElement.style.top = bgPos + 'px';
+            }
+          });
         });
-
-    this.location.onUrlChange((url, state) => {
-      if (url === POST_PREFIX) {
-        this.postService.selectPost();
-      }
-    });
   }
 }

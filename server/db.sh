@@ -24,5 +24,6 @@ rm ~/dc.sql
 mysqldump --column-statistics=0 -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020 > ~/dc.sql
 mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging < ~/dc.sql
 
-python manage.py changepassword shauvon
-# Enter something simple here.
+# Update staging admin password to Beebaw123.
+mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging \
+ -e 'UPDATE auth_user SET password="pbkdf2_sha256$180000$SgbgdQfGdzDv$g7sZa7b7m7R3oX2Pvz7dFT9FM7Giw20HttVh3x0o5mQ=" WHERE username="shauvon";'

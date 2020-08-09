@@ -1,7 +1,8 @@
 import {Location} from '@angular/common';
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
+import {PostListStateService} from '../services/post-list-state.service';
 import {PostService} from '../services/post.service';
 import {Comment, CreateComment, Post} from '../services/types';
 import {createToggle} from '../shared/anim';
@@ -15,25 +16,25 @@ import {MarkdownServiceService} from '../shared/markdown-service.service';
   styleUrls: ['./post.component.scss'],
   animations: [
     createToggle(
-      'summary', {'height': '0', 'opacity': '0'},
-      {'height': '*', 'opacity': '1'}, 300),
+        'summary', {'height': '0', 'opacity': '0'},
+        {'height': '*', 'opacity': '1'}, 300),
     createToggle(
-      'wrapper', {'height': '0', 'margin': '0', 'opacity': '0'},
-      {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
+        'wrapper', {'height': '0', 'margin': '0', 'opacity': '0'},
+        {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
   ]
 })
-export class PostComponent implements OnInit, OnDestroy {
+export class PostComponent {
   @ViewChild('commentText') commentText: ElementRef<HTMLTextAreaElement>;
 
   @Input() post: Post;
+  @Input() index: number;
 
   @Output() read = new EventEmitter<Post>();
 
-  selected = false;
-  anotherPostSelected = false;
   showComments = false;
 
   comments$: Observable<Comment[]>;
+  similarPosts$: Observable<Post[]>;
 
   createdComment?: Comment;
 
@@ -46,57 +47,32 @@ export class PostComponent implements OnInit, OnDestroy {
     return this.postService.postClassName(this.post);
   }
 
+  get selected(): boolean {
+    return this.postListService.selectedPostId === this.post.id;
+  }
+
   commentFormGroup = new FormGroup({
     'name': new FormControl('', Validators.required),
     'text': new FormControl('', Validators.required)
   });
 
   constructor(
-    private readonly postService: PostService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly location: Location,
-    private readonly markdownService: MarkdownServiceService,
+      private readonly postService: PostService,
+      private readonly postListService: PostListStateService,
+      private readonly location: Location,
+      private readonly markdownService: MarkdownServiceService,
   ) {
     this.commentFormGroup.controls.text.valueChanges.subscribe(text => {
       this.commentText.nativeElement.style.height = 'auto';
       this.commentText.nativeElement.style.height =
-        this.commentText.nativeElement.scrollHeight + 'px';
+          this.commentText.nativeElement.scrollHeight + 'px';
     });
   }
 
-  ngOnInit(): void {
-    this.postSelectionSubscription =
-      this.postService.postSelection$.subscribe(post => {
-        console.log(this.post);
-        if (post && post.id === this.post.id) {
-          this.selected = true;
-          this.anotherPostSelected = false;
-        } else if (post) {
-          this.selected = false;
-          this.anotherPostSelected = true;
-        } else {
-          this.anotherPostSelected = false;
-          this.selected = false;
-        }
-        this.showComments = false;
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.postSelectionSubscription.unsubscribe();
-  }
-
-  @HostListener('click')
-  onClick() {
-    if (!this.selected) {
-      this.location.go(POST_PREFIX + '/' + this.post.slug);
-      this.postService.selectPost(this.post);
-      this.goBack = true;
+  renderSummary(post?: Post): string {
+    if (!post) {
+      return '';
     }
-  }
-
-  renderSummary(post: Post): string {
     if (post.markdown) {
       return this.renderMarkdown(post.summary);
     } else {
@@ -104,7 +80,10 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  renderText(post: Post): string {
+  renderText(post?: Post): string {
+    if (!post) {
+      return '';
+    }
     if (post.markdown) {
       return this.renderMarkdown(post.text);
     } else {
@@ -112,13 +91,9 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  close(e: MouseEvent) {
+  goHome(e: MouseEvent) {
     e.stopPropagation();
-    if (this.goBack) {
-      this.location.back();
-    } else {
-      this.location.go(POST_PREFIX);
-    }
+    this.location.go(POST_PREFIX);
   }
 
   readPost(e: MouseEvent) {
@@ -152,6 +127,10 @@ export class PostComponent implements OnInit, OnDestroy {
   commentsAppear() {
     // A wild comments appeared!
     this.showComments = true;
-    this.comments$ = this.postService.getComments(this.post);
+    this.comments$ = this.postService.fetchComments(this.post);
+  }
+
+  loadSimilarPosts() {
+    this.postListService.loadSimilarPosts(this.post);
   }
 }

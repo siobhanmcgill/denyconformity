@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {ScrollTrackerDirective} from './scroll-tracker.directive';
+
+import {SCROLL_CONTAINER_SELECTOR, ScrollTrackerDirective} from './scroll-tracker.directive';
 import {UnsafeInnerHTMLDirective} from './unsafe-inner-html.directive';
 
 
@@ -14,6 +15,9 @@ import {UnsafeInnerHTMLDirective} from './unsafe-inner-html.directive';
     ScrollTrackerDirective,
     UnsafeInnerHTMLDirective,
   ],
+  providers: [
+    {provide: SCROLL_CONTAINER_SELECTOR, useValue: ''},
+  ]
 })
 export class SharedModule {
 }

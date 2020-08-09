@@ -1,25 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {beforeEach, ComponentTestingModule, describe} from '../test/test.module.spec';
+import {PostSeriesComponent} from './post-series.component';
 
-import { PostSeriesComponent } from './post-series.component';
 
 describe('PostSeriesComponent', () => {
-  let component: PostSeriesComponent;
-  let fixture: ComponentFixture<PostSeriesComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PostSeriesComponent ]
-    })
-    .compileComponents();
-  }));
+  const module = new ComponentTestingModule(PostSeriesComponent);
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PostSeriesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    module.setup();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(module.componentInstance).toBeTruthy();
   });
 });

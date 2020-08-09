@@ -1,14 +1,14 @@
 import {TestBed} from '@angular/core/testing';
 import {setupTestModule} from '../test/test.module.spec';
-import {MarkdownServiceService} from './markdown-service.service';
+import {PostListStateService} from './post-list-state.service';
 
 
-describe('MarkdownServiceService', () => {
-  let service: MarkdownServiceService;
+describe('PostListStateService', () => {
+  let service: PostListStateService;
 
   beforeEach(() => {
     setupTestModule();
-    service = TestBed.inject(MarkdownServiceService);
+    service = TestBed.inject(PostListStateService);
   });
 
   it('should be created', () => {

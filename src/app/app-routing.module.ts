@@ -11,11 +11,11 @@ import {POST_PREFIX} from './shared/const';
  * /about > post 427
  * /about/comments > post 427
  *
- * /post/:id
- * /post/:id/[next|prev]
- * /post/:id/comments
+ * /post/:slug
+ * /post/:slug/[next|prev]
+ * /post/:slug/comments
  *
- * /id/:id > /post/:id
+ * /id/:slug > /post/:slug
  * /cid/:cid > ignore
  *
  * /tags
@@ -24,7 +24,7 @@ import {POST_PREFIX} from './shared/const';
  *
  * /page/:page
  *
- * /post/:id/gallery
+ * /post/:slug/gallery
  *
  *
  * legacy query strings:
@@ -44,13 +44,18 @@ const routes: Routes = [
     component: PostListComponent,
   },
   {
-    path: 'posts/:id',
+    path: 'posts/:slug',
     component: PostListComponent,
   },
   {
     // For functionality including next / prev or comments, and book, or gallery
     // modes.
-    path: 'posts/:id/:command',
+    path: 'posts/:slug/:command',
+    component: PostListComponent,
+  },
+  {
+    // Show a list of the posts for a series.
+    path: 'series/:seriesSlug',
     component: PostListComponent,
   },
   {
@@ -59,24 +64,24 @@ const routes: Routes = [
   },
   {
     // Legacy URLs from the 2012 version of the site.
-    path: 'post/:id',
-    redirectTo: POST_PREFIX + '/:id',
+    path: 'post/:slug',
+    redirectTo: POST_PREFIX + '/:slug',
     pathMatch: 'full',
   },
   {
-    path: 'post/:id/:command',
-    redirectTo: POST_PREFIX + '/:id/:command',
+    path: 'post/:slug/:command',
+    redirectTo: POST_PREFIX + '/:slug/:command',
     pathMatch: 'full',
   },
   {
-    path: 'id/:id',
-    redirectTo: POST_PREFIX + '/:id',
+    path: 'id/:slug',
+    redirectTo: POST_PREFIX + '/:slug',
     pathMatch: 'full',
   },
   {
     // For a hot minute I considered p instead of posts.
-    path: 'p/:id',
-    redirectTo: POST_PREFIX + '/:id',
+    path: 'p/:slug',
+    redirectTo: POST_PREFIX + '/:slug',
     pathMatch: 'full',
   },
   {

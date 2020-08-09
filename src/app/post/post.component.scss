@@ -1,7 +1,12 @@
 @import "../../styles/vars";
 
+.similar-heading {
+  font-size: 1.25rem;
+  margin: 0 0 3rem 0;
+}
+
 .wrapper {
-  margin-bottom: 5rem;
+  // margin-bottom: 5rem;
 }
 
 .hr {
@@ -14,10 +19,12 @@
   margin-bottom: 0.5rem;
   position: relative;
   cursor: pointer;
+  display: flex;
+  align-items: flex-end;
 
   h2 {
     font-size: 2rem;
-    margin-bottom: -0.9rem;
+    margin-bottom: -0.4rem;
     line-height: 3rem;
     transition: all 500ms;
     flex-grow: 1;
@@ -26,6 +33,7 @@
     font-style: italic;
     position: relative;
     z-index: 2;
+    max-width: 85%;
 
     &::before {
       bottom: 3px;
@@ -40,6 +48,8 @@
     bottom: 0;
     right: 0;
     z-index: 2;
+    text-align: right;
+    white-space: nowrap;
   }
 
   .hr {
@@ -54,6 +64,8 @@
   }
 
   &.has-image {
+    height: 5rem;
+
     h2, h3 {
       color: white;
       text-shadow: -2px 2px 2px $color-shadow;
@@ -189,6 +201,10 @@
     text-align: right;
     font-style: italic;
   }
+}
+
+app-post-series {
+  margin-top: 1rem;
 }
 
 .comments {

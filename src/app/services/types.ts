@@ -16,6 +16,8 @@ export interface Post {
   markdown: boolean;
   slug: string;
   image: string;
+  survey_description: string;
+  survey_expires: string;
 }
 
 export interface Comment {
@@ -34,9 +36,11 @@ export interface CreateComment {
 export interface Series {
   id: number;
   name: string;
-  style: string;
   description: string;
   posts: Array<SeriesPost>;
+  time: string;
+  slug: string;
+  icon: string;
 }
 
 export interface SeriesPost {

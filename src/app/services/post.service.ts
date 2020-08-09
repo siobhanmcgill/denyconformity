@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, Subject, timer} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
 import {Comment, CreateComment, Post, PostResponse, Series} from './types';
 
@@ -10,89 +10,77 @@ import {Comment, CreateComment, Post, PostResponse, Series} from './types';
 @Injectable({providedIn: 'root'})
 export class PostService {
   POST_URL = `${environment.server}/api/posts`;
+  SERIES_URL = `${environment.server}/api/series`;
 
   totalPosts = 0;
-  currentPage = '';
-  nextPage?= `${this.POST_URL}/?page=1`;
+  nextPageIndex = 1;
 
-  loadedPosts = new Map<number, Post>();
+  // A map of Post IDs > page number
+  private pageToPosts = new Map<number, number[]>();
+  // A map of Post > post ID
+  private loadedPosts = new Map<number, Post>();
+  // A map of slug > post ID
+  private postSlugs = new Map<string, number>();
 
   private selectedPostId?: number;
 
-  private postSubject = new Subject<Post[] | null>();
-  private postSelectionSubject = new BehaviorSubject<Post | null>(null);
-  private seriesSubject = new BehaviorSubject<Series>(null);
+  // A map of series > series ID.
+  private seriesCache = new Map<number, Series>();
+  // A map of slug > series ID.
+  private seriesSlugs = new Map<string, number>();
+  // A map of series ID > post ID.
+  private seriesToPost = new Map<number, number>();
 
-  get posts$() {
-    return this.postSubject.asObservable();
+  constructor(private readonly http: HttpClient) {
+    this.seriesCache.set(-1, null);
   }
 
-  get postSelection$() {
-    return this.postSelectionSubject.asObservable();
+  private rememberPost(post: Post) {
+    this.loadedPosts.set(post.id, post);
+    this.postSlugs.set(post.slug, post.id);
   }
 
-  get series$() {
-    return this.seriesSubject.asObservable();
-  }
-
-  constructor(private readonly http: HttpClient) {}
-
-  broadcastPosts(posts?: Array<Post>) {
-    if (posts) {
-      this.postSubject.next(posts);
-      return;
+  fetchPage(page = this.nextPageIndex): Observable<Post[]> {
+    if (this.pageToPosts.has(page)) {
+      const posts = [];
+      for (const postId of this.pageToPosts.get(page)) {
+        posts.push(this.loadedPosts.get(postId));
+      }
+      return of(posts);
+    } else if (page) {
+      return this.http.get<PostResponse>(`${this.POST_URL}?page=${page}`)
+          .pipe(map(response => {
+            const postsOnThisPage: number[] = [];
+            response.results.forEach(post => {
+              postsOnThisPage.push(post.id);
+              this.rememberPost(post);
+            });
+            this.pageToPosts.set(page, postsOnThisPage);
+            if (response.next && page === this.nextPageIndex) {
+              this.nextPageIndex++;
+            } else {
+              this.nextPageIndex = 0;
+            }
+            this.totalPosts = response.count;
+            return response.results;
+          }));
+    } else {
+      return of([]);
     }
+  }
 
-    if (this.loadedPosts.size) {
-      posts = [...this.loadedPosts.values()].sort((a, b) => {
-        return b.time.localeCompare(a.time);
-      });
+  fetchPost(slug: string): Observable<Post> {
+    if (this.postSlugs.has(slug)) {
+      return of(this.loadedPosts.get(this.postSlugs.get(slug)));
+    } else {
+      return this.http.get<Post>(`${this.POST_URL}/${slug}`).pipe(tap(post => {
+        this.rememberPost(post);
+      }));
     }
-    this.postSubject.next(posts);
   }
 
-  fetchPage(): Observable<Array<Post>> {
-    if (this.nextPage) {
-      this.broadcastPosts();
-      this.http.get<PostResponse>(this.nextPage).subscribe(response => {
-        this.currentPage = this.nextPage;
-        this.totalPosts = response.count;
-        this.nextPage = response.next || null;
-        response.results.forEach(post => {
-          this.loadedPosts.set(post.id, post);
-        });
-        this.broadcastPosts();
-      });
-    }
-    return this.postSubject.asObservable();
-  }
-
-  getPost(slug: string): Observable<Array<Post>> {
-    this.postSubject.next(null);
-    combineLatest(timer(2000), this.http.get<Post>(`${this.POST_URL}/${slug}/`))
-      .subscribe(([x, post]) => {
-        this.loadedPosts.set(post.id, post);
-        this.broadcastPosts();
-        setTimeout(() => {
-          this.selectPost(post);
-        });
-      });
-    return this.postSubject.asObservable();
-  }
-
-  getPostById(id: number): Observable<Array<Post>> {
-    this.postSubject.next(null);
-    combineLatest(
-      timer(2000), this.http.get<PostResponse>(`${this.POST_URL}?id=${id}`))
-      .subscribe(([x, postResponse]) => {
-        const post = postResponse.results[0];
-        this.loadedPosts.set(post.id, post);
-        this.broadcastPosts();
-        setTimeout(() => {
-          this.selectPost(post);
-        });
-      });
-    return this.postSubject.asObservable();
+  fetchPostById(id: number): Observable<Post> {
+    return of(this.loadedPosts.get(id));
   }
 
   postClassName(post: Post): string {
@@ -121,57 +109,59 @@ export class PostService {
     textArea.innerHTML = string;
     let clean = textArea.value;
     clean = clean.replace(
-      /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
+        /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
     return clean;
   }
 
-  selectPost(post?: Post) {
-    if ((!post && this.selectedPostId) ||
-      (post && (post.id !== this.selectedPostId))) {
-      this.selectedPostId = post ? post.id : undefined;
-      this.postSelectionSubject.next(post);
-      this.getSeries(post);
+  private rememberSeries(series: Series) {
+    const id = series ? series.id : -1;
+    this.seriesCache.set(id, series);
+    if (series && series.posts) {
+      this.seriesSlugs.set(series.slug, series.id);
+      series.posts.forEach(p => {
+        // So we can look up the series again for the other posts.
+        this.seriesToPost.set(p.post.id, series.id);
+      });
     }
   }
 
-  private seriesCache = new Map<number, Series>();
-
-  getSeries(post: Post): Observable<Series> {
-    if (post) {
-      if (!this.seriesCache.has(post.id)) {
-        this.http.get<Series>(`${this.POST_URL}/${post.id}/series/`)
+  fetchSeries(seriesSlug: string): Observable<Series> {
+    if (this.seriesSlugs.get(seriesSlug)) {
+      return of(this.seriesCache.get(this.seriesSlugs.get(seriesSlug)));
+    } else {
+      return this.http.get<Series>(`${this.SERIES_URL}/${seriesSlug}`)
           .pipe(tap(series => {
-            if (series && series.posts) {
-              series.posts.forEach(p => {
-                this.seriesCache.set(p.post.id, series);
-                if (!this.loadedPosts.has(p.post.id)) {
-                  this.loadedPosts.set(p.post.id, p.post);
-                }
-              });
-            }
-          }))
-          .subscribe(
-            series => {
-              this.seriesSubject.next(series);
-            },
-            error => {
-              // Ignore errors.
-            });
+            this.rememberSeries(series);
+          }));
+    }
+  }
+
+  fetchSeriesForPost(post: Post): Observable<Series|null> {
+    if (post) {
+      if (this.seriesToPost.has(post.id)) {
+        return of(this.seriesCache.get(this.seriesToPost.get(post.id)));
       } else {
-        this.seriesSubject.next(this.seriesCache.get(post.id));
+        return this.http.get<Series|null>(`${this.POST_URL}/${post.id}/series/`)
+            .pipe(tap(series => {
+              this.seriesToPost.set(post.id, series ? series.id : -1);
+              this.rememberSeries(series);
+            }));
       }
     } else {
-      this.seriesSubject.next(null);
+      return of(null);
     }
-    return this.series$;
   }
 
-  getComments(post: Post): Observable<Comment[]> {
+  fetchComments(post: Post): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.POST_URL}/${post.id}/comments/`);
   }
 
   createComment(comment: CreateComment): Observable<Comment> {
     return this.http.post<Comment>(
-      `${this.POST_URL}/${comment.post}/comment/`, comment);
+        `${this.POST_URL}/${comment.post}/comment/`, comment);
+  }
+
+  fetchSimilarPosts(post: Post): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.POST_URL}/${post.slug}/similar/`);
   }
 }

@@ -69,6 +69,17 @@
   }
 }
 
+.loading {
+  display: block;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.similar-heading {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
 .post-page-title {
   overflow: hidden;
   position: absolute;
@@ -116,4 +127,55 @@ app-post-series {
   @media #{$media-mobile} {
     padding: 1rem 2rem;
   }
+}
+
+.series-summary {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    font-size: 3rem;
+    font-style: italic;
+  }
+  p {
+    font-size: 1.5rem;
+  }
+  .entry-count {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    h3 {
+      padding: 0 1rem;
+
+      &::before, &::after {
+        border-color: $color-shadow $color-highlight $color-highlight $color-shadow;
+        border-width: 1px;
+        border-style: solid;
+        position: absolute;
+        content: '';
+        right: 100%;
+        width: 4rem;
+        top: 65%;
+      }
+
+      &::after {
+        right: auto;
+        left: 100%;
+      }
+    }
+  }
+}
+
+app-post {
+  display: block;
+  margin-bottom: 5rem;
+}
+
+.scroll-tracker {
+  margin-bottom: 2rem;
 }

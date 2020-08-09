@@ -58,7 +58,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Series
-        fields = ['id', 'name', 'icon', 'description', 'posts']
+        fields = ['id', 'slug', 'name', 'time', 'icon', 'description', 'posts']
 
 
 def get_client_ip(request):
@@ -78,9 +78,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Post.objects.exclude(pub=False)
+
+        series_slug = self.request.query_params.get('series', None)
+        if series_slug is not None:
+            queryset = queryset.filter(series__series__slug=series_slug)
+
         id = self.request.query_params.get('id', None)
         if id is not None:
             queryset = queryset.filter(pk=id)
+
         return queryset
 
     def get_permissions(self):
@@ -109,7 +115,7 @@ class PostViewSet(viewsets.ModelViewSet):
             serializer = SeriesSerializer(series)
             return Response(serializer.data)
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response()
 
     @action(detail=True, methods=['get'])
     def comments(self, request, slug=None):
@@ -120,9 +126,33 @@ class PostViewSet(viewsets.ModelViewSet):
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    @action(detail=True, methods=['get'])
+    def similar(self, request, slug=None):
+        # try:
+        posts = Post.objects.raw('''
+                SELECT posts.* FROM
+                (
+                  SELECT posttags.post_id, COUNT(posttags.tag_id) AS count
+                  FROM posts_post_tags AS posttags
+                  WHERE tag_id IN (
+                    SELECT posttags.tag_id FROM posts_post_tags AS posttags
+                    LEFT JOIN posts_post AS posts ON posttags.post_id=posts.id
+                    WHERE posts.slug = '{0}'
+                  )
+                  GROUP BY posttags.post_id
+                  ORDER BY count DESC
+                  LIMIT 6
+                ) AS similars
+                LEFT JOIN posts_post AS posts
+                ON similars.post_id = posts.id
+                WHERE posts.slug <> '{0}'
+            ''' .format(slug))
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
 
 
 class SeriesViewSet(viewsets.ModelViewSet):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    lookup_field = 'slug'
     http_method_names = ['get', 'options']
