@@ -128,6 +128,7 @@ export class PostComponent {
     // A wild comments appeared!
     this.showComments = true;
     this.comments$ = this.postService.fetchComments(this.post);
+    this.loadSimilarPosts();
   }
 
   loadSimilarPosts() {
