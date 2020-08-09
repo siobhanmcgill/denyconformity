@@ -130,15 +130,16 @@ class PostViewSet(viewsets.ModelViewSet):
     def similar(self, request, slug=None):
         # try:
         posts = Post.objects.raw('''
-                SELECT posts.* FROM
+                SELECT posts.id, posts.title, posts.pub FROM
                 (
                   SELECT posttags.post_id, COUNT(posttags.tag_id) AS count
                   FROM posts_post_tags AS posttags
+                  LEFT JOIN posts_post AS tag_posts ON posttags.post_id = tag_posts.id
                   WHERE tag_id IN (
                     SELECT posttags.tag_id FROM posts_post_tags AS posttags
                     LEFT JOIN posts_post AS posts ON posttags.post_id=posts.id
                     WHERE posts.slug = '{0}'
-                  )
+                  ) AND tag_posts.pub = 1
                   GROUP BY posttags.post_id
                   ORDER BY count DESC
                   LIMIT 6
