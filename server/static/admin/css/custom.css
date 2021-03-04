@@ -1,0 +1,8 @@
+.dc-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dc-button-wrapper .button {
+  margin-left: .5rem;
+}

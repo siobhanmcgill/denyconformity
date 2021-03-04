@@ -13,37 +13,39 @@ import re
 # py manage.py loaddata [fixture name]
 
 
-def curly_quotes(str):
+def auto_format(str):
     str = str.replace('’', '&rsquo;')
     str = str.replace('‘', '&lsquo;')
     str = str.replace('“', '&ldquo;')
     str = str.replace('”', '&rdquo;')
+    str = str.replace('<>', '<p>&nbsp;</p>')
     return str
 
 
-def un_curly_quotes(str):
+def remove_auto_format(str):
     str = str.replace('&rsquo;', '’')
     str = str.replace('&lsquo;', '‘')
     str = str.replace('&ldquo;', '“')
     str = str.replace('&rdquo;', '”')
+    str = str.replace('<p>&nbsp;</p>', '<>')
     return str
 
 
 class PostTextField(models.TextField):
     def pre_save(self, model_instance, add):
-        return curly_quotes(getattr(model_instance, self.attname))
+        return auto_format(getattr(model_instance, self.attname))
 
 
 class PostSummaryField(models.TextField):
     def pre_save(self, model_instance, add):
         val = getattr(model_instance, self.attname)
         if not val or val == 'auto':
-            text = un_curly_quotes(model_instance.text)
+            text = remove_auto_format(model_instance.text)
             if len(text) > 275:
                 val = text[0:275] + '...'
             else:
                 val = text
-        return curly_quotes(val)
+        return auto_format(val)
 
 
 class PostSlugField(models.SlugField):
@@ -51,9 +53,9 @@ class PostSlugField(models.SlugField):
         slug = getattr(model_instance, self.attname)
         if not slug or slug == 'auto':
             if hasattr(model_instance, 'title'):
-              title = getattr(model_instance, 'title')
+                title = getattr(model_instance, 'title')
             else:
-              title = getattr(model_instance, 'name')
+                title = getattr(model_instance, 'name')
             slug = title.replace(' ', '-').lower()
             slug_re = re.compile(r"(&[a-z0-9]+;)|(#[a-z0-9]+;)|[^a-z0-9\-]")
             slug = slug_re.sub("", slug)

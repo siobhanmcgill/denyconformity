@@ -13,6 +13,7 @@ class TagInline(admin.TabularInline):
   model = Post.tags.through
   verbose_name = 'Tag'
   verbose_name_plural = 'Tags'
+  min_num = 1
 
 class QuestionInline(admin.TabularInline):
   classes = ('collapse',)

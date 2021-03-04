@@ -20,14 +20,15 @@
                         {% endif %}
 
                         {% ifequal field.field.label 'Text' %}
-                        <!-- <div class="dc-text-format-button-wrapper">
-                          <button type="button" onclick="post_text_format()" class="dc-text-format-button">Text!</button>
-                        </div> -->
+                        <div class="dc-button-wrapper">
+                          <!-- <input type="button" class="button dc-text-format-button" value="Format" /> -->
+                          <input type="button" class="button dc-text-unformat-button" value="UnFormat" />
+                        </div>
                         {% endifequal %}
 
                         {% ifequal field.field.label 'Summary' %}
-                        <div class="dc-text-format-button-wrapper">
-                          <button type="button" onclick="auto_summary()" class="dc-text-format-button">Auto!</button>
+                        <div class="dc-button-wrapper">
+                          <button type="button" class="dc-summary-auto-button">Auto!</button>
                         </div>
                         {% endifequal %}
                     {% endif %}
