@@ -18,7 +18,7 @@ Connect locally with:
 
 ## Setup
 
-Install Python 3, pip3, `libmysqlclient-dev`, Node, and NPM.
+Install Python 3, pip3, `libmysqlclient-dev`, Node, NPM, Git, and Gcloud.
 
 `libssl-dev` may also be required on Linux.
 
@@ -65,7 +65,7 @@ The Angular project should be built first:
 npm run build
 ```
 
-### Bluehost
+### Bluehost with Google Cloud API
 
 This is the cheapest solution, which works for both the front-end and the database. To get a VPS that can run Django, it's actually more expensive than Heroku. It seems the best strategy for now is to run the server on Google Cloud and the Frontend on Bluehost using PHP.
 
@@ -77,6 +77,8 @@ git remote add bluehost ssh://denyconf@denyconformity.com/home1/denyconf/public_
 
 You will also need to make sure that you have an SSH key set up on Bluehost.
 
+It's also possible you need to update your git-receive-pack setting
+
 To deploy, push the repo to there.
 
 ```
@@ -86,22 +88,23 @@ git push bluehost
 Then the server can be deployed to Google AppEngine:
 
 ```
-gcloud app deploy ./server/app.yaml
-```
-
-### Deprecated: Google Cloud
-
-Both services can be deployed to Google Cloud as python packages. However, running two Python services on AppEngine can get expensive.
-
-```
-gcloud app deploy app.yaml server-as-default.yaml
+gcloud app deploy ./server/app-server.yaml
 ```
 
 May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);
 
 [This](https://cloud.google.com/appengine/kb#static-ip) page discusses how to find the App Enging IP.
 
-### Alternative: Heroku
+
+### Deprecated: Fully Google Cloud
+
+Both services can be deployed to Google Cloud as python packages. However, running two Python services on AppEngine can get expensive.
+
+```
+gcloud app deploy app.yaml ./server/app-server.yaml
+```
+
+### Deprecated: Heroku
 
 Make sure that both Heroku projects (`denyconformity` and `denyconformity-server`) are set up as git upstreams.
 
