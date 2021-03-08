@@ -7,6 +7,31 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 
 from .models import Post, Tag, Comment, Series, SeriesPost, Question, Answer
 
+from io import StringIO
+from html.parser import HTMLParser
+import re
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.text = StringIO()
+
+    def handle_data(self, d):
+        self.text.write(d)
+
+    def get_data(self):
+        return self.text.getvalue()
+
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
+
 
 class TagSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
@@ -59,6 +84,14 @@ class SeriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
         fields = ['id', 'slug', 'name', 'time', 'icon', 'description', 'posts']
+
+
+class PostCloudSerializer(serializers.BaseSerializer):
+    def to_representation(self, instance):
+        return {
+            'wordCount': len(instance['words']),
+            'counts': instance['counts']
+        }
 
 
 def get_client_ip(request):
@@ -149,6 +182,33 @@ class PostViewSet(viewsets.ModelViewSet):
                 WHERE posts.slug <> '{0}'
             ''' .format(slug))
         serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def cloud(self, request, slug=None):
+        post = Post.objects.get(slug=slug)
+
+        text = post.text
+        text = text.replace('<>', '')
+        text = strip_tags(text)
+
+        text = re.sub(r'[\.|,|\!|\?|“|”|\(|\)]', '', text)
+
+        words = text.split()
+        word_counts = {}
+
+        for word in words:
+            word = word.lower()
+            if not word in word_counts:
+                word_counts[word] = 1
+            else:
+                word_counts[word] += 1
+
+        counts_sorted = dict(
+            sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
+
+        serializer = PostCloudSerializer(
+            {'words': words, 'counts': counts_sorted})
         return Response(serializer.data)
 
 

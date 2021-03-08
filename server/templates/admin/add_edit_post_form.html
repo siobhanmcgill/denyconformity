@@ -3,17 +3,98 @@
 {% load static %}
 
 {% block extrahead %}{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom.css' %}">
+<link rel="stylesheet"
+      type="text/css"
+      href="{% static 'admin/css/custom.css' %}">
 
 <!-- WHAT -->
 {% endblock %}
 
 {% block field_sets %}
 {% for fieldset in adminform %}
-  {% include "admin/fieldset_posts.html" %}
+{% include "admin/fieldset_posts.html" %}
 {% endfor %}
 {% endblock %}
 
 {% block admin_change_form_document_ready %}{{ block.super }}
-  <script type="text/javascript" src="{% static 'admin/js/admin/post_text_format.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'admin/js/admin/post_text_format.js' %}"></script>
+
+<script>
+  // The Browser API key obtained from the Google API Console.
+  // Replace with your own Browser API key, or your own key.
+  var developerKey = 'AIzaSyAe4dDiMUQLjFalHqE-IMXfV7CI0UF6etg';
+
+  // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+  var clientId = '341255282649-n30l42vbrad7bvfnf67j6nk9rhu2sis1.apps.googleusercontent.com'
+
+  // Replace with your own project number from console.developers.google.com.
+  // See "Project number" under "IAM & Admin" > "Settings"
+  var appId = '341255282649';
+
+  // Scope to use to access user's Drive items.
+  var scope = ['https://www.googleapis.com/auth/drive.file'];
+
+  var pickerApiLoaded = false;
+  var authApiLoaded = false;
+  var oauthToken;
+
+  // Use the API Loader script to load google.picker and gapi.auth.
+  function onApiLoad() {
+    gapi.load('auth2', onAuthApiLoad);
+    gapi.load('picker', onPickerApiLoad);
+  }
+
+  function authorizeForPicker() {
+    window.gapi.auth2.authorize(
+      {
+        'client_id': clientId,
+        'scope': scope,
+        'immediate': false
+      },
+      handleAuthResult);
+  }
+
+  function onAuthApiLoad() {
+    authApiLoaded = true;
+  }
+
+  function onPickerApiLoad() {
+    pickerApiLoaded = true;
+  }
+
+  function handleAuthResult(authResult) {
+    console.log('handle auth', authResult);
+    if (authResult && !authResult.error) {
+      oauthToken = authResult.access_token;
+      createPicker();
+    }
+  }
+
+  // Create and render a Picker object for selecting from Google Drive
+  function createPicker() {
+      if (pickerApiLoaded && oauthToken) {
+        var view = new google.picker.View(google.picker.ViewId.DOCS);
+        var picker = new google.picker.PickerBuilder()
+            .setAppId(appId)
+            .setOAuthToken(oauthToken)
+            .addView(view)
+            .setDeveloperKey(developerKey)
+            .setCallback(pickerCallback)
+            .build();
+         picker.setVisible(true);
+      }
+    }
+
+
+  function pickerCallback(data) {
+    if (data.action == google.picker.Action.PICKED) {
+      var fileId = data.docs[0].id;
+
+    }
+  }
+</script>
+<!-- Load the Google API Loader script. -->
+<script type="text/javascript"
+        src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
 {% endblock %}

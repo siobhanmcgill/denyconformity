@@ -25,10 +25,10 @@ class PostAdmin(admin.ModelAdmin):
   list_display = ('title', 'id', 'time', 'pub')
   date_hierarchy = 'time'
   fieldsets = [
-    (None, {'fields': ['title', 'time', 'text', 'image']}),
+    (None, {'fields': ['title', 'time', 'text', 'google_doc_id', 'image', 'pub']}),
     ('Other', {
       'classes': ('collapse',),
-      'fields': ('markdown', 'pub', 'summary', 'slug')
+      'fields': ('markdown', 'summary', 'slug')
     }),
     ('Survey', {
       'classes': ('collapse',),

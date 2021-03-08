@@ -69,6 +69,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = PostTextField()
     markdown = models.BooleanField(default=False)
+    google_doc_id = models.CharField(max_length=200, null=True, blank=True)
     pub = models.BooleanField()
     summary = PostSummaryField(default='auto')
     tags = models.ManyToManyField('Tag')
