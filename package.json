@@ -6,7 +6,6 @@
     "start": "ng serve",
     "venv": "source venv/bin/activate",
     "server": "python3 server/manage.py runserver",
-    "frontend": "python3 frontend.py",
     "build": "ng build --prod --deploy-url 'dist/'",
     "test": "ng test",
     "lint": "ng lint",

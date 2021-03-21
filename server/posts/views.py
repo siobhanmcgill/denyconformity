@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 
-from .models import Post, Tag, Comment, Series, SeriesPost, Question, Answer
+from .models import Post, Tag, Comment, Series, SeriesPost, SurveyOption, SurveyVote
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -42,7 +42,40 @@ class PostSerializer(serializers.ModelSerializer):
         lookup_field = 'slug'
         fields = ['id', 'slug', 'time', 'title', 'text',
                   'summary', 'tags', 'markdown', 'survey_description',
-                  'survey_expires', 'image']
+                  'survey_expires', 'image', 'survey_open_prompt',
+                  'survey_closed_prompt', 'survey_allows_custom_answers']
+
+
+class SurveyVoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SurveyVote
+        fields = ['id', 'id', 'text', 'name']
+
+
+class CreateSurveyVoteSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return SurveyVote.objects.create(**validated_data)
+
+    class Meta:
+        model = SurveyVote
+        fields = ['time', 'name', 'text', 'pub', 'ip', 'survey_option']
+
+
+class SurveyOptionSerializer(serializers.ModelSerializer):
+    votes = SurveyVoteSerializer(many=True)
+
+    class Meta:
+        model = SurveyOption
+        fields = ['id', 'text', 'name', 'time', 'votes']
+
+
+class CreateSurveyOptionSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        return SurveyOption.objects.create(**validated_data)
+
+    class Meta:
+        model = SurveyOption
+        fields = ['time', 'name', 'text', 'pub', 'ip']
 
 
 class SeriesPostSerializer(serializers.ModelSerializer):
@@ -125,6 +158,39 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['get'])
+    def surveyoptions(self, request, slug=None):
+        try:
+            post = Post.objects.get(slug=slug)
+            survey_options = SurveyOption.objects.filter(
+                post=post.id, pub=True).all()
+            serializer = SurveyOptionSerializer(survey_options, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['post'])
+    def surveyoption(self, request, slug=None):
+        data = JSONParser().parse(request)
+        data['ip'] = get_client_ip(request)
+        post = Post.objects.get(slug=slug)
+        data['post'] = post.id
+        serializer = CreateSurveyOptionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+    @action(detail=True, methods=['post'])
+    def surveyvote(self, request, slug=None):
+        data = JSONParser().parse(request)
+        data['ip'] = get_client_ip(request)
+        serializer = CreateSurveyVoteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
     @action(detail=True, methods=['get'])
     def similar(self, request, slug=None):

@@ -4,12 +4,13 @@ from django.dispatch import receiver
 from django.utils import timezone
 import re
 
-# Here are the commands to bootstrap the database:
+# Here are the commands to update the database:
 
 # python manage.py makemigrations posts
 # python manage.py sqlmigrate posts [number]
 # python manage.py migrate
 
+# Load the static fixtures (the starting data).
 # py manage.py loaddata [fixture name]
 
 
@@ -75,8 +76,17 @@ class Post(models.Model):
     slug = PostSlugField(unique=True, default='auto')
     image = models.CharField(max_length=200, null=True, blank=True)
 
+    # The exact day and time answers will no longer be accepted.
     survey_expires = models.DateTimeField(blank=True, null=True)
+    # The text explaining what the associated survey is for.
+    # The presence of this field will enable the survey functionality.
     survey_description = models.TextField(blank=True, null=True)
+    # An optional custom prompt to show when the survey is open.
+    survey_open_prompt = models.TextField(blank=True, null=True)
+    # An optional custom prompt to show when the survey is closed.
+    survey_closed_prompt = models.TextField(blank=True, null=True)
+    # Whether or not users can create their own answers.
+    survey_allows_custom_answers = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -153,19 +163,41 @@ class SeriesPost(models.Model):
             'tags', 'comments').first()
 
 
-class Question(models.Model):
-    survey = models.ForeignKey(Post, related_name='questions',
+class SurveyOptionManager(models.Manager):
+    def create_survey_option(self, name, text, post_id, ip):
+        post = Post.objects.get(pk=post_id)
+        text = strip_tags(text)
+        survey_option = self.create(name=name, text=text,
+                                    post=post, ip=ip, pub=True)
+        return question
+
+
+class SurveyOption(models.Model):
+    ''' An option to respond to a post survey '''
+    post = models.ForeignKey(Post, related_name='options',
                                on_delete=models.CASCADE)
     text = models.CharField(max_length=280)
     name = models.CharField(max_length=200)
     time = models.DateTimeField(auto_now_add=True)
-    ip = models.GenericIPAddressField()
+    ip = models.GenericIPAddressField(blank=True, null=True)
+    pub = models.BooleanField(default=True)
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name='answers',
-                                 on_delete=models.CASCADE)
+class SurveyVoteManager(models.Manager):
+    def create_vote(self, name, why, option_id, ip):
+        option = SurveyOption.objects.get(pk=option_id)
+        text = strip_tags(why)
+        vote = self.create(name=name, why=why,
+                           survey_option=option, ip=ip, pub=True)
+        return question
+
+
+class SurveyVote(models.Model):
+    ''' A vote for a post survey option, including an optional comment.'''
+    survey_option = models.ForeignKey(SurveyOption, related_name='votes',
+                                      on_delete=models.CASCADE)
     time = models.DateTimeField()
     ip = models.GenericIPAddressField()
-    why = models.TextField(blank=True)
+    text = models.TextField(blank=True)
     name = models.TextField(blank=True)
+    pub = models.BooleanField(default=True)
