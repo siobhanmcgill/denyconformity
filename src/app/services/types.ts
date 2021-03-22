@@ -18,6 +18,9 @@ export interface Post {
   image: string;
   survey_description: string;
   survey_expires: string;
+  survey_open_prompt: string;
+  survey_closed_prompt: string;
+  survey_allows_custom_answers: boolean;
 }
 
 export interface Comment {
@@ -47,4 +50,20 @@ export interface SeriesPost {
   label: string;
   srt: number;
   post: Post;
+}
+
+export interface SurveyVote {
+  id: string;
+  time: string;
+  text: string;
+  name: string;
+}
+
+export interface SurveyOption {
+  id: string;
+  post: string;
+  text: string;
+  name: string;
+  time: string;
+  votes: Array<SurveyVote>;
 }

@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
-import {Comment, CreateComment, Post, PostResponse, Series} from './types';
+import {Comment, CreateComment, Post, PostResponse, Series, SurveyOption} from './types';
 
 
 
@@ -163,5 +163,10 @@ export class PostService {
 
   fetchSimilarPosts(post: Post): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.POST_URL}/${post.slug}/similar/`);
+  }
+
+  fetchSurveyOptions(post: Post): Observable<SurveyOption[]> {
+    return this.http.get<SurveyOption[]>(
+        `${this.POST_URL}/${post.slug}/surveyoptions/`);
   }
 }

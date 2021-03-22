@@ -12,6 +12,7 @@ import {PostComponent} from './post/post.component';
 import {CsrfInterceptor} from './services/csrf.interceptor';
 import {SharedModule} from './shared/shared.module';
 import { ReadPostComponent } from './read-post/read-post.component';
+import { PostSurveyComponent } from './post-survey/post-survey.component';
 
 
 
@@ -22,6 +23,7 @@ import { ReadPostComponent } from './read-post/read-post.component';
     PostListComponent,
     PostSeriesComponent,
     ReadPostComponent,
+    PostSurveyComponent,
   ],
   imports: [
     BrowserModule,

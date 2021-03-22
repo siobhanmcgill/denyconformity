@@ -1,0 +1,29 @@
+<h3>Answer this</h3>
+
+<div class="survey_content">
+  <p>{{post.survey_description}}</p>
+
+  <label>{{prompt}}</label>
+
+  <ul *ngIf="options$ | async as options">
+    <li *ngFor="let option of options"
+        class="corner-box"
+        [class.selected]="option.id === selectedOptionId"
+        (click)="select(option)">{{option.text}}</li>
+
+    <li *ngIf="post.survey_allows_custom_answers"
+        class="corner-box"
+        [class.selected]="selectedOptionId === CUSTOM_OPTION_ID">
+      <label>Or make up your own option:</label>
+      <form [formGroup]="addOptionFormGroup">
+        <input formControlName="text"
+               placeholder="Your idea" />
+        <input formControlName="name"
+               placeholder="Your name" />
+      </form>
+    </li>
+  </ul>
+
+  <button [disabled]="!isSubmitValid"
+          (click)="submit()">Submit</button>
+</div>
