@@ -63,49 +63,52 @@
            [@wrapper]>
         <h3>Comments</h3>
 
-        <div class="comment"
-             *ngIf="!comments.length">
-          <div class="text">
-            <p><em>Nothing yet. Add your thoughts below.</em></p>
-          </div>
-        </div>
+        <div class="left-border">
 
-        <ng-container *ngFor="let comment of comments">
-          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment}">
-          </ng-container>
-        </ng-container>
-
-        <ng-container *ngIf="createdComment">
-          <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: createdComment}">
-          </ng-container>
-        </ng-container>
-
-        <div class="comment">
-          <form [formGroup]="commentFormGroup">
-            <div class="post-title">
-              <h2>
-                <input formControlName="name"
-                       placeholder="Your name" />
-              </h2>
-              <h3>
-                <div class="hr"></div>
-                &nbsp;
-              </h3>
-            </div>
+          <div class="comment"
+               *ngIf="!comments.length">
             <div class="text">
-              <textarea formControlName="text"
-                        #commentText
-                        placeholder="Your thoughts"></textarea>
-              <div class="disclaimer">
-                No HTML is allowed, but you can use <a
-                   href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
-                   target="_blank">Markdown</a>!
-              </div>
-              <button [disabled]="!commentFormGroup.valid"
-                      (click)="submitComment()">save</button>
+              <p><em>Nothing yet. Add your thoughts below.</em></p>
             </div>
-          </form>
-        </div>
+          </div>
+
+          <ng-container *ngFor="let comment of comments">
+            <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment}">
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="createdComment">
+            <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: createdComment}">
+            </ng-container>
+          </ng-container>
+
+          <div class="comment">
+            <form [formGroup]="commentFormGroup">
+              <div class="post-title">
+                <h2>
+                  <input formControlName="name"
+                         placeholder="Your name" />
+                </h2>
+                <h3>
+                  <div class="hr"></div>
+                  &nbsp;
+                </h3>
+              </div>
+              <div class="text">
+                <textarea formControlName="text"
+                          #commentText
+                          placeholder="Your thoughts"></textarea>
+                <div class="disclaimer">
+                  No HTML is allowed, but you can use <a
+                     href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                     target="_blank">Markdown</a>!
+                </div>
+                <button [disabled]="!commentFormGroup.valid"
+                        (click)="submitComment()">save</button>
+              </div>
+            </form>
+          </div>
+        </div> <!-- /.left-border -->
       </div>
     </div>
   </ng-container>

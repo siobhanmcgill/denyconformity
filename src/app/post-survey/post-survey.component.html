@@ -1,29 +1,53 @@
-<h3>Answer this</h3>
+<h3 *ngIf="!showResults">Answer this</h3>
+<h3 *ngIf="showResults">The results are in</h3>
 
-<div class="survey_content">
-  <p>{{post.survey_description}}</p>
+<div class="survey_content left-border"
+     [class.show-results]="showResults">
 
-  <label>{{prompt}}</label>
+  <p *ngIf="!showResults">{{post.survey_description}}</p>
 
-  <ul *ngIf="options$ | async as options">
-    <li *ngFor="let option of options"
-        class="corner-box"
-        [class.selected]="option.id === selectedOptionId"
-        (click)="select(option)">{{option.text}}</li>
+  <ng-container *ngIf="options$ | async as options; else loadingOptions">
+    <label>{{prompt}}</label>
 
-    <li *ngIf="post.survey_allows_custom_answers"
-        class="corner-box"
-        [class.selected]="selectedOptionId === CUSTOM_OPTION_ID">
-      <label>Or make up your own option:</label>
-      <form [formGroup]="addOptionFormGroup">
-        <input formControlName="text"
-               placeholder="Your idea" />
-        <input formControlName="name"
-               placeholder="Your name" />
-      </form>
-    </li>
-  </ul>
+    <ul>
+      <li *ngFor="let option of options"
+          class="corner-box"
+          [class.selected]="option.id === selectedOptionId"
+          (click)="select(option)">
+        {{option.text}}
 
-  <button [disabled]="!isSubmitValid"
-          (click)="submit()">Submit</button>
+        <div class="submitted-by"
+             *ngIf="option.custom">submitted by {{option.name}}</div>
+
+        <div class="results"
+             *ngIf="showResults"
+             [@results]="{value: option.id, params: {width: ((optionVoteCount(option) / totalVotes * 100) + '%')}}">
+          <span>{{optionVoteCount(option)}} / {{totalVotes}} votes</span>
+        </div>
+      </li>
+
+      <li *ngIf="post.survey_allows_custom_answers && !showResults"
+          [@option]
+          class="corner-box"
+          [class.selected]="selectedOptionId === CUSTOM_OPTION_ID">
+        <label>Add your own idea (other folks will be able to vote for it):</label>
+        <form [formGroup]="addOptionFormGroup">
+          <textarea formControlName="text"
+                    placeholder="Your idea"></textarea>
+          <span class="char-count">{{(addOptionFormGroup.controls.text.value || '').length}} /
+            280</span>
+          <input formControlName="name"
+                 placeholder="Your name" />
+        </form>
+      </li>
+    </ul>
+
+    <button [disabled]="!isSubmitValid"
+            *ngIf="!showResults"
+            (click)="submit()">submit</button>
+  </ng-container>
 </div>
+
+<ng-template #loadingOptions>
+  <p>Loading your options . . .</p>
+</ng-template>

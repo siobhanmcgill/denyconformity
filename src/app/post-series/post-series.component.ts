@@ -14,8 +14,12 @@ const MOBILE_WIDTH = 500;
   selector: 'app-post-series',
   templateUrl: './post-series.component.html',
   styleUrls: ['./post-series.component.scss'],
-  animations: [createToggle(
-      'series', {'margin-top': '-100px'}, {'margin-top': '*'}, 300)],
+  animations: [createToggle({
+    name: 'series',
+    outStyle: {'margin-top': '-100px'},
+    inStyle: {'margin-top': '*'},
+    durationMs: 300
+  })],
 })
 export class PostSeriesComponent {
   @Input() extended = false;

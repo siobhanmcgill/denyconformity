@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
-import {Comment, CreateComment, Post, PostResponse, Series, SurveyOption} from './types';
+import {Comment, CreateComment, Post, PostResponse, Series, SurveyOption, SurveyVote} from './types';
 
 
 
@@ -168,5 +168,25 @@ export class PostService {
   fetchSurveyOptions(post: Post): Observable<SurveyOption[]> {
     return this.http.get<SurveyOption[]>(
         `${this.POST_URL}/${post.slug}/surveyoptions/`);
+  }
+
+  createSurveyOption(post: Post, newOptionDeets: {text: string; name: string}):
+      Observable<SurveyOption> {
+    return this.http.post<SurveyOption>(
+        `${this.POST_URL}/${post.slug}/surveyoption/`, {
+          name: newOptionDeets.name,
+          text: newOptionDeets.text,
+        });
+  }
+
+  createSurveyVote(post: Post, optionId: string, meta: {
+    text: string; name: string
+  }): Observable<SurveyVote> {
+    return this.http.post<SurveyVote>(
+        `${this.POST_URL}/${post.slug}/surveyvote/`, {
+          name: meta.name,
+          text: meta.text,
+          survey_option: optionId,
+        });
   }
 }

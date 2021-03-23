@@ -24,17 +24,31 @@ import {POST_PREFIX} from '../shared/const';
   styleUrls: ['./post-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    createToggle('spacer', {'height': '0'}, {'height': '*'}, 500),
-    createToggle(
-        'title', {'height': '0', 'padding': '0', 'opacity': '0'},
-        {'height': '*', 'padding': '*', 'opacity': '1'}, 500),
-    createToggle(
-        'postTitle', {'transform': 'translateY(-100%)', 'height': '0'},
-        {'transform': 'translateY(0)', 'height': '*'}, 500),
-    createToggle(
-        'post',
-        {'overflow': 'hidden', 'height': '0', 'margin': '0', 'opacity': '0'},
-        {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
+    createToggle({
+      name: 'spacer',
+      outStyle: {'height': '0'},
+      inStyle: {'height': '*'},
+      durationMs: 500
+    }),
+    createToggle({
+      name: 'title',
+      outStyle: {'height': '0', 'padding': '0', 'opacity': '0'},
+      inStyle: {'height': '*', 'padding': '*', 'opacity': '1'},
+      durationMs: 500
+    }),
+    createToggle({
+      name: 'postTitle',
+      outStyle: {'transform': 'translateY(-100%)', 'height': '0'},
+      inStyle: {'transform': 'translateY(0)', 'height': '*'},
+      durationMs: 500
+    }),
+    createToggle({
+      name: 'post',
+      outStyle:
+          {'overflow': 'hidden', 'height': '0', 'margin': '0', 'opacity': '0'},
+      inStyle: {'height': '*', 'margin': '*', 'opacity': '1'},
+      durationMs: 500
+    }),
   ]
 })
 export class PostListComponent {

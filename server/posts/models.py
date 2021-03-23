@@ -169,7 +169,7 @@ class SurveyOptionManager(models.Manager):
         text = strip_tags(text)
         survey_option = self.create(name=name, text=text,
                                     post=post, ip=ip, pub=True)
-        return question
+        return survey_option
 
 
 class SurveyOption(models.Model):
@@ -181,6 +181,9 @@ class SurveyOption(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     ip = models.GenericIPAddressField(blank=True, null=True)
     pub = models.BooleanField(default=True)
+    custom = models.BooleanField(default=False)
+
+    objects = SurveyOptionManager()
 
 
 class SurveyVoteManager(models.Manager):
@@ -189,7 +192,7 @@ class SurveyVoteManager(models.Manager):
         text = strip_tags(why)
         vote = self.create(name=name, why=why,
                            survey_option=option, ip=ip, pub=True)
-        return question
+        return vote
 
 
 class SurveyVote(models.Model):
@@ -201,3 +204,5 @@ class SurveyVote(models.Model):
     text = models.TextField(blank=True)
     name = models.TextField(blank=True)
     pub = models.BooleanField(default=True)
+
+    objects = SurveyVoteManager()

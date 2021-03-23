@@ -78,6 +78,13 @@ a {
   }
 }
 
+.left-border {
+  border-left: 2px solid black;
+  box-shadow: -1px 0px 0px rgb(255 243 230 / 50%), 1px 0px 0px rgb(77 38 0 / 40%) inset;
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+}
+
 /**
   Special styles for posts.
 **/
@@ -123,7 +130,9 @@ a {
     color: #555;
   }
 
-  blockquote, code, .caption {
+  blockquote,
+  code,
+  .caption {
     padding: 0.5rem;
     background: rgba(0, 0, 0, 0.05);
     border-left: 0.25rem solid rgba(0, 0, 0, 0.3);
@@ -175,6 +184,10 @@ a {
   }
 }
 
+ul li .results {
+  background: rgba(0,0,0,0.15);
+}
+
 /* Colors for different tags. */
 .fiction {
   a {
@@ -185,6 +198,12 @@ a {
   }
   .hr {
     background-color: $dc-purple;
+  }
+  .left-border {
+    border-color: $dc-purple;
+  }
+  ul li .results {
+    background: adjust-color($dc-purple, $alpha: -.75);
   }
 }
 .comedy {
@@ -197,6 +216,12 @@ a {
   .hr {
     background-color: $dc-blue;
   }
+  .left-border {
+    border-color: $dc-blue;
+  }
+  ul li .results {
+    background: adjust-color($dc-blue, $alpha: -.75);
+  }
 }
 .technology {
   a {
@@ -207,6 +232,12 @@ a {
   }
   .hr {
     background-color: $dc-green;
+  }
+  .left-border {
+    border-color: $dc-green;
+  }
+  ul li .results {
+    background: adjust-color($dc-green, $alpha: -.75);
   }
 }
 .photo {
@@ -223,6 +254,12 @@ a {
   blockquote {
     border-left-color: $dc-yellow;
   }
+  .left-border {
+    border-color: $dc-yellow;
+  }
+  ul li .results {
+    background: adjust-color($dc-yellow, $alpha: -.75);
+  }
 }
 .idea {
   a {
@@ -236,5 +273,11 @@ a {
   }
   blockquote {
     border-left-color: $dc-red;
+  }
+  .left-border {
+    border-color: $dc-red;
+  }
+  ul li .results {
+    background: adjust-color($dc-red, $alpha: -.75);
   }
 }

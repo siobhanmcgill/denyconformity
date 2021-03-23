@@ -41,5 +41,5 @@
   "python.autoComplete.extraPaths": [
 
 ],
-"python.languageServer": "Microsoft",
+"python.languageServer": "Pylance",
 }

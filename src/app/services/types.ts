@@ -65,5 +65,6 @@ export interface SurveyOption {
   text: string;
   name: string;
   time: string;
+  custom: boolean;
   votes: Array<SurveyVote>;
 }

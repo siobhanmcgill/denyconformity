@@ -1,4 +1,4 @@
-import {animate, AnimationTriggerMetadata, state, style, transition, trigger} from '@angular/animations';
+import {animate, AnimationTriggerMetadata, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 
 
 export interface StyleType {
@@ -13,27 +13,25 @@ export interface StyleType {
  * @param duration
  * @param delay
  */
-export function createToggle(
-    name: string, outStyle: StyleType, inStyle: StyleType,
-    duration?: number|string, delay?: number|string): AnimationTriggerMetadata {
-  let inString = '';
-  let outString = '';
-  duration = duration || 250;
-  delay = delay || 0;
-  if (typeof (duration) === 'string') {
-    inString = duration;
-  } else {
-    inString = `${duration}ms ${delay}ms ease-in-out`;
-  }
-  if (typeof (delay) === 'string') {
-    outString = delay;
-  } else {
-    outString = inString;
-  }
+export function createToggle(options: {
+  name: string,
+  outStyle: StyleType,
+  inStyle?: StyleType,
+  durationMs?: number,
+  delayMs?: number,
+  inString?: string,
+  outString?: string,
+  params?: {[name: string]: string}
+}): AnimationTriggerMetadata {
+  const duration = options.durationMs || 250;
+  const delay = options.delayMs || 0;
+  const inString = options.inString || `${duration}ms ${delay}ms ease-in-out`;
+  const outString = options.outString || inString;
+  const inStyle = options.inStyle || AUTO_STYLE
 
-  return trigger(name, [
-    state('*', style(inStyle)),
-    state('void', style(outStyle)),
+  return trigger(options.name, [
+    state('*', style(inStyle), {params: options.params}),
+    state('void', style(options.outStyle)),
     transition('void => *', animate(inString)),
     transition('* => void', animate(outString)),
   ]);

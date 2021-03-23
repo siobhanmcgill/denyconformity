@@ -7,6 +7,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 
 from .models import Post, Tag, Comment, Series, SeriesPost, SurveyOption, SurveyVote
 
+import datetime
+
 
 class TagSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
@@ -58,7 +60,7 @@ class CreateSurveyVoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurveyVote
-        fields = ['time', 'name', 'text', 'pub', 'ip', 'survey_option']
+        fields = ['time', 'name', 'text', 'ip', 'survey_option']
 
 
 class SurveyOptionSerializer(serializers.ModelSerializer):
@@ -66,7 +68,7 @@ class SurveyOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurveyOption
-        fields = ['id', 'text', 'name', 'time', 'votes']
+        fields = ['id', 'text', 'name', 'time', 'votes', 'custom']
 
 
 class CreateSurveyOptionSerializer(serializers.ModelSerializer):
@@ -75,7 +77,7 @@ class CreateSurveyOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurveyOption
-        fields = ['time', 'name', 'text', 'pub', 'ip']
+        fields = ['time', 'name', 'text', 'ip', 'post', 'custom']
 
 
 class SeriesPostSerializer(serializers.ModelSerializer):
@@ -123,7 +125,7 @@ class PostViewSet(viewsets.ModelViewSet):
         return queryset
 
     def get_permissions(self):
-        if self.action == 'comment':
+        if self.action == 'comment' or self.action == 'surveyvote' or self.action == 'surveyoption':
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticatedOrReadOnly]
@@ -174,6 +176,8 @@ class PostViewSet(viewsets.ModelViewSet):
     def surveyoption(self, request, slug=None):
         data = JSONParser().parse(request)
         data['ip'] = get_client_ip(request)
+        data['time'] = datetime.datetime.now()
+        data['custom'] = True
         post = Post.objects.get(slug=slug)
         data['post'] = post.id
         serializer = CreateSurveyOptionSerializer(data=data)
@@ -186,6 +190,7 @@ class PostViewSet(viewsets.ModelViewSet):
     def surveyvote(self, request, slug=None):
         data = JSONParser().parse(request)
         data['ip'] = get_client_ip(request)
+        data['time'] = datetime.datetime.now()
         serializer = CreateSurveyVoteSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

@@ -15,12 +15,18 @@ import {MarkdownServiceService} from '../shared/markdown-service.service';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
   animations: [
-    createToggle(
-        'summary', {'height': '0', 'opacity': '0'},
-        {'height': '*', 'opacity': '1'}, 300),
-    createToggle(
-        'wrapper', {'height': '0', 'margin': '0', 'opacity': '0'},
-        {'height': '*', 'margin': '*', 'opacity': '1'}, 500),
+    createToggle({
+      name: 'summary',
+      outStyle: {'height': '0', 'opacity': '0'},
+      inStyle: {'height': '*', 'opacity': '1'},
+      durationMs: 300,
+    }),
+    createToggle({
+      name: 'wrapper',
+      outStyle: {'height': '0', 'margin': '0', 'opacity': '0'},
+      inStyle: {'height': '*', 'margin': '*', 'opacity': '1'},
+      durationMs: 500
+    }),
   ]
 })
 export class PostComponent {
