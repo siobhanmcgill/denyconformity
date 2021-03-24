@@ -88,7 +88,7 @@ git push bluehost
 Then the server can be deployed to Google AppEngine:
 
 ```
-gcloud app deploy ./server/app-server.yaml
+gcloud app deploy ./server/server-as-default.yaml
 ```
 
 May need to add the new server IP (x.x.x.%) to the MySQL hosts [here](https://cpanel-box5878.bluehost.com/cpsess6011082395/frontend/bluehost/sql/managehost.html);

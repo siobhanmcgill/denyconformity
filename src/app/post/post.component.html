@@ -47,7 +47,7 @@
         (appear)="commentsAppear()">end of line.</h3>
   </div>
 
-  <app-post-survey *ngIf="showComments && post.survey_description"
+  <app-post-survey *ngIf="showComments && selected && post.survey_description"
                    [post]="post"></app-post-survey>
 
   <app-post-series *ngIf="selected"

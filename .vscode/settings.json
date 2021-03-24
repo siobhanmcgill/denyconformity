@@ -42,4 +42,5 @@
 
 ],
 "python.languageServer": "Pylance",
+"python.analysis.extraPaths": [],
 }
