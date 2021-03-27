@@ -79,7 +79,8 @@ admin.site.register(Series, SeriesAdmin)
 class SurveyVoteAdmin(admin.ModelAdmin):
     list_dislpay = ('survey_option.survey.title',
                     'survey_option.text', 'name', 'time', 'pub', 'ip')
-    fields = ['name', 'text', 'pub', 'ip', 'survey_option']
+    fields = ['name', 'text', 'pub', 'survey_option']
+    readonly_fields = ['time', 'ip']
 
 
 admin.site.register(SurveyVote, SurveyVoteAdmin)

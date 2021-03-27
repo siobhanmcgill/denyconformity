@@ -185,6 +185,9 @@ class SurveyOption(models.Model):
 
     objects = SurveyOptionManager()
 
+    def __str__(self):
+        return self.post.title + ' Option: ' + self.text[0: 50]
+
 
 class SurveyVoteManager(models.Manager):
     def create_vote(self, name, why, option_id, ip):
@@ -206,3 +209,6 @@ class SurveyVote(models.Model):
     pub = models.BooleanField(default=True)
 
     objects = SurveyVoteManager()
+
+    def __str__(self):
+        return '{} vote: {}'.format(self.survey_option, str(self.id))
