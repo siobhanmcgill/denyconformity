@@ -77,7 +77,11 @@ git remote add bluehost ssh://denyconf@denyconformity.com/home1/denyconf/public_
 
 You will also need to make sure that you have an SSH key set up on Bluehost.
 
-It's also possible you need to update your git-receive-pack setting
+It's also possible you need to update your git-receive-pack setting (if pushing gets a weird error)
+
+```
+git config remote.bluehost.receivepack /usr/local/cpanel/3rdparty/lib/path-bin/git-receive-pack
+```
 
 To deploy, push the repo to there.
 

@@ -33,7 +33,7 @@ if ($conn->connect_error) {
 }
 
 $default_title = 'DenyConformity.com - a very interesting website place.';
-$default_description = 'DenyConformity.com is your source for cool original content that is really quite interesting. Comedy, stories, pictures, technology, and even more can all be found right here. Drop by all the time for cool new stuff, all moderated and mostly written by one tall person, Shauvon McGill.';
+$default_description = 'DenyConformity.com is your source for cool original content that is really quite interesting. Comedy, stories, pictures, technology, and more search engine optimization can all be found right here. Drop by very occasionally for cool new stuff, all moderated and mostly written by one very tall lady, Siobhan.';
 $keywords_base = 'Shauvon, McGill, siobhan, interesting, unique, original, content, conformity, non-conformity, website';
 $default_keywords = $keywords_base.', comedy, fiction, stories, blog, photography, technology, Torres, funny, originality, sci-fi';
 $image = 'https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg';
@@ -44,7 +44,8 @@ $host = $_SERVER['HTTP_HOST'];
 $Parsedown = new Parsedown();
 $posts = array();
 
-if (preg_match('/\/(p|posts)\/([a-z0-9\-]+)/', $url_path, $matches)) {
+if (preg_match('/\/(p|posts)\/([a-z0-9\-]+)/', $url_path, $matches) ||
+    preg_match('/\/series\/([a-z0-9\-]+);post=([a-z0-9\-]+)(/', $url_path, $matches)) {
   $slug = $matches[2];
   $sql = "SELECT
             p.*, GROUP_CONCAT(t.text SEPARATOR ', ') AS tags
