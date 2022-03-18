@@ -4,6 +4,8 @@ deployment:
   - /bin/wget https://getcomposer.org/installer -O composer-installer.php
   - /usr/local/bin/php php ./composer-installer.php
   - /usr/local/bin/php composer.phar install --no-dev
+  - /bin/unlink ./composer-installer.php
+  - /bin/unlink composer.phar
   - export DEPLOYPATH=/home1/denyconf/public_html/
   - /bin/rm -rf /home1/denyconf/public_html/dist
   - /bin/rm -rf /home1/denyconf/public_html/vendor
