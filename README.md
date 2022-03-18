@@ -89,6 +89,8 @@ To deploy, push the repo to there.
 git push bluehost
 ```
 
+CPanel will do some magic to copy the necessary files from /public_html/denyconformity to /public_html (that's defined in .cpanel.yml).
+
 Then the server can be deployed to Google AppEngine:
 
 ```
