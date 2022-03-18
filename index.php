@@ -45,7 +45,7 @@ $Parsedown = new Parsedown();
 $posts = array();
 
 if (preg_match('/\/(p|posts)\/([a-z0-9\-]+)/', $url_path, $matches) ||
-    preg_match('/\/series\/([a-z0-9\-]+);post=([a-z0-9\-]+)(/', $url_path, $matches)) {
+    preg_match('/\/series\/([a-z0-9\-]+);post=([a-z0-9\-]+)/', $url_path, $matches)) {
   $slug = $matches[2];
   $sql = "SELECT
             p.*, GROUP_CONCAT(t.text SEPARATOR ', ') AS tags

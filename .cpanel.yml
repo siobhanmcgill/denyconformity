@@ -2,7 +2,7 @@
 deployment:
   tasks:
   - /bin/wget https://getcomposer.org/installer -O composer-installer.php
-  - /usr/local/bin/php php ./composer-installer.php
+  - /usr/local/bin/php ./composer-installer.php
   - /usr/local/bin/php composer.phar install --no-dev
   - /bin/unlink ./composer-installer.php
   - /bin/unlink composer.phar
