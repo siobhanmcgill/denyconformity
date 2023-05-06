@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {PostService} from '../services/post.service';
@@ -44,10 +44,10 @@ export class PostSurveyComponent implements OnInit {
   showResults = false;
   totalVotes = 0;
 
-  addOptionFormGroup = new FormGroup({
+  addOptionFormGroup = new UntypedFormGroup({
     'text':
-        new FormControl('', [Validators.required, Validators.maxLength(280)]),
-    'name': new FormControl('', Validators.required),
+        new UntypedFormControl('', [Validators.required, Validators.maxLength(280)]),
+    'name': new UntypedFormControl('', Validators.required),
   });
 
   constructor(

@@ -1,6 +1,6 @@
 import {Location} from '@angular/common';
 import {Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 import {PostListStateService} from '../services/post-list-state.service';
 import {PostService} from '../services/post.service';
@@ -57,9 +57,9 @@ export class PostComponent {
     return this.postListService.selectedPostId === this.post.id;
   }
 
-  commentFormGroup = new FormGroup({
-    'name': new FormControl('', Validators.required),
-    'text': new FormControl('', Validators.required)
+  commentFormGroup = new UntypedFormGroup({
+    'name': new UntypedFormControl('', Validators.required),
+    'text': new UntypedFormControl('', Validators.required)
   });
 
   constructor(
