@@ -76,25 +76,15 @@ export class PostComponent {
   }
 
   renderSummary(post?: Post): string {
-    if (!post) {
-      return '';
-    }
-    if (post.markdown) {
-      return this.renderMarkdown(post.summary);
-    } else {
-      return this.postService.decodeString(post.summary);
-    }
+    return this.markdownService.renderPostText(post, 'summary');
   }
 
   renderText(post?: Post): string {
-    if (!post) {
-      return '';
-    }
-    if (post.markdown) {
-      return this.renderMarkdown(post.text);
-    } else {
-      return this.postService.decodeString(post.text);
-    }
+    return this.markdownService.renderPostText(post);
+  }
+
+  renderMarkdown(text: string) {
+    return this.markdownService.convert(text);
   }
 
   goHome(e: MouseEvent) {
@@ -126,10 +116,6 @@ export class PostComponent {
     });
   }
 
-  renderMarkdown(str: string): string {
-    return this.markdownService.convert(str);
-  }
-
   commentsAppear() {
     // A wild comments appeared!
     this.showComments = true;
@@ -139,5 +125,10 @@ export class PostComponent {
 
   loadSimilarPosts() {
     this.postListService.loadSimilarPosts(this.post);
+  }
+
+  shouldShowDisclaimer() {
+    const time = this.post.time;
+    return (new Date(time).getTime()) < 1501545600000;
   }
 }

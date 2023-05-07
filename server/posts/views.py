@@ -104,6 +104,30 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    lookup_field = 'text'
+    http_method_names = ['get', 'options']
+
+    @action(detail=True, methods=['get'])
+    def randompost(self, request, text=None):
+        postQuery = Post.objects.raw('''
+          SELECT
+          posts.*
+          FROM posts_tag
+          LEFT JOIN posts_post_tags ON posts_post_tags.tag_id=posts_tag.id
+          LEFT JOIN posts_post as posts ON posts.id=posts_post_tags.post_id
+          LEFT JOIN posts_seriespost ON posts_seriespost.post_id = posts.id
+          WHERE posts_tag.text='{}' AND posts.pub=1
+          		AND (posts_seriespost.id IS NULL OR posts_seriespost.series_id NOT IN(18))
+          		AND (posts_seriespost.srt IS NULL OR posts_seriespost.srt = 1)
+          ORDER BY RAND()
+          LIMIT 1
+        ''' .format(text))
+        serializer = PostSerializer(postQuery, many=True)
+        return Response(serializer.data[0])
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.exclude(pub=False)

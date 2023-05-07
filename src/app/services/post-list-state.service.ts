@@ -46,7 +46,6 @@ export class PostListStateService {
       private readonly location: Location,
   ) {
     this.location.onUrlChange((url, state) => {
-      console.log('URL CHANGE', url, state);
       const postsRegex = /\/posts\/([a-z0-9\-]+)$/gi;
       const seriesRegex = /\/series\/([a-z0-9\-]+)(;post=([a-z0-9\-]+))?$/gi;
 
@@ -101,7 +100,6 @@ export class PostListStateService {
     series?: Series;
     similars?: Post[];
   }) {
-    console.log('broadcast', posts, more, series, similars);
     let items: PostListItem[];
     if (posts) {
       items = posts.map(post => {

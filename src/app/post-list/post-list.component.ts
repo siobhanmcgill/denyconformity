@@ -1,12 +1,15 @@
 import {Location} from '@angular/common';
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest} from 'rxjs';
+import {shareReplay, switchMap, tap} from 'rxjs/operators';
+
 import {PostListItem, PostListStateService} from '../services/post-list-state.service';
-import {Post} from '../services/types';
+import {PostService} from '../services/post.service';
+import {Post, Series} from '../services/types';
 import {createToggle} from '../shared/anim';
-import {POST_PREFIX} from '../shared/const';
+import {POST_PREFIX, SERIES_PREFIX} from '../shared/const';
+import {MarkdownServiceService} from '../shared/markdown-service.service';
 
 /**
  *  We can make a custom right click menu for posts, to copy url, open
@@ -52,34 +55,72 @@ import {POST_PREFIX} from '../shared/const';
   ]
 })
 export class PostListComponent {
-  posts$: Observable<Array<PostListItem>>;
-
   postToRead?: Post;
 
   isLoading = true;
 
-  get isPostSelected(): boolean {
+  isPostSelected() {
     return !!this.service.selectedPostId;
   }
 
   constructor(
       private readonly service: PostListStateService,
+      private readonly postService: PostService,
       private readonly location: Location,
       private readonly route: ActivatedRoute,
-  ) {
-    this.route.params.subscribe(params => {
-      let slug = null;
-      let seriesSlug = null;
-      if (params && (params.slug || params.post)) {
-        slug = params.slug || params.post;
-      } else if (params && params.seriesSlug) {
-        seriesSlug = params.seriesSlug;
-      }
-      this.posts$ = this.service.init(slug, seriesSlug).pipe(tap((listData) => {
-        console.log('list data', listData);
-        this.isLoading = false;
+      private readonly markdownService: MarkdownServiceService,
+  ) {}
+
+  posts$ = this.route.params.pipe(
+      switchMap(params => {
+        this.isLoading = true;
+        let slug = null;
+        let seriesSlug = null;
+        if (params && (params.slug || params.post)) {
+          slug = params.slug || params.post;
+        } else if (params && params.seriesSlug) {
+          seriesSlug = params.seriesSlug;
+        }
+        return this.service.init(slug, seriesSlug);
+      }),
+      tap(l => {
+        this.isLoading = !!l;
       }));
-    });
+
+  private readonly tripleMoon$ = this.postService.getTripleMoon();
+  private readonly randomComedy$ =
+      this.postService.getRandomPostByTag('comedy');
+  private readonly randomOther$ =
+      this.postService.getRandomPostByTag('fiction');
+
+  linkyTitles = ['hot', 'funny', 'else'];
+
+  private readonly reloadLinkies$ = new BehaviorSubject<boolean>(true);
+  readonly linkies$ = this.reloadLinkies$.pipe(
+      switchMap(
+          () => combineLatest(
+              [this.tripleMoon$, this.randomComedy$, this.randomOther$])),
+      shareReplay({
+        refCount: true,
+        bufferSize: 1,
+      }),
+      tap(() => {
+        setTimeout(() => {
+          this.refreshLinks();
+        }, 20000);
+      }));
+
+  refreshLinks() {
+    this.reloadLinkies$.next(true);
+  }
+
+  linkiesTrackBy(i: number) {
+    return i;
+  }
+
+  renderLinkSummary(post: Post) {
+    const html = this.markdownService.renderPostText(post, 'summary');
+    return html.replace(/<img(.*)>/gi, '[Image]');
   }
 
   fetchNextPage() {
@@ -87,25 +128,42 @@ export class PostListComponent {
     this.service.nextPage();
   }
 
-  selectPost(event: MouseEvent, post: Post) {
-    if (this.service.selectedPostId !== post.id) {
-      this.location.go(`${POST_PREFIX}/${post.slug}`);
+  private getPostOrSeriesUrl(item: Post|Series): string {
+    if ((item as Series).description) {
+      const series = item as Series;
+      return `${SERIES_PREFIX}/${series.slug}`;
+    } else {
+      const post = item as Post;
+      if (this.service.selectedPostId !== post.id) {
+        return `${POST_PREFIX}/${post.slug}`;
+      }
+    }
+    return '';
+  }
+
+  selectPost(event: MouseEvent, item: Post|Series) {
+    const url = this.getPostOrSeriesUrl(item);
+    if (url) {
+      this.location.go(url);
     }
   }
 
-  postMouseDown(event: MouseEvent, post: Post) {
+  postMouseDown(event: MouseEvent, item: Post|Series) {
     // Prevent middle clicks on posts from doing the little scroll thingie.
-    if (event.which === 2 && post.id !== this.service.selectedPostId) {
+    if (event.which === 2) {
       event.stopPropagation();
       return false;
     }
   }
 
-  postMouseUp(event: MouseEvent, post: Post) {
+  postMouseUp(event: MouseEvent, item: Post|Series) {
     // On middle click, open the post in a new tab.
-    if (event.which === 2 && post.id !== this.service.selectedPostId) {
+    if (event.which === 2) {
       event.stopPropagation();
-      window.open(`${POST_PREFIX}/${post.slug}`)
+      const url = this.getPostOrSeriesUrl(item);
+      if (url) {
+        window.open(url);
+      }
       return false;
     }
   }

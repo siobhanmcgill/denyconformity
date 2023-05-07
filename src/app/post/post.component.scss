@@ -193,9 +193,13 @@
   }
 }
 
+.transition-disclaimer {
+  margin: 0 2rem 2rem;
+}
+
 .post {
   margin-top: 2rem;
-  overflow: hidden;
+  // overflow: hidden;
 
   & > h3 {
     text-align: right;

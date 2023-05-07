@@ -10,10 +10,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 gcloud init
 gcloud auth login
 ./cloud_sql_proxy -instances=denyconformity-staging:us-central1:denyconformity=tcp:3306
-``` -->
+```
+(This is only a thing if using cloud sql, which the site currently does not.)
+-->
 
 Connect locally with:
-`mysql -u denyconf -p -h 162.241.24.146`
+`mysql -u denyconf -p -h [host]`
 
 
 ## Setup
@@ -128,6 +130,6 @@ This is currently not used, because Heroku is no cheaper than Google Cloud.
 * Fix some bugs around switching series posts and returning home.
 * Fix some issues with formatting on the reading view.
 * Paginate comments.
-* Finish survey functionality.
+* ~~Finish survey functionality~~.
 * Implement better system for finding older posts.
 * Strip HTML tags from meta tags so they don't get shared.

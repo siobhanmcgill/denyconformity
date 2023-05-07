@@ -39,6 +39,13 @@
   <div class="post"
        *ngIf="selected"
        [@wrapper]>
+    <div class="transition-disclaimer" *ngIf="shouldShowDisclaimer()">
+      <em>Please note: Any names, genders, or pronouns used in this content are based on how
+        Siobhan was trying to identify at the time of writing (Shauvon, the very tall guy).
+        These identifiers have not been corrected because pouring through eighteen years of
+        angsty content sounds really tedious.</em>
+    </div>
+
     <div class="first-letter"
          [unsafeInnerHTML]="renderText(post)">
     </div>

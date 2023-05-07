@@ -11,6 +11,7 @@ import {Comment, CreateComment, Post, PostResponse, Series, SurveyOption, Survey
 export class PostService {
   POST_URL = `${environment.server}/api/posts`;
   SERIES_URL = `${environment.server}/api/series`;
+  TAGS_URL = `${environment.server}/api/tags`;
 
   totalPosts = 0;
   nextPageIndex = 1;
@@ -83,6 +84,18 @@ export class PostService {
     return of(this.loadedPosts.get(id));
   }
 
+  getTripleMoon() {
+    return this.fetchSeries('triple-moon');
+  }
+
+  getRandomPostByTag(tag: string) {
+    return this.http.get<Post>(`${this.TAGS_URL}/${tag}/randompost`)
+        .pipe(tap(post => {
+          console.log({post});
+          this.rememberPost(post);
+        }));
+  }
+
   postClassName(post: Post): string {
     if (!post) {
       return '';
@@ -108,6 +121,9 @@ export class PostService {
     const textArea = document.createElement('textarea');
     textArea.innerHTML = string;
     let clean = textArea.value;
+    if (clean.trim().indexOf('<p>') !== 0) {
+      clean = `<p>${clean}</p>`;
+    }
     clean = clean.replace(
         /<img src="([^"]*)" height="[0-9]+" width="[0-9]+"/gi, '<img src="$1"');
     return clean;

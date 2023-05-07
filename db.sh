@@ -13,9 +13,10 @@
 
 #
 
-if [ -f ../.env ]
+if [ -f ./server/.env ]
 then
-  export $(cat ../.env | sed 's/#.*//g' | xargs)
+  echo "Using .env for params!"
+  export $(cat ./server/.env | sed 's/#.*//g' | xargs)
 fi
 
 # Copy prod to staging...

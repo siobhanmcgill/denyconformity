@@ -1,6 +1,6 @@
 <div class="post-page-title"
      [@postTitle]
-     *ngIf="isPostSelected">
+     *ngIf="isPostSelected()">
   <h1 (click)="home()">DenyConformity.com</h1>
 </div>
 
@@ -11,7 +11,7 @@
 <div class="content">
   <div class="title"
        [@title]
-       *ngIf="!isPostSelected">
+       *ngIf="!isPostSelected()">
     <h1>DenyConformity.com</h1>
     <div class="subtitle">
       <div class="hr"></div>
@@ -22,7 +22,55 @@
 
   <div class="post-list"
        *ngIf="posts$ | async as listItems; else loading">
-    <ng-container *ngFor="let listItem of listItems; index as i; trackBy: listItemTrackBy">
+    <ng-container *ngIf="listItems[0] as listItem">
+      <div *ngIf="listItem.series"
+           [@title]
+           class="series-summary">
+        <h2>{{listItem.series.name}}</h2>
+        <p>{{listItem.series.description}}</p>
+        <span class="entry-count">
+          <h3>{{listItem.series.posts.length}} posts</h3>
+        </span>
+      </div>
+
+      <app-post *ngIf="listItem.post"
+                [post]="listItem.post"
+                [@post]
+                (click)="selectPost($event, listItem.post)"
+                (mousedown)="postMouseDown($event, listItem.post)"
+                (mouseup)="postMouseUp($event, listItem.post)"
+                (read)="openPostToRead($event)"></app-post>
+
+      <div class="quick-links"
+           *ngIf="listItem.post && !isPostSelected()">
+        <div class="link-wrapper"
+             *ngIf="linkies$ | async as links; else loadingLinks"
+             [@post]>
+          <div class="link"
+               [@post]
+               *ngFor="let link of links; index as i; trackBy: linkiesTrackBy"
+               (click)="selectPost($event, link)"
+               (mousedown)="postMouseDown($event, link)"
+               (mouseup)="postMouseUp($event, link)">
+            <h4>something {{linkyTitles[i]}}</h4>
+            <h2 [innerHtml]="link.title ?? link.name"></h2>
+            <div class="link-summary"
+                 *ngIf="link.description">
+              <p>{{link.description}}</p>
+            </div>
+            <div class="link-summary"
+                 *ngIf="link.summary"
+                 [unsafeInnerHTML]="renderLinkSummary(link)"></div>
+            <div class="date">{{link.summary ? 'from' : 'updated'}} {{link.time | date}}</div>
+          </div>
+        </div>
+        <ng-template #loadingLinks>
+          <h3 class="heading">loading quick links</h3>
+        </ng-template>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let listItem of listItems.slice(1); index as i; trackBy: listItemTrackBy">
 
       <div *ngIf="listItem.series"
            [@title]

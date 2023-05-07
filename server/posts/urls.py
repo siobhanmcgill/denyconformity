@@ -1,13 +1,14 @@
-from django.conf.urls import url, include
+from django.urls import include, path
 from rest_framework import routers
 
-from .views import PostViewSet, SeriesViewSet
+from .views import PostViewSet, SeriesViewSet, TagViewSet
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'series', SeriesViewSet)
+router.register(r'tags', TagViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls'))
+    path(r'', include(router.urls)),
+    path(r'api-auth/', include('rest_framework.urls'))
 ]
