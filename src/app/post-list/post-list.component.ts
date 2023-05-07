@@ -16,7 +16,7 @@ import {MarkdownServiceService} from '../shared/markdown-service.service';
  * in a new tab, etc. Also it should be possible to manually create a method of
  * "ctrl + click" to open a post in a new tab.
  *
- * -Shauvon
+ * -Siobhan
  */
 
 
