@@ -35,13 +35,13 @@ if os.getenv('PROD', '') == 'true':
 
     key_name = secret_client.secret_version_path(
         project_id, 'django_secret_key_prod', 1)
-    key_response = secret_client.access_secret_version(key_name)
+    key_response = secret_client.access_secret_version(name=key_name)
     SECRET_KEY = key_response.payload.data.decode('UTF-8')
 
     db_password_name = secret_client.secret_version_path(
         project_id, 'db_password_prod', 2)
     db_password_response = secret_client.access_secret_version(
-        db_password_name)
+        name=db_password_name)
     DB_PASSWORD = db_password_response.payload.data.decode('UTF-8')
 else:
     from dotenv import load_dotenv
@@ -54,6 +54,7 @@ else:
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    'denyconformity.com',
     '.denyconformity.com',
     'denyconformity.uc.r.appspot.com',
     'server-dot-denyconformity.uc.r.appspot.com'
@@ -86,12 +87,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'denyconformity.urls'
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
-
-# CORS_ORIGIN_WHITELIST = {
-#     'http://localhost:4200',
-# }
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {

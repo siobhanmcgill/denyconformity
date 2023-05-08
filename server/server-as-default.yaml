@@ -1,7 +1,7 @@
 # This will spin up a non-free AppEngine service!
 # Use this to deploy the server as the Default AppEngine service.
 
-runtime: python311
+runtime: python39
 # instance_class: F2
 service: default
 
