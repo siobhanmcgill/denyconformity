@@ -80,10 +80,17 @@ class CreateSurveyOptionSerializer(serializers.ModelSerializer):
         fields = ['time', 'name', 'text', 'ip', 'post', 'custom']
 
 
+class PublishedSeriesPostSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        data = data.filter(post__pub=True)
+        return super().to_representation(data)
+
+
 class SeriesPostSerializer(serializers.ModelSerializer):
     post = PostSerializer()
 
     class Meta:
+        list_serializer_class = PublishedSeriesPostSerializer
         model = SeriesPost
         fields = ['label', 'srt', 'post']
 

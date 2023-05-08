@@ -39,6 +39,14 @@
   <div class="post"
        *ngIf="selected"
        [@wrapper]>
+
+    <div class="nsfw-disclaimer" *ngIf="isPostNsfw()">
+      <p class="icon">!</p>
+      <p>This content contains adult themes and / or language which is not appropriate for all audiences.
+      Reader discretion is advised.</p>
+      <p class="icon">!</p>
+    </div>
+
     <div class="transition-disclaimer" *ngIf="shouldShowDisclaimer()">
       <p>Please note: this content was written before Siobhan began her gender transition.
         Siobhan spent a long time trying to identify as Shauvon, a tall he/him dude.</p>

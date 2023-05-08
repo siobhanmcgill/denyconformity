@@ -34,7 +34,7 @@ mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging < ~/
 # Update staging admin password to Beebaw123.
 echo "Changing the ssword"
 mysql -u $DB_USER --password=$DB_PASSWORD -h $DB_HOST denyconf_2020-staging \
- -e 'UPDATE auth_user SET password="pbkdf2_sha256$180000$SgbgdQfGdzDv$g7sZa7b7m7R3oX2Pvz7dFT9FM7Giw20HttVh3x0o5mQ=" WHERE username="shauvon";'
+ -e 'UPDATE auth_user SET password="pbkdf2_sha256$180000$SgbgdQfGdzDv$g7sZa7b7m7R3oX2Pvz7dFT9FM7Giw20HttVh3x0o5mQ=" WHERE username="siobhan";'
 
 echo "Cleaning up after m'self"
 rm ~/dc.sql

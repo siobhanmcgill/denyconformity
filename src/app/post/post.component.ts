@@ -75,6 +75,10 @@ export class PostComponent {
     });
   }
 
+  isPostNsfw() {
+    return this.post.tags.includes('nsfw');
+  }
+
   renderSummary(post?: Post): string {
     return this.markdownService.renderPostText(post, 'summary');
   }
