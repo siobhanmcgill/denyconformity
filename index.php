@@ -24,6 +24,7 @@ $DB_HOST = $_ENV['DB_HOST'];
 $DB_USER = $_ENV['DB_USER'];
 $DB_NAME = $_ENV['DB_NAME'];
 $DB_PASSWORD = $_ENV['DB_PASSWORD'];
+$GA_ID = $_ENV['GA_ID'];
 
 $conn = new mysqli($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME);
 
@@ -39,7 +40,7 @@ $default_keywords = $keywords_base.', comedy, fiction, stories, blog, photograph
 $image = 'https://storage.googleapis.com/denyconformity_assets/111webassets/site%20image%203%20-%20fb.jpg';
 
 $url_path = $_SERVER['REQUEST_URI'];
-$host = $_SERVER['HTTP_HOST'];
+$host = $_SERVER['SERVER_NAME'];
 
 $Parsedown = new Parsedown();
 $posts = array();
@@ -111,7 +112,8 @@ echo $template->render([
   'post' => $post,
   'image' => $image,
   'url' => 'http://'.$host.$url_path,
-  'prod' => strpos($host, 'denyconformity.com') != false
+  'prod' => strpos($host, 'denyconformity.com') !== false,
+  'ga_id' => $GA_ID
 ]);
 
 ?>
