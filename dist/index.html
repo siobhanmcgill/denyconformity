@@ -18,14 +18,14 @@
   <!--
   {% if prod %}
   -->
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-13020056-4"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id={{ga_id}}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'UA-13020056-4');
+    gtag('config', '{{ga_id}}');
   </script>
   <!--
   {% endif %}
