@@ -69,6 +69,28 @@ if (preg_match('/\/(p|posts)\/([a-z0-9\-]+)/', $url_path, $matches) ||
       $image = $post['image'];
     }
   }
+} elseif (preg_match('/\/series\/([a-z0-9\-]+)/', $url_path, $matches)) {
+  $slug = $matches[1];
+
+    $sql = "SELECT s.*, p.image, GROUP_CONCAT(t.text) as tags
+            FROM posts_series AS s
+            LEFT JOIN posts_seriespost AS sp ON sp.series_id=s.id
+            LEFT JOIN posts_post AS p ON sp.post_id=p.id
+            LEFT JOIN posts_post_tags AS pt ON sp.post_id=pt.post_id
+            LEFT JOIN posts_tag AS t on t.id=pt.tag_id
+            WHERE s.slug='".$slug."'
+            GROUP BY s.id";
+    $result = $conn->query($sql) or die('WHAT '.$conn->error);
+    if ($result->num_rows > 0) {
+      $data = $result->fetch_assoc();
+      $keywords = $keywords_base.', '.$data['tags'];
+      $list = false;
+      $title = $data['name'].' - original content from DenyConformity.com';
+      $desc = $data['description'];
+      if ($post['image']) {
+        $image = $post['image'];
+      }
+    }
 } else {
   // Get latest posts.
   $sql = "SELECT
