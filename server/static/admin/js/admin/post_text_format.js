@@ -15,5 +15,16 @@ $(document).ready(function() {
 
     textarea.val(text);
   });
+  $('body').on('click', '.dc-text-double-linebreak-button', e => {
+    const textarea = $('#id_text');
+    console.log('hi');
+    let text = textarea.val();
+
+    // Replace single linebreaks with doubles.
+    text = text.replace(/(?<!\n)\n(?!\n)/g, '\n\n');
+    console.log({ text });
+
+    textarea.val(text);
+  });
 });
 })(django.jQuery);
